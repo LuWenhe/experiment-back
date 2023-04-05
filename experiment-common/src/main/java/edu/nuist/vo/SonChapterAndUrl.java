@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SonChapterAndUrl {
+
     private int son_id;
     private String exp_url;
     private String guide_book;
+
 }

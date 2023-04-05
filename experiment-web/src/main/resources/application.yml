@@ -1,6 +1,11 @@
 server:
-  port: 9090
+  port: 8089
 spring:
   profiles:
 #    激活application-dao.yml配置文件
     active: dao
+avatar:
+  image: http://10.0.7.205:8081/img.jpg
+platform:
+  type: windows
+  address: http://10.0.7.205

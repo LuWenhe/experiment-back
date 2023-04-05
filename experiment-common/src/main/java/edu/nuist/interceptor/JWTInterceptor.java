@@ -30,7 +30,6 @@ public class JWTInterceptor implements HandlerInterceptor {
         Map<String, Object> map = new HashMap<>();
         //获取请求头中令牌
         String token = request.getHeader("token");
-        System.out.println("这是拦截器的token: " + token);
 
         try {
             //验证令牌

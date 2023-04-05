@@ -13,4 +13,5 @@ public class UserAndRole {
     private String username;
     private String role;
     private String avatar_image;
+
 }

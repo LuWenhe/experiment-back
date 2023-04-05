@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RealNameVo {
+
     private String realName;
     private int currentPage;
     private int pageSize;

@@ -8,17 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddChapterInEdit {
-    /*
-      chapter_name: '',
-                description: '',
-                mp4: '',
-                ppt: '',
-                lesson_id:''
-     */
+
     private String chapter_name;
     private String description;
     private String mp4;
     private String ppt;
     private int lessonId;
     private int chapter_no;
+
 }
