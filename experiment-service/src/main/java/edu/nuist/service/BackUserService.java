@@ -15,11 +15,11 @@ public interface BackUserService {
 
     List<User> getStudentByRealName(String realName);
 
-    Result addTeacher(User User);
+    void addTeacher(User User);
 
-    Result addStudent(User User);
+    void addStudent(User User);
 
-    Result editTeacher(User User);
+    void editTeacher(User User);
 
     void deleteUser(User User);
     

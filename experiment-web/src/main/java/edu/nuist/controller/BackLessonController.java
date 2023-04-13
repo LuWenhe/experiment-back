@@ -6,7 +6,7 @@ import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.entity.*;
-import edu.nuist.listener.ExcelListener;
+import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackLessonService;
 import edu.nuist.service.BackTagService;
 import edu.nuist.service.ToolService;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +30,9 @@ import java.util.UUID;
 @RestController
 @Slf4j
 public class BackLessonController {
+
+    @Resource
+    private UserService userService;
 
     @Resource
     private BackLessonService backLessonService;
@@ -93,7 +95,7 @@ public class BackLessonController {
             file.transferTo(dest);
             result.setCode("200");
             result.setData(address+":8081/"+name + "." + fileName1);
-        }else {
+        } else {
             String filePath = "/home/pl/files/"+name+"."+fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
@@ -131,22 +133,23 @@ public class BackLessonController {
 
     @ApiOperation("添加小节的实验链接")
     @PostMapping("back/addChapterJupyterURL")
-    public Result singleFileUpload(@RequestParam("file") MultipartFile file,@RequestParam("son_id") int son_id) throws IOException {
+    public Result singleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("son_id") int son_id) throws IOException {
         Result result = new Result();
 
         if (file.isEmpty()) {
             result.setCode("500");
             return result;
         }
+
         String fileName = file.getOriginalFilename();
-        String filePath = "C:\\Users\\Dell\\" +fileName;
+        String filePath = "C:\\Users\\Dell\\" + fileName;
         File dest = new File(filePath);
         file.transferTo(dest);
 
         SonChapterAndUrl sonChapterAndUrl = new SonChapterAndUrl();
-        sonChapterAndUrl.setExp_url(address+":8888/notebooks/" + fileName);
+        sonChapterAndUrl.setExp_url(address + ":8888/notebooks/" + fileName);
         sonChapterAndUrl.setSon_id(son_id);
-
         return backLessonService.addSonChapterJupyterURL(sonChapterAndUrl);
     }
 
@@ -266,7 +269,7 @@ public class BackLessonController {
 
         try {
             in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new ExcelListener(image)).build();
+            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             result.setCode("200");
@@ -288,12 +291,12 @@ public class BackLessonController {
     public Result uploadExcelImportStu(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
         ExcelReader excelReader = null;
-        System.out.println(file.getOriginalFilename());
         InputStream in = null;
+        System.out.println(file.getOriginalFilename());
 
         try {
             in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new ExcelListener(image)).build();
+            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             result.setCode("200");

@@ -1,10 +1,18 @@
 package edu.nuist.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.entity.Result;
+import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
+import edu.nuist.listener.StudentExcelListener;
 import edu.nuist.service.BackUserService;
+import edu.nuist.service.StudentService;
+import edu.nuist.util.EncryptUtil;
+import edu.nuist.util.GetCurrentDate;
 import edu.nuist.vo.PageRequest;
 import edu.nuist.vo.RealNameVo;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -23,6 +35,9 @@ public class BackUserController {
 
     @Resource
     private BackUserService backUsersService;
+
+    @Resource
+    private StudentService studentService;
 
     @PostMapping(value = "/userBack/getAllTeachers")
     public PageInfo<User> getAllTeachers(@RequestBody PageRequest pageRequest) {
@@ -51,21 +66,51 @@ public class BackUserController {
     }
 
     @PostMapping(value = "/userBack/addTeacher")
-    public Result addTeacher(@RequestBody User addTeacher){
-        return backUsersService.addTeacher(addTeacher);
+    public Result addTeacher(@RequestBody User addTeacher) {
+        Result result = new Result();
 
+        try {
+            addTeacher.setPassword(new EncryptUtil().getEnpPassword(addTeacher.getPhone()));
+            addTeacher.setCreated_time(new GetCurrentDate().getCurrentDate());
+            backUsersService.addTeacher(addTeacher);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @PostMapping(value = "/userBack/addStudent")
-    public Result addStudent(@RequestBody User addStudent){
-        return backUsersService.addStudent(addStudent);
+    public Result addStudent(@RequestBody User addStudent) {
+        Result result = new Result();
+        try {
+            addStudent.setPassword(new EncryptUtil().getEnpPassword(addStudent.getPhone()));
+            addStudent.setCreated_time(new GetCurrentDate().getCurrentDate());
+            backUsersService.addStudent(addStudent);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
 
+        return result;
     }
 
     @PostMapping(value = "/userBack/editTeacher")
-    public Result editTeacher(@RequestBody User editTeacher){
-        return backUsersService.editTeacher(editTeacher);
+    public Result editTeacher(@RequestBody User editTeacher) {
+        Result result = new Result();
 
+        try {
+            backUsersService.editTeacher(editTeacher);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @PostMapping(value = "/userBack/deleteUser")
@@ -77,7 +122,7 @@ public class BackUserController {
             List<User> userList = com.alibaba.fastjson.JSONObject
                     .parseArray(jsonTest.getString("deleteRow"), User.class);
 
-            for (User user: userList) {
+            for (User user : userList) {
                 backUsersService.deleteUser(user);
             }
 
@@ -91,7 +136,7 @@ public class BackUserController {
     }
 
     @PostMapping("/userBack/findTeacherByName")
-    public PageInfo<User> findTeacherByName(@RequestBody RealNameVo realNameVo){
+    public PageInfo<User> findTeacherByName(@RequestBody RealNameVo realNameVo) {
         PageHelper.startPage(realNameVo.getCurrentPage(), realNameVo.getPageSize());
         List<User> usersList;
 
@@ -104,7 +149,7 @@ public class BackUserController {
     }
 
     @PostMapping("/userBack/findStudentByName")
-    public PageInfo<User> findStudentByName(@RequestBody RealNameVo realNameVo){
+    public PageInfo<User> findStudentByName(@RequestBody RealNameVo realNameVo) {
         PageHelper.startPage(realNameVo.getCurrentPage(), realNameVo.getPageSize());
         List<User> usersList;
 

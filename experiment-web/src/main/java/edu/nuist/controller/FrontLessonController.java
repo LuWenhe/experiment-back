@@ -45,7 +45,6 @@ public class FrontLessonController {
         return frontLessonService.getGuideBook(son_id);
     }
 
-
 //    @GetMapping(value = "/front/getDaymicExpUrl")
 //    public String getDaymicExpUrl(){
 //
@@ -86,8 +85,8 @@ public class FrontLessonController {
 //        }
 //    }
 
-    @PostMapping("/front/getDaymicExpUrl")
-    public Result getDaymicExpUrl(@RequestBody SonUserExp sonUserExp) throws IOException {
+    @PostMapping("/front/getDynamicExpUrl")
+    public Result getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) throws IOException {
         return frontLessonService.getDynamicSonExpUrl(sonUserExp);
     }
 

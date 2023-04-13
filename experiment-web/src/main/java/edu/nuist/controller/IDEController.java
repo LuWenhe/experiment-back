@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,111 +59,62 @@ class MyCallable implements Callable<Object> {
     @Value("${platform.type}")
     private String platformType;
 
-    private String codeInput;
+    private final String codeInput;
 
     MyCallable(String codeInput) {
         this.codeInput = codeInput;
     }
 
+    @Override
     public Object call() throws Exception {
         String pythonV = "python";
         String[] codeString = codeInput.split("\n");
         String file_name = UUID.randomUUID().toString();
-        //新建文件并在文件中存入信息
-//        String cmdString = "cp /home/jupyterPage/template.ipynb /home/jupyterPage/"+sonUserExp.getSon_id()+sonUserExp.getUser_id()+".ipynb";
-//        //Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","ps -ef|grep java"});
-//        Runtime.getRuntime().exec(cmdString);
-
-        File file = new File("/home/pl/jupyter_files/" + file_name + ".py");
-        file.createNewFile();
-        PrintStream ps = new PrintStream(new FileOutputStream(file));
-
-        for (String s : codeString) {
-            ps.println(s);
-        }
-
+        File file;
         Process proc;
 
-        try {
-            proc = Runtime.getRuntime().exec("python " + "/home/pl/jupyter_files/" + file_name + ".py");
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line;
-            String resultString = "";
+        if (platformType.equals("windows")) {
+            file = new File("D:\\data\\" + file_name + ".py");
+            boolean newFile = file.createNewFile();
 
-            while ((line = in.readLine()) != null) {
-                resultString = resultString + line + "\n";
+            try {
+                proc = Runtime.getRuntime().exec("python " + "D:\\data\\" + file_name + ".py");
+                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String line;
+                String resultString = "";
+
+                while ((line = in.readLine()) != null) {
+                    resultString = resultString + line + "\n";
+                }
+
+                in.close();
+                proc.waitFor();
+                return resultString;
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                return "error";
             }
+        } else {
+            file = new File("/home/pl/jupyter_files/" + file_name + ".py");
+            boolean newFile = file.createNewFile();
 
-            in.close();
-            proc.waitFor();
-            return resultString;
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "error";
+            try {
+                proc = Runtime.getRuntime().exec("python " + "/home/pl/jupyter_files/" + file_name + ".py");
+                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String line;
+                String resultString = "";
+
+                while ((line = in.readLine()) != null) {
+                    resultString = resultString + line + "\n";
+                }
+
+                in.close();
+                proc.waitFor();
+                return resultString;
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                return "error";
+            }
         }
-
-//        if (platformType.equals("windows")){
-//            // File file = new File("/home/jupyterPage/"+file_name+".py");
-//            File file = new File("D:\\data\\"+file_name+".py");
-//
-//            file.createNewFile();
-//            PrintStream ps = new PrintStream(new FileOutputStream(file));
-//            for (String s : codeString) {
-//                ps.println(s);
-//            }
-//
-//            Process proc;
-//            try {
-//                //proc = Runtime.getRuntime().exec("python "+ "/home/jupyterPage/"+file_name+".py");
-//                proc = Runtime.getRuntime().exec("python "+ "D:\\data\\"+file_name+".py");
-//                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-//                String line = null;
-//                String resultString = "";
-//                while ((line = in.readLine()) != null) {
-//                    resultString = resultString + line+"\n";
-//                }
-//                System.out.println(resultString);
-//                in.close();
-//                proc.waitFor();
-//
-//                return resultString;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return "error";
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//                return "error";
-//            }
-//        }else {
-//             File file = new File("/home/pl/jupyter_files/"+file_name+".py");
-//
-//            file.createNewFile();
-//            PrintStream ps = new PrintStream(new FileOutputStream(file));
-//            for (String s : codeString) {
-//                ps.println(s);
-//            }
-//
-//            Process proc;
-//            try {
-//                proc = Runtime.getRuntime().exec("python "+ "/home/pl/jupyter_files/"+file_name+".py");
-//                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-//                String line = null;
-//                String resultString = "";
-//                while ((line = in.readLine()) != null) {
-//                    resultString = resultString + line+"\n";
-//                }
-//                System.out.println(resultString);
-//                in.close();
-//                proc.waitFor();
-//
-//                return resultString;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return "error";
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//                return "error";
-//            }
-//        }
     }
 }

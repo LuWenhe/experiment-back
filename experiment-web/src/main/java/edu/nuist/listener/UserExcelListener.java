@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class ExcelListener extends AnalysisEventListener<UserExcel> {
+public class UserExcelListener extends AnalysisEventListener<UserExcel> {
 
     @Resource
     private UserService userService;
@@ -22,8 +22,9 @@ public class ExcelListener extends AnalysisEventListener<UserExcel> {
 
     private static final int BATCH_COUNT = 5;
 
-    public ExcelListener(String image) {
+    public UserExcelListener(String image, UserService userService) {
         this.image = image;
+        this.userService = userService;
     }
 
     private final List<UserExcel> userExcelList = new ArrayList<>();
@@ -31,8 +32,8 @@ public class ExcelListener extends AnalysisEventListener<UserExcel> {
     @Override
     public void invoke(UserExcel userExcel, AnalysisContext analysisContext) {
         userExcelList.add(userExcel);
-        //数据存储到list，
-        // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
+
+        //数据存储到list, 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
         if (userExcelList.size() >= BATCH_COUNT) {
             saveData();
             // 存储完成清理 list
@@ -46,9 +47,7 @@ public class ExcelListener extends AnalysisEventListener<UserExcel> {
         log.info("所有数据解析完成！");
     }
 
-    /**
-     * 入库
-     */
+    // 保存用户信息
     private void saveData() {
         for (UserExcel userExcel : userExcelList) {
             userExcel.setPassword(new EncryptUtil().getEnpPassword(userExcel.getPhone()));

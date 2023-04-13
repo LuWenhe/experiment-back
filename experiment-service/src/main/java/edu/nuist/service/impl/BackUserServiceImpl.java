@@ -38,49 +38,18 @@ public class BackUserServiceImpl implements BackUserService {
     }
 
     @Override
-    public Result addTeacher(User user) {
-        Result result = new Result();
-
-        try {
-            user.setPassword(new EncryptUtil().getEnpPassword(user.getPhone()));
-            user.setCreated_time(new GetCurrentDate().getCurrentDate());
-            backUsersDao.addTeacher(user);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-        return result;
+    public void addTeacher(User user) {
+        backUsersDao.addTeacher(user);
     }
 
     @Override
-    public Result addStudent(User user) {
-        Result result = new Result();
-        try {
-            user.setPassword(new EncryptUtil().getEnpPassword(user.getPhone()));
-            user.setCreated_time(new GetCurrentDate().getCurrentDate());
-            backUsersDao.addStudent(user);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-        return result;
+    public void addStudent(User user) {
+        backUsersDao.addStudent(user);
     }
 
     @Override
-    public Result editTeacher(User user) {
-        Result result = new Result();
-
-        try {
-            backUsersDao.editTeacher(user);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void editTeacher(User user) {
+        backUsersDao.editTeacher(user);
     }
 
     @Override

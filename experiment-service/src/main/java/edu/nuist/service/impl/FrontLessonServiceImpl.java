@@ -128,7 +128,7 @@ public class FrontLessonServiceImpl implements FrontLessonService {
                 if (platformType.equals("windows")) {
                     String cmdString = "cmd /c COPY C:\\Users\\luwen\\template.ipynb C:\\Users\\luwen\\"
                             + sonUserExp.getSon_id() + sonUserExp.getUser_id() + ".ipynb";
-
+                    System.out.println(cmdString);
                     Runtime.getRuntime().exec(cmdString);
                     sonUserExp.setExp_url("http://localhost:8888/notebooks/" + sonUserExp.getSon_id()
                             + sonUserExp.getUser_id() + ".ipynb");
