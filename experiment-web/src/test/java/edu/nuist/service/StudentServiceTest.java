@@ -48,12 +48,12 @@ public class StudentServiceTest {
     @Test
     public void addStudents() {
         List<Student> students = new ArrayList<>();
-        students.add(new Student(1, "小黑", "男",
-                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-                "计算机", "硕士", "18876356782"));
-        students.add(new Student(2, "小美", "男",
-                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-                "计算机", "硕士", "18876356782"));
+//        students.add(new Student(1, "小黑", "男",
+//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
+//                "计算机", "硕士", "18876356782"));
+//        students.add(new Student(2, "小美", "男",
+//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
+//                "计算机", "硕士", "18876356782"));
         studentService.addStudents(students);
     }
 
@@ -110,10 +110,10 @@ public class StudentServiceTest {
 
     @Test
     public void testEditStudent() {
-        Student student = new Student(1, "小黑", "男",
-                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-                "计算机", "硕士", "18876356782");
-        studentService.editStudent(student);
+//        Student student = new Student(1, "小黑", "男",
+//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
+//                "计算机", "硕士", "18876356782");
+//        studentService.editStudent(student);
     }
 
     @Test

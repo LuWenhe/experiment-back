@@ -10,3 +10,6 @@ platform:
   type: windows
 #  address: http://10.0.7.205
   address: http://localhost
+logging:
+  level:
+    root: info

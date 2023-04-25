@@ -393,6 +393,7 @@ public class BackLessonController {
 
     @PostMapping(value = "/back/addTool")
     public Result addTool(@RequestBody Tool tools) {
+        System.out.println(tools);
         return backLessonService.addTool(tools);
     }
 

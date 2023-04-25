@@ -53,6 +53,7 @@ public class UserController {
     @ResponseBody
     public Result frontLogin(@RequestBody User user) {
         Result result = new Result();
+        System.out.println(user);
 
         // 将用户名和加密后的密码和数据库中加密的密码比对
         if (usersService.findUserByNameAndPassword(user.getUsername(),
@@ -60,6 +61,7 @@ public class UserController {
             // 获取用户的角色
             UserAndRole userAndRole = usersService.findUserAndRoleInFront(user.getUsername(),
                     new EncryptUtil().getEnpPassword(user.getPassword()));
+            log.info(userAndRole.toString());
             Map<String, String> payload1 = new HashMap<>();
 
             payload1.put("username", user.getUsername());
@@ -72,6 +74,7 @@ public class UserController {
         } else {
             result.setCode("500");
             result.setMsg("登录失败");
+            log.error("error login");
         }
 
         return result;

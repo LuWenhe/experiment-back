@@ -22,7 +22,10 @@ public class JWTInterceptor implements HandlerInterceptor {
     public static final Logger LOGGER = LoggerFactory.getLogger(JWTInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) throws Exception {
+        // 将预请求给放过，处理真正的请求
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }

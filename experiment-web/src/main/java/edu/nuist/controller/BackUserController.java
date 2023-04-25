@@ -1,14 +1,9 @@
 package edu.nuist.controller;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.entity.Result;
-import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
-import edu.nuist.listener.StudentExcelListener;
 import edu.nuist.service.BackUserService;
 import edu.nuist.service.StudentService;
 import edu.nuist.util.EncryptUtil;
@@ -20,13 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @RestController

@@ -16,6 +16,12 @@ public class Student {
     @ExcelProperty("编号")
     private Integer id;
 
+    @ExcelProperty("用户名")
+    private String username;
+
+    @ExcelProperty("密码")
+    private String password;
+
     @ExcelProperty("姓名")
     private String name;
 
@@ -39,5 +45,8 @@ public class Student {
 
     @ExcelProperty("联系方式")
     private String phone;
+
+    // 所在班级
+    private Integer clazzId;
 
 }
