@@ -1,11 +1,9 @@
 package edu.nuist.service.impl;
 
 import edu.nuist.dao.BackUserDao;
-import edu.nuist.entity.Result;
+import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
 import edu.nuist.service.BackUserService;
-import edu.nuist.util.EncryptUtil;
-import edu.nuist.util.GetCurrentDate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,13 +36,28 @@ public class BackUserServiceImpl implements BackUserService {
     }
 
     @Override
-    public void addTeacher(User user) {
-        backUsersDao.addTeacher(user);
+    public void addStudent(Student student) {
+        backUsersDao.addStudent(student);
     }
 
     @Override
-    public void addStudent(User user) {
-        backUsersDao.addStudent(user);
+    public void addStudents(List<Student> students) {
+        backUsersDao.addStudents(students);
+    }
+
+    @Override
+    public void editStudent(Student student) {
+        backUsersDao.editStudent(student);
+    }
+
+    @Override
+    public void deleteStudentsByIds(List<Integer> studentIds) {
+        backUsersDao.deleteStudentsByIds(studentIds);
+    }
+
+    @Override
+    public void addTeacher(User user) {
+        backUsersDao.addTeacher(user);
     }
 
     @Override

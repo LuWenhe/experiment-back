@@ -11,6 +11,6 @@ public class Clazz {
 
     private Integer id;
     private String name;
-    private Integer teacherId;
+    private Integer userId;
 
 }

@@ -3,7 +3,7 @@ package edu.nuist.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import edu.nuist.entity.Student;
-import edu.nuist.service.StudentService;
+import edu.nuist.service.BackUserService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -14,14 +14,14 @@ import java.util.List;
 public class StudentExcelListener extends AnalysisEventListener<Student> {
 
     @Resource
-    private StudentService studentService;
+    private BackUserService backUserService;
 
     private static final int BATCH_COUNT = 10;
 
     private final List<Student> studentList = new ArrayList<>();
 
-    public StudentExcelListener(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentExcelListener(BackUserService backUserService) {
+        this.backUserService = backUserService;
     }
 
     /**
@@ -51,7 +51,7 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
      * 保存到数据库
      */
     private void addStudents(List<Student> studentList) {
-        studentService.addStudents(studentList);
+        backUserService.addStudents(studentList);
     }
 
 }

@@ -46,7 +46,7 @@ public class Student {
     @ExcelProperty("联系方式")
     private String phone;
 
-    // 所在班级
-    private Integer clazzId;
+    @ExcelProperty(value = "创建时间", converter = DateConverter.class)
+    private Date createTime;
 
 }

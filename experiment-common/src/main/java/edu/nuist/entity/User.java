@@ -14,7 +14,13 @@ public class User {
     private Integer user_id;
     private String username;
     private String password;
-    private String realName;
+    private String name;
+    private String sex;
+    private Date birthday;
+    private String workPlace;
+    private String job;
+    private String major;
+    private String qualification;
     private String phone;
     private String email;
     private String created_time;

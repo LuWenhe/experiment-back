@@ -4,8 +4,9 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import edu.nuist.entity.Student;
+import edu.nuist.entity.User;
 import edu.nuist.listener.StudentExcelListener;
-import io.swagger.models.auth.In;
+import edu.nuist.util.EncryptUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,20 +20,22 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
-public class StudentServiceTest {
+public class BackUserServiceTest {
 
     @Resource
-    private StudentService studentService;
+    private BackUserService backUserService;
 
     @Test
     public void getAllStudent() {
-        List<Student> allStudent = studentService.getAllStudent();
-        System.out.println(allStudent);
+        List<User> students = backUserService.getAllStudents();
+        System.out.println(students);
     }
 
     @Test
     public void addStudent() {
         Student student = new Student();
+        student.setUsername("bbb");
+        student.setPassword(new EncryptUtil().getEnpPassword("bbb"));
         student.setName("BBB");
         student.setSex("男");
         student.setBirthday(new Date(System.currentTimeMillis()));
@@ -41,7 +44,7 @@ public class StudentServiceTest {
         student.setMajor("软件工程");
         student.setQualification("硕士");
         student.setPhone("19923443222");
-        studentService.addStudent(student);
+        backUserService.addStudent(student);
         System.out.println("添加成功");
     }
 
@@ -54,15 +57,17 @@ public class StudentServiceTest {
 //        students.add(new Student(2, "小美", "男",
 //                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
 //                "计算机", "硕士", "18876356782"));
-        studentService.addStudents(students);
+        backUserService.addStudents(students);
     }
 
     private List<Student> getStudentList() {
         List<Student> studentList = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
             Student student = new Student();
-            student.setId(i + 1);
+            student.setId(i + 10);
+            student.setUsername("xiaohong");
+            student.setPassword(new EncryptUtil().getEnpPassword("18865437393"));
             student.setName("小红");
             student.setSex("女");
             student.setBirthday(new Date(System.currentTimeMillis()));
@@ -79,16 +84,16 @@ public class StudentServiceTest {
 
     @Test
     public void writeExcel() {
-        String fileName = "D:/student1.xlsx";
+        String fileName = "D:/student.xlsx";
         EasyExcel.write(fileName, Student.class).sheet("test").doWrite(getStudentList());
         System.out.println("添加完成");
     }
 
     @Test
     public void readExcel() {
-        String fileName = "D:/student1.xlsx";
+        String fileName = "D:/student.xlsx";
         ExcelReader excelReader = EasyExcel.read(fileName, Student.class,
-                new StudentExcelListener(studentService)).build();
+                new StudentExcelListener(backUserService)).build();
         ReadSheet readSheet = EasyExcel.readSheet().build();
         excelReader.read(readSheet);
     }
@@ -110,16 +115,16 @@ public class StudentServiceTest {
 
     @Test
     public void testEditStudent() {
-//        Student student = new Student(1, "小黑", "男",
-//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-//                "计算机", "硕士", "18876356782");
-//        studentService.editStudent(student);
+        Student student = new Student(70,"xiaoqing1",
+                new EncryptUtil().getEnpPassword("18856564545"),"小青1","女",
+                null,null,null,null,null,null,null);
+        backUserService.editStudent(student);
     }
 
     @Test
     public void testDeleteStudents() {
-        List<Integer> studentIds = Arrays.asList(50, 51);
-        studentService.deleteStudentsByIds(studentIds);
+        List<Integer> studentIds = Arrays.asList(69);
+        backUserService.deleteStudentsByIds(studentIds);
     }
 
 }

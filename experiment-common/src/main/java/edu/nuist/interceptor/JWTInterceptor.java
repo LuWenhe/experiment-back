@@ -37,7 +37,7 @@ public class JWTInterceptor implements HandlerInterceptor {
         try {
             //验证令牌
             JWTUtils.verify(token);
-            LOGGER.info("token正确");
+//            LOGGER.info("token正确");
             return true;//放行请求
         } catch (SignatureVerificationException e) {
             LOGGER.error("无效签名!");
