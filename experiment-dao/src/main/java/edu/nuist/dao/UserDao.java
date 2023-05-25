@@ -10,7 +10,8 @@ public interface UserDao {
     @Select("select count(*) from users where username = #{param1} and password = #{param2}")
     int findUserByNameAndPassword(String username,String password);
 
-    @Select("select * from users where username = #{param1} and password = #{param2} ")
+    @Select("select user_id, username, role, avatar_image from users " +
+            "where username = #{param1} and password = #{param2} ")
     UserAndRole findUserAndRole(String username, String password);
 
     @Select("select * from users where username = #{param1} and password = #{param2} and role = 2 ")

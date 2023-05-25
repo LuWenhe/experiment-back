@@ -9,7 +9,6 @@ import edu.nuist.entity.Result;
 import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
 import edu.nuist.listener.StudentExcelListener;
-import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackUserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.GetCurrentDate;
@@ -27,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.util.List;
 
 @RestController

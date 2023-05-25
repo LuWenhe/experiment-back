@@ -11,17 +11,18 @@ import java.util.List;
 
 public interface BackClazzDao {
 
-    @Select("SELECT id, name FROM clazz WHERE teacher_id = #{teacherId}")
+    @Select("SELECT id, name, size, teacher_id teacherId FROM clazz WHERE teacher_id = #{teacherId}")
     List<Clazz> getClazzByTeacherId(Integer teacherId);
 
-    @Select("SELECT id, name, sex, birthday, work_place, job, major, qualification, phone FROM users " +
+    @Select("SELECT user_id, username, name, sex, birthday, work_place, job, major, qualification, phone FROM users " +
             "WHERE clazz_id = #{clazzId}")
     @Results({
-            @Result(column = "work_place", property = "workPlace")
+            @Result(column = "work_place", property = "workPlace"),
+            @Result(column = "user_id", property = "id")
     })
     List<Student> getStudentsByClazzId(Integer clazzId);
 
-    @Select("SELECT s.id, s.name, s.sex, s.birthday, s.work_place, s.job, s.major, s.qualification, " +
+    @Select("SELECT s.user_id, s.name, s.sex, s.birthday, s.work_place, s.job, s.major, s.qualification, " +
             "s.phone, c.id clazzId, c.name clazzName, c.teacher_id FROM users s " +
             "INNER JOIN clazz c ON s.clazz_id = c.id where c.teacher_id = #{teacherId}")
     @Results({
