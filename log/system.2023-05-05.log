@@ -1,0 +1,767 @@
+2023-05-05 11:26:27.729 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 19868 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 11:26:27.731 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 11:26:30.075 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 11:26:30.082 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:26:30.082 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 11:26:30.083 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 11:26:30.084 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 11:26:30.084 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 11:26:30.084 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 11:26:30.095 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 11:26:30.165 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 11:26:30.165 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2378 ms
+2023-05-05 11:26:30.894 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 11:26:30.950 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:26:31.207 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:26:31.231 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 11:26:31.232 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 11:26:31.246 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 11:26:31.300 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 11:26:31.547 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 11:26:31.582 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 4.265 seconds (JVM running for 5.238)
+2023-05-05 11:26:42.666 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 11:26:42.666 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 11:26:42.667 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 11:26:42.989 [http-nio-8089-exec-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 11:26:43.175 [http-nio-8089-exec-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 11:26:43.345 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:26:43.345 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:26:48.144 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:27:48.025 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:29:12.290 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:29:18.428 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:29:18.445 [http-nio-8089-exec-10] WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'multipart/form-data;boundary=--------------------------233599992609418657769052;charset=UTF-8' not supported]
+2023-05-05 11:29:30.468 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:29:37.200 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:29:53.308 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:29:53.310 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 11:29:53.316 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 11:29:59.526 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 5176 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 11:29:59.528 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 11:30:00.424 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 11:30:00.431 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:30:00.431 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 11:30:00.431 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 11:30:00.432 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 11:30:00.432 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 11:30:00.432 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 11:30:00.435 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 11:30:00.522 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 11:30:00.523 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 960 ms
+2023-05-05 11:30:01.040 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 11:30:01.094 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:30:01.218 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:30:01.230 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 11:30:01.231 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 11:30:01.242 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 11:30:01.266 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 11:30:01.640 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 11:30:01.694 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.456 seconds (JVM running for 3.054)
+2023-05-05 11:30:34.632 [http-nio-8089-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 11:30:34.632 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 11:30:34.633 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 11:30:34.787 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:30:38.665 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:30:38.670 [http-nio-8089-exec-3] WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public com.github.pagehelper.PageInfo<edu.nuist.entity.User> edu.nuist.controller.BackUserController.getAllStudent(edu.nuist.vo.PageRequest)]
+2023-05-05 11:30:56.802 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:30:56.817 [http-nio-8089-exec-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 11:30:56.906 [http-nio-8089-exec-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 11:31:09.246 [http-nio-8089-exec-8] ERROR edu.nuist.interceptor.JWTInterceptor - token无效
+2023-05-05 11:31:23.865 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:31:41.695 [http-nio-8089-exec-1] ERROR edu.nuist.interceptor.JWTInterceptor - token无效
+2023-05-05 11:32:08.772 [http-nio-8089-exec-2] ERROR edu.nuist.interceptor.JWTInterceptor - token无效
+2023-05-05 11:33:32.943 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:33:32.944 [http-nio-8089-exec-4] WARN  o.s.w.s.m.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public com.github.pagehelper.PageInfo<edu.nuist.entity.User> edu.nuist.controller.BackUserController.getAllStudent(edu.nuist.vo.PageRequest)]
+2023-05-05 11:35:18.590 [http-nio-8089-exec-8] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:35:20.545 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:35:25.717 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:35:53.746 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:35:54.168 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=1, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.170 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=2, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.171 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=3, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.172 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=4, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.173 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=5, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.174 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=6, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.175 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=7, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.175 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=8, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.176 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=9, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.177 [http-nio-8089-exec-3] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=10, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:35:54.248 [http-nio-8089-exec-3] ERROR o.a.c.c.C.[.[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is com.alibaba.excel.exception.ExcelAnalysisException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'realName' in 'class edu.nuist.entity.Student'] with root cause
+org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'realName' in 'class edu.nuist.entity.Student'
+	at org.apache.ibatis.reflection.Reflector.getGetInvoker(Reflector.java:387)
+	at org.apache.ibatis.reflection.MetaClass.getGetInvoker(MetaClass.java:164)
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.getBeanProperty(BeanWrapper.java:162)
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.get(BeanWrapper.java:49)
+	at org.apache.ibatis.reflection.MetaObject.getValue(MetaObject.java:122)
+	at org.apache.ibatis.reflection.MetaObject.getValue(MetaObject.java:119)
+	at org.apache.ibatis.mapping.BoundSql.getAdditionalParameter(BoundSql.java:74)
+	at org.apache.ibatis.scripting.defaults.DefaultParameterHandler.setParameters(DefaultParameterHandler.java:72)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.parameterize(PreparedStatementHandler.java:94)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.parameterize(RoutingStatementHandler.java:64)
+	at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:88)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:49)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:64)
+	at com.sun.proxy.$Proxy116.update(Unknown Source)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:194)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:181)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	at com.sun.proxy.$Proxy65.insert(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:62)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy84.addStudents(Unknown Source)
+	at edu.nuist.service.impl.BackUserServiceImpl.addStudents(BackUserServiceImpl.java:45)
+	at edu.nuist.listener.StudentExcelListener.addStudents(StudentExcelListener.java:56)
+	at edu.nuist.listener.StudentExcelListener.invoke(StudentExcelListener.java:39)
+	at edu.nuist.listener.StudentExcelListener.invoke(StudentExcelListener.java:15)
+	at com.alibaba.excel.read.metadata.holder.AbstractReadHolder.notifyEndOneRow(AbstractReadHolder.java:145)
+	at com.alibaba.excel.analysis.v07.handlers.ProcessResultCellHandler.endHandle(ProcessResultCellHandler.java:45)
+	at com.alibaba.excel.analysis.v07.XlsxRowHandler.endElement(XlsxRowHandler.java:44)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(AbstractSAXParser.java:610)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(XMLDocumentFragmentScannerImpl.java:1784)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:2969)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:605)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:507)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:867)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:796)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:142)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1216)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:644)
+	at com.alibaba.excel.analysis.v07.XlsxSaxAnalyser.parseXmlSource(XlsxSaxAnalyser.java:165)
+	at com.alibaba.excel.analysis.v07.XlsxSaxAnalyser.execute(XlsxSaxAnalyser.java:189)
+	at com.alibaba.excel.analysis.ExcelAnalyserImpl.analysis(ExcelAnalyserImpl.java:105)
+	at com.alibaba.excel.ExcelReader.read(ExcelReader.java:180)
+	at com.alibaba.excel.ExcelReader.read(ExcelReader.java:170)
+	at edu.nuist.controller.BackUserController.addStudentFromExcel(BackUserController.java:170)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2023-05-05 11:37:22.451 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:37:22.454 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 11:37:22.460 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 11:37:26.275 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 1376 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 11:37:26.276 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 11:37:27.199 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 11:37:27.206 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:37:27.206 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 11:37:27.206 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 11:37:27.207 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 11:37:27.207 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 11:37:27.207 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 11:37:27.210 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 11:37:27.273 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 11:37:27.273 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 964 ms
+2023-05-05 11:37:27.795 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 11:37:27.850 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:37:27.986 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:37:28.000 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 11:37:28.001 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 11:37:28.014 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 11:37:28.039 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 11:37:28.223 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 11:37:28.259 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.281 seconds (JVM running for 2.882)
+2023-05-05 11:37:34.381 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 11:37:34.381 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 11:37:34.382 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 11:38:45.052 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:38:45.304 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=1, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.305 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=2, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.305 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=3, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.305 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=4, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.306 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=5, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.306 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=6, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.306 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=7, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.307 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=8, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.307 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=9, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.308 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=10, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.348 [http-nio-8089-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 11:38:45.481 [http-nio-8089-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 11:38:45.565 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=11, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.565 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=12, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.566 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=13, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.566 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=14, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.566 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=15, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.567 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=16, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.567 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=17, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.567 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=18, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.568 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=19, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.568 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=20, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:38:45.594 [http-nio-8089-exec-5] INFO  edu.nuist.listener.StudentExcelListener - 所有数据解析完成！
+2023-05-05 11:38:45.727 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:38:52.866 [http-nio-8089-exec-8] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:39:00.149 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:40:15.545 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:40:15.547 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 11:40:15.553 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 11:40:19.356 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 8672 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 11:40:19.358 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 11:40:20.249 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 11:40:20.255 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:40:20.256 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 11:40:20.256 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 11:40:20.257 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 11:40:20.257 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 11:40:20.257 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 11:40:20.259 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 11:40:20.334 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 11:40:20.335 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 942 ms
+2023-05-05 11:40:20.849 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 11:40:20.904 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:40:21.028 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 11:40:21.041 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 11:40:21.041 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 11:40:21.053 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 11:40:21.077 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 11:40:21.255 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 11:40:21.292 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.213 seconds (JVM running for 2.767)
+2023-05-05 11:40:35.107 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 11:40:35.107 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 11:40:35.108 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 11:40:35.280 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 11:40:35.518 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=1, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.518 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=2, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.519 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=3, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.519 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=4, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.519 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=5, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.520 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=6, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.520 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=7, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.520 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=8, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.521 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=9, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.521 [http-nio-8089-exec-1] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=10, username=null, password=null, name=小红, sex=女, birthday=2023-04-09, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null, role=null, clazzId=null)
+2023-05-05 11:40:35.558 [http-nio-8089-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 11:40:35.642 [http-nio-8089-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 11:40:35.764 [http-nio-8089-exec-1] ERROR o.a.c.c.C.[.[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is com.alibaba.excel.exception.ExcelAnalysisException: 
+### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column 'name' in 'field list'
+### The error may exist in edu/nuist/dao/BackUserDao.java (best guess)
+### The error may involve edu.nuist.dao.BackUserDao.addStudents-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO users (name, sex, birthday, work_place, job, major, qualification, phone) VALUES     (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)  ,  (?, ?, ?, ?, ?, ?, ?, ?)
+### Cause: java.sql.SQLSyntaxErrorException: Unknown column 'name' in 'field list'
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Unknown column 'name' in 'field list'] with root cause
+java.sql.SQLSyntaxErrorException: Unknown column 'name' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:370)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:47)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:74)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:64)
+	at com.sun.proxy.$Proxy116.update(Unknown Source)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:194)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:181)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	at com.sun.proxy.$Proxy65.insert(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:62)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy84.addStudents(Unknown Source)
+	at edu.nuist.service.impl.BackUserServiceImpl.addStudents(BackUserServiceImpl.java:45)
+	at edu.nuist.listener.StudentExcelListener.addStudents(StudentExcelListener.java:56)
+	at edu.nuist.listener.StudentExcelListener.invoke(StudentExcelListener.java:39)
+	at edu.nuist.listener.StudentExcelListener.invoke(StudentExcelListener.java:15)
+	at com.alibaba.excel.read.metadata.holder.AbstractReadHolder.notifyEndOneRow(AbstractReadHolder.java:145)
+	at com.alibaba.excel.analysis.v07.handlers.ProcessResultCellHandler.endHandle(ProcessResultCellHandler.java:45)
+	at com.alibaba.excel.analysis.v07.XlsxRowHandler.endElement(XlsxRowHandler.java:44)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(AbstractSAXParser.java:610)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(XMLDocumentFragmentScannerImpl.java:1784)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:2969)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:605)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:507)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:867)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:796)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:142)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1216)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:644)
+	at com.alibaba.excel.analysis.v07.XlsxSaxAnalyser.parseXmlSource(XlsxSaxAnalyser.java:165)
+	at com.alibaba.excel.analysis.v07.XlsxSaxAnalyser.execute(XlsxSaxAnalyser.java:189)
+	at com.alibaba.excel.analysis.ExcelAnalyserImpl.analysis(ExcelAnalyserImpl.java:105)
+	at com.alibaba.excel.ExcelReader.read(ExcelReader.java:180)
+	at com.alibaba.excel.ExcelReader.read(ExcelReader.java:170)
+	at edu.nuist.controller.BackUserController.addStudentFromExcel(BackUserController.java:170)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2023-05-05 11:41:08.600 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 11:41:08.602 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 11:41:08.608 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 15:07:48.618 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 24084 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 15:07:48.632 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 15:07:49.601 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 15:07:49.608 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:07:49.608 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 15:07:49.609 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 15:07:49.609 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 15:07:49.610 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 15:07:49.610 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 15:07:49.724 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 15:07:49.840 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 15:07:49.841 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1179 ms
+2023-05-05 15:07:50.361 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 15:07:50.412 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:07:50.548 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:07:50.561 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 15:07:50.562 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 15:07:50.574 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 15:07:50.597 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 15:07:50.770 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 15:07:50.805 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.465 seconds (JVM running for 2.991)
+2023-05-05 15:08:37.080 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:09:58.826 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 15776 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 15:09:58.828 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 15:09:59.672 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 15:09:59.678 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:09:59.679 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 15:09:59.679 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 15:09:59.680 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 15:09:59.680 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 15:09:59.680 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 15:09:59.682 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 15:09:59.745 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 15:09:59.745 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 881 ms
+2023-05-05 15:10:00.275 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 15:10:00.338 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:10:00.469 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:10:00.483 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 15:10:00.484 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 15:10:00.496 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 15:10:00.519 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 15:10:00.701 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 15:10:00.742 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.186 seconds (JVM running for 2.693)
+2023-05-05 15:10:09.040 [http-nio-8089-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 15:10:09.040 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 15:10:09.042 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-05-05 15:10:09.315 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:09.315 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:09.348 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 15:10:09.428 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 15:10:11.039 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:11.039 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:13.050 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:14.340 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:10:34.853 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:13:26.540 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:13:54.862 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:15:03.292 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:15:16.020 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:15:21.637 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:15:24.743 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:16:04.983 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:17:21.681 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:17:21.683 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 15:17:21.689 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 15:17:25.786 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 25404 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 15:17:25.788 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 15:17:26.774 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 15:17:26.781 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:17:26.781 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 15:17:26.781 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 15:17:26.782 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 15:17:26.782 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 15:17:26.782 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 15:17:26.784 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 15:17:26.851 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 15:17:26.851 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1030 ms
+2023-05-05 15:17:27.911 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 15:17:27.981 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:17:28.148 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:17:28.165 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 15:17:28.167 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 15:17:28.181 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 15:17:28.209 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 15:17:28.415 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 15:17:28.452 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.932 seconds (JVM running for 3.443)
+2023-05-05 15:17:53.953 [http-nio-8089-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 15:17:53.954 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 15:17:53.955 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 15:17:54.003 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 15:17:54.100 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 15:17:54.133 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:18:26.442 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:18:36.076 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:21:39.188 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:21:41.743 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:22:13.213 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:22:34.024 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:23:18.359 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:24:59.146 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:24:59.421 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:25:02.220 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:25:25.629 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:25:53.961 [http-nio-8089-exec-8] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:27:02.963 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:27:02.965 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 15:27:02.986 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 15:30:25.310 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 3704 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 15:30:25.312 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 15:30:26.218 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 15:30:26.224 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:30:26.225 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 15:30:26.225 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 15:30:26.226 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 15:30:26.226 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 15:30:26.226 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 15:30:26.228 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 15:30:26.298 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 15:30:26.298 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 953 ms
+2023-05-05 15:30:26.821 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 15:30:26.886 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:30:27.011 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:30:27.023 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 15:30:27.024 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 15:30:27.035 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 15:30:27.062 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 15:30:27.254 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 15:30:27.303 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.289 seconds (JVM running for 2.826)
+2023-05-05 15:30:45.486 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 15:30:45.486 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 15:30:45.487 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 15:30:45.655 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:30:45.705 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 15:30:45.796 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 15:30:47.306 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:30:51.515 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:30:54.629 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:30:56.525 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:30:57.686 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:00.236 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:40.481 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:43.905 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:44.508 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:44.508 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:46.197 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:31:46.197 [http-nio-8089-exec-8] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:32:29.806 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:14.936 [http-nio-8089-exec-5] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:15.031 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:16.681 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:21.496 [http-nio-8089-exec-3] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:21.560 [http-nio-8089-exec-9] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:23.366 [http-nio-8089-exec-10] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:27.003 [http-nio-8089-exec-7] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:28.048 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-05-05 15:33:55.031 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:33:55.033 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 15:33:55.039 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 15:33:58.724 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 16744 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 15:33:58.725 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 15:33:59.577 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 15:33:59.583 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:33:59.584 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 15:33:59.584 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 15:33:59.584 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 15:33:59.586 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 15:33:59.586 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 15:33:59.588 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 15:33:59.650 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 15:33:59.650 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 893 ms
+2023-05-05 15:34:00.131 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 15:34:00.184 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 15:34:00.306 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 15:34:00.319 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 15:34:00.320 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 15:34:00.331 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 15:34:00.353 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 15:34:00.524 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 15:34:00.558 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.098 seconds (JVM running for 2.599)
+2023-05-05 15:34:08.808 [http-nio-8089-exec-4] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 15:34:08.808 [http-nio-8089-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 15:34:08.809 [http-nio-8089-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 15:34:08.850 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 15:34:08.966 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 16:01:54.461 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 16:01:54.463 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 16:01:54.495 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 16:07:29.895 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 20148 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 16:07:29.897 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 16:07:30.799 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 16:07:30.806 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 16:07:30.806 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 16:07:30.806 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 16:07:30.807 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 16:07:30.808 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 16:07:30.808 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 16:07:30.810 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 16:07:30.908 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 16:07:30.908 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 978 ms
+2023-05-05 16:07:31.389 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 16:07:31.442 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 16:07:31.564 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 16:07:31.579 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 16:07:31.579 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 16:07:31.592 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 16:07:31.618 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 16:07:31.796 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 16:07:31.830 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.288 seconds (JVM running for 2.834)
+2023-05-05 16:07:43.850 [http-nio-8089-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 16:07:43.850 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 16:07:43.851 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 16:07:43.895 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 16:07:44.015 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 16:11:27.366 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 16:11:27.368 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 16:11:27.374 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 16:11:31.965 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 21032 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 16:11:31.967 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 16:11:32.805 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 16:11:32.812 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 16:11:32.813 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 16:11:32.813 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 16:11:32.814 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 16:11:32.814 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 16:11:32.814 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 16:11:32.816 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 16:11:32.879 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 16:11:32.879 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 877 ms
+2023-05-05 16:11:33.367 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 16:11:33.421 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 16:11:33.544 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 16:11:33.556 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 16:11:33.557 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 16:11:33.568 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 16:11:33.591 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 16:11:33.767 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 16:11:33.801 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.107 seconds (JVM running for 2.624)
+2023-05-05 16:11:43.666 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 16:11:43.666 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 16:11:43.667 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-05-05 16:11:43.879 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 16:11:43.960 [http-nio-8089-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 16:26:13.720 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=10, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.721 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=11, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.721 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=12, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.722 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=13, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.722 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=14, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.722 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=15, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.723 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=16, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.723 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=17, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.723 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=18, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.724 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=19, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.765 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=20, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.765 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=21, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.766 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=22, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.766 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=23, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.766 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=24, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.767 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=25, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.767 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=26, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.767 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=27, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.767 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=28, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.767 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - student: Student(id=29, username=xiaohong, password=4bc346a259ed79cf8c6f223ac39bdf22, name=小红, sex=女, birthday=2023-05-05, workPlace=北京/气象谷, job=打杂滴, major=计算机科学, qualification=硕士, phone=18865437393, createTime=null)
+2023-05-05 16:26:13.815 [http-nio-8089-exec-2] INFO  edu.nuist.listener.StudentExcelListener - 所有数据解析完成！
+2023-05-05 16:36:41.894 [http-nio-8089-exec-2] ERROR o.a.c.c.C.[.[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 40] with root cause
+org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 40
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:80)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	at com.sun.proxy.$Proxy65.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:87)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy79.findUserAndRole(Unknown Source)
+	at edu.nuist.service.impl.UserServiceImpl.findUserAndRole(UserServiceImpl.java:27)
+	at edu.nuist.controller.UserController.login(UserController.java:34)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2023-05-05 19:10:22.696 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h15m6s948ms764µs399ns).
+2023-05-05 19:52:05.740 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 19:52:05.744 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 19:52:05.755 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2023-05-05 20:09:23.664 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 9320 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-05-05 20:09:23.665 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-05-05 20:09:25.730 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-05-05 20:09:25.737 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-05-05 20:09:25.738 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-05 20:09:25.738 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-05-05 20:09:25.739 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-05-05 20:09:25.740 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-05-05 20:09:25.740 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-05-05 20:09:25.762 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-05-05 20:09:25.848 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-05 20:09:25.848 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2137 ms
+2023-05-05 20:09:26.505 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-05-05 20:09:26.566 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-05-05 20:09:26.730 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-05-05 20:09:26.780 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-05-05 20:09:26.781 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-05-05 20:09:27.045 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-05-05 20:09:27.104 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-05-05 20:09:27.649 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-05-05 20:09:27.691 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 4.531 seconds (JVM running for 5.777)
+2023-05-05 20:10:13.072 [http-nio-8089-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-05 20:10:13.072 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-05 20:10:13.074 [http-nio-8089-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-05-05 20:10:13.301 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-05-05 20:10:13.474 [http-nio-8089-exec-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-05-05 20:16:40.672 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-05-05 20:16:40.674 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-05-05 20:16:40.679 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

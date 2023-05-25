@@ -1,0 +1,36 @@
+2023-04-20 15:53:45.774 [main] INFO  edu.nuist.ExperimentWebApplication - Starting ExperimentWebApplication using Java 1.8.0_311 on DESKTOP-MM7P5T2 with PID 13028 (D:\Projects\ActualProjects\experiment_ai-master\experiment-back\experiment-web\target\classes started by luwen in D:\Projects\ActualProjects\experiment_ai-master\experiment-back)
+2023-04-20 15:53:45.775 [main] INFO  edu.nuist.ExperimentWebApplication - The following profiles are active: dao
+2023-04-20 15:53:46.615 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2023-04-20 15:53:46.620 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8089"]
+2023-04-20 15:53:46.621 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-04-20 15:53:46.621 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.44]
+2023-04-20 15:53:46.622 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.31] using APR version [1.7.0].
+2023-04-20 15:53:46.622 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2023-04-20 15:53:46.622 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-04-20 15:53:46.624 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1l  24 Aug 2021]
+2023-04-20 15:53:46.719 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-04-20 15:53:46.720 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 911 ms
+2023-04-20 15:53:47.244 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-04-20 15:53:47.304 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-04-20 15:53:47.426 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8089"]
+2023-04-20 15:53:47.439 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8089 (http) with context path ''
+2023-04-20 15:53:47.440 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-04-20 15:53:47.454 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-04-20 15:53:47.478 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-04-20 15:53:47.648 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: addStudentUsingPOST_1
+2023-04-20 15:53:47.660 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllLessonsUsingPOST_1
+2023-04-20 15:53:47.695 [main] INFO  edu.nuist.ExperimentWebApplication - Started ExperimentWebApplication in 2.187 seconds (JVM running for 2.696)
+2023-04-20 15:55:49.953 [http-nio-8089-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-20 15:55:49.953 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-04-20 15:55:49.954 [http-nio-8089-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-04-20 15:55:49.992 [http-nio-8089-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-04-20 15:55:50.119 [http-nio-8089-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-04-20 15:56:05.610 [http-nio-8089-exec-7] ERROR edu.nuist.interceptor.JWTInterceptor - token过期
+2023-04-20 15:56:05.610 [http-nio-8089-exec-8] ERROR edu.nuist.interceptor.JWTInterceptor - token过期
+2023-04-20 15:56:13.548 [http-nio-8089-exec-2] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-04-20 15:56:13.548 [http-nio-8089-exec-1] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-04-20 15:56:15.532 [http-nio-8089-exec-4] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-04-20 15:58:41.844 [http-nio-8089-exec-6] INFO  edu.nuist.interceptor.JWTInterceptor - token正确
+2023-04-20 16:00:04.663 [SpringContextShutdownHook] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-04-20 16:00:04.665 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-04-20 16:00:04.669 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
