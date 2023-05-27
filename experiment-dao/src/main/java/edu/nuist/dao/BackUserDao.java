@@ -30,26 +30,26 @@ public interface BackUserDao {
     List<User> getAllStudents();
 
     @Insert("insert into users (username, password, name, sex, birthday, work_place, job, " +
-            "major, qualification, phone, created_time, role) " +
+            "major, qualification, phone, created_time, role, clazz_id) " +
             "values (#{username}, #{password}, #{name}, #{sex}, #{birthday}, #{workPlace}, #{job}, #{major}, " +
-            "#{qualification}, #{phone}, CURDATE(), 2)")
+            "#{qualification}, #{phone}, CURDATE(), 2, #{clazzId})")
     void addStudent(Student student);
 
     @Insert({
             "<script>",
             "INSERT INTO users (username, password, name, sex, birthday, work_place, job, " +
-                    "major, qualification, phone, created_time, role) VALUES ",
+                    "major, qualification, phone, created_time, role, clazz_id) VALUES ",
             "<foreach collection='students' item='item' index='index' separator=','>",
             "(#{item.username}, #{item.password}, #{item.name}, #{item.sex}, #{item.birthday}, #{item.workPlace}, " +
-                    "#{item.job}, #{item.major}, #{item.qualification}, #{item.phone}, CURDATE(), 2)",
+                    "#{item.job}, #{item.major}, #{item.qualification}, #{item.phone}, CURDATE(), 2, #{item.clazzId})",
             "</foreach>",
             "</script>"
     })
     void addStudents(List<Student> students);
 
     @Update("UPDATE users SET username = #{username}, name = #{name}, sex = #{sex}, birthday = #{birthday}, " +
-            "work_place = #{workPlace}, job = #{job}, major = #{major}, " +
-            "qualification = #{qualification}, phone = #{phone} WHERE user_id = #{id}")
+            "work_place = #{workPlace}, job = #{job}, major = #{major}, qualification = #{qualification}, " +
+            "phone = #{phone} WHERE user_id = #{id}")
     void editStudent(Student student);
 
     @Delete({"<script>",
