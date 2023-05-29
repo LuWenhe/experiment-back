@@ -155,14 +155,17 @@ public class BackUserController {
     }
 
     @PostMapping("/userBack/uploadFromExcel")
-    public Result addStudentFromExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    public Result addStudentFromExcel(@RequestParam("clazzId") Integer clazzId,
+                                      @RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
         ExcelReader excelReader = null;
         InputStream inputStream = null;
 
         try {
             inputStream = file.getInputStream();
-            excelReader = EasyExcel.read(inputStream, Student.class, new StudentExcelListener(backUserService)).build();
+            // 根据clazzId将学生信息写入对应的班级
+            excelReader = EasyExcel.read(inputStream, Student.class,
+                    new StudentExcelListener(clazzId, backUserService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             result.setCode("200");

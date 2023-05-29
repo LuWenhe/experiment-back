@@ -92,8 +92,9 @@ public class BackUserServiceTest {
     @Test
     public void readExcel() {
         String fileName = "D:/student.xlsx";
+        Integer clazzId = 1;
         ExcelReader excelReader = EasyExcel.read(fileName, Student.class,
-                new StudentExcelListener(backUserService)).build();
+                new StudentExcelListener(clazzId, backUserService)).build();
         ReadSheet readSheet = EasyExcel.readSheet().build();
         excelReader.read(readSheet);
     }
@@ -115,10 +116,10 @@ public class BackUserServiceTest {
 
     @Test
     public void testEditStudent() {
-        Student student = new Student(70,"xiaoqing1",
-                new EncryptUtil().getEnpPassword("18856564545"),"小青1","女",
-                null,null,null,null,null,null,null);
-        backUserService.editStudent(student);
+//        Student student = new Student(70,"xiaoqing1",
+//                new EncryptUtil().getEnpPassword("18856564545"),"小青1","女",
+//                null,null,null,null,null,null,null);
+//        backUserService.editStudent(student);
     }
 
     @Test

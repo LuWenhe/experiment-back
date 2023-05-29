@@ -17,10 +17,11 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
     private BackUserService backUserService;
 
     private static final int BATCH_COUNT = 10;
-
+    private final Integer clazzId;
     private final List<Student> studentList = new ArrayList<>();
 
-    public StudentExcelListener(BackUserService backUserService) {
+    public StudentExcelListener(Integer clazzId, BackUserService backUserService) {
+        this.clazzId = clazzId;
         this.backUserService = backUserService;
     }
 
@@ -29,6 +30,7 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
      */
     @Override
     public void invoke(Student student, AnalysisContext analysisContext) {
+        student.setClazzId(clazzId);
         log.info("student: " + student);
         studentList.add(student);
 
