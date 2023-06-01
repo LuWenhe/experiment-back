@@ -6,7 +6,6 @@ import edu.nuist.entity.Clazz;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.Student;
 import edu.nuist.service.BackClazzService;
-import edu.nuist.vo.PageRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,19 +21,18 @@ public class BackClazzController {
     private BackClazzService backClazzService;
 
     @GetMapping("/getClazzList")
-    public Result getClazzList(@RequestParam("teacherId") Integer teacherId) {
-        Result result = new Result();
+    public PageInfo<Clazz> getClazzList(@RequestParam("teacherId") Integer teacherId,
+                                        @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Clazz> clazzList;
 
         try {
-            List<Clazz> clazzList = backClazzService.getClazzListByTeacherId(teacherId);
-            result.setData(clazzList);
-            result.setCode("200");
+            clazzList = backClazzService.getClazzListByTeacherId(teacherId);
+            return new PageInfo<>(clazzList, pageSize);
         } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
+            return new PageInfo<>(null, pageSize);
         }
-
-        return result;
     }
 
     @GetMapping("/getStudents")
@@ -50,6 +48,51 @@ public class BackClazzController {
         } catch (Exception e) {
             return new PageInfo<>(null, pageSize);
         }
+    }
+
+    @PostMapping("/addClazz")
+    public Result addClazz(@RequestBody Clazz clazz) {
+        Result result = new Result();
+
+        try {
+            backClazzService.addClazz(clazz);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
+    }
+
+    @PostMapping("/updateClazz")
+    public Result editClazz(@RequestBody Clazz clazz) {
+        Result result = new Result();
+
+        try {
+            backClazzService.updateClazz(clazz);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
+    }
+
+    @PostMapping("/deleteClazz")
+    public Result deleteClazz(@RequestBody Integer clazzId) {
+        Result result = new Result();
+
+        try {
+            backClazzService.deleteClazz(clazzId);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
 }

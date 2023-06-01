@@ -25,4 +25,19 @@ public class BackClazzServiceImpl implements BackClazzService {
         return backClazzDao.getStudentsByClazzId(clazzId);
     }
 
+    @Override
+    public boolean addClazz(Clazz clazz) {
+        return backClazzDao.addClazz(clazz);
+    }
+
+    @Override
+    public boolean updateClazz(Clazz clazz) {
+        return backClazzDao.updateClazz(clazz);
+    }
+
+    @Override
+    public boolean deleteClazz(Integer clazzId) {
+        return backClazzDao.deleteClazz(clazzId);
+    }
+
 }

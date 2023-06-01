@@ -63,7 +63,7 @@ public class BackUserServiceTest {
     private List<Student> getStudentList() {
         List<Student> studentList = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             Student student = new Student();
             student.setId(i + 10);
             student.setUsername("xiaohong");
@@ -94,7 +94,7 @@ public class BackUserServiceTest {
         String fileName = "D:/student.xlsx";
         Integer clazzId = 1;
         ExcelReader excelReader = EasyExcel.read(fileName, Student.class,
-                new StudentExcelListener(clazzId, backUserService)).build();
+                new StudentExcelListener(null, backUserService)).build();
         ReadSheet readSheet = EasyExcel.readSheet().build();
         excelReader.read(readSheet);
     }
@@ -126,6 +126,11 @@ public class BackUserServiceTest {
     public void testDeleteStudents() {
         List<Integer> studentIds = Arrays.asList(69);
         backUserService.deleteStudentsByIds(studentIds);
+    }
+
+    @Test
+    public void testDeleteStudents2() {
+        backUserService.deleteStudentsByClazzId(12);
     }
 
 }

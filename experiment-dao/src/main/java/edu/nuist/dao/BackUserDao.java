@@ -29,6 +29,9 @@ public interface BackUserDao {
     })
     List<User> getAllStudents();
 
+    @Select("SELECT user_id FROM users WHERE clazz_id = #{clazzId}")
+    List<Integer> getStudentIdsByClazzId(Integer clazzId);
+
     @Insert("insert into users (username, password, name, sex, birthday, work_place, job, " +
             "major, qualification, phone, created_time, role, clazz_id) " +
             "values (#{username}, #{password}, #{name}, #{sex}, #{birthday}, #{workPlace}, #{job}, #{major}, " +
@@ -60,7 +63,7 @@ public interface BackUserDao {
             ")",
             "</script>"
     })
-    void deleteStudentsByIds(List<Integer> studentIds);
+    void deleteStudentsByStudentIds(List<Integer> studentIds);
 
     @Delete("delete from users where user_id = #{user_id}")
     void deleteUsers(User user);

@@ -52,7 +52,18 @@ public class BackUserServiceImpl implements BackUserService {
 
     @Override
     public void deleteStudentsByIds(List<Integer> studentIds) {
-        backUsersDao.deleteStudentsByIds(studentIds);
+        backUsersDao.deleteStudentsByStudentIds(studentIds);
+    }
+
+    @Override
+    public void deleteStudentsByClazzId(Integer clazzId) {
+        List<Integer> studentIds = backUsersDao.getStudentIdsByClazzId(clazzId);
+        System.out.println(studentIds);
+
+        // 如果clazzId不为空, 则删除该班级下的所有学生
+        if (!studentIds.isEmpty()) {
+            backUsersDao.deleteStudentsByStudentIds(studentIds);
+        }
     }
 
     @Override

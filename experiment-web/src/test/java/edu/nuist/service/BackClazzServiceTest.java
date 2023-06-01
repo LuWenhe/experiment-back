@@ -22,4 +22,16 @@ public class BackClazzServiceTest {
         }
     }
 
+    @Test
+    void testAddClazz() {
+        Clazz clazz = new Clazz(null, "班级4", 50, 2, null, null);
+        backClazzService.addClazz(clazz);
+    }
+
+    @Test
+    void deleteClazz() {
+        Integer clazzId = 10;
+        backClazzService.deleteClazz(clazzId);
+    }
+
 }

@@ -11,4 +11,10 @@ public interface BackClazzService {
 
     List<Student> getStudentsByClazzId(Integer clazzId);
 
+    boolean addClazz(Clazz clazz);
+
+    boolean updateClazz(Clazz clazz);
+
+    boolean deleteClazz(Integer clazzId);
+
 }

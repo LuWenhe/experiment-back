@@ -9,6 +9,7 @@ import edu.nuist.entity.Result;
 import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
 import edu.nuist.listener.StudentExcelListener;
+import edu.nuist.service.BackClazzService;
 import edu.nuist.service.BackUserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.GetCurrentDate;
@@ -17,10 +18,7 @@ import edu.nuist.vo.RealNameVo;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -28,14 +26,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/userBack")
 public class BackUserController {
 
     @Resource
     private BackUserService backUserService;
 
-    @PostMapping(value = "/userBack/getAllTeachers")
+    @Resource
+    private BackClazzService backClazzService;
+
+    @PostMapping(value = "/getAllTeachers")
     public PageInfo<User> getAllTeachers(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
         List<User> usersList;
@@ -48,7 +50,7 @@ public class BackUserController {
         }
     }
 
-    @PostMapping(value = "/userBack/addTeacher")
+    @PostMapping(value = "/addTeacher")
     public Result addTeacher(@RequestBody User addTeacher) {
         Result result = new Result();
 
@@ -65,7 +67,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping(value = "/userBack/editTeacher")
+    @PostMapping(value = "/editTeacher")
     public Result editTeacher(@RequestBody User editTeacher) {
         Result result = new Result();
 
@@ -80,7 +82,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping(value = "/userBack/getAllStudents")
+    @PostMapping(value = "/getAllStudents")
     public PageInfo<User> getAllStudent(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
         List<User> usersList;
@@ -93,7 +95,7 @@ public class BackUserController {
         }
     }
 
-    @PostMapping(value = "/userBack/addStudent")
+    @PostMapping("/addStudent")
     public Result addStudent(@RequestBody Student student) {
         Result result = new Result();
 
@@ -109,7 +111,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping("/userBack/addStudents")
+    @PostMapping("/addStudents")
     public Result addStudents(@RequestBody List<Student> students) {
         Result result = new Result();
 
@@ -124,7 +126,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping("/userBack/editStudent")
+    @PostMapping("/editStudent")
     public Result editStudentInfo(@RequestBody Student student) {
         Result result = new Result();
 
@@ -139,7 +141,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping("/userBack/deleteStudents")
+    @PostMapping("/deleteStudentsByIds")
     public Result deleteStudents(@RequestBody List<Integer> studentIds) {
         Result result = new Result();
 
@@ -154,7 +156,23 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping("/userBack/uploadFromExcel")
+    @PostMapping("/deleteStudentsAndClazzByClazzId")
+    public Result deleteStudentsByClazzId(@RequestBody Integer clazzId) {
+        Result result = new Result();
+
+        try {
+            backUserService.deleteStudentsByClazzId(clazzId);
+            backClazzService.deleteClazz(clazzId);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
+    }
+
+    @PostMapping("/uploadFromExcel")
     public Result addStudentFromExcel(@RequestParam("clazzId") Integer clazzId,
                                       @RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
@@ -185,7 +203,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping(value = "/userBack/deleteUser")
+    @PostMapping(value = "/deleteUser")
     public Result deleteUser(@RequestBody String deleteRow) throws JSONException {
         Result result = new Result();
         JSONObject jsonTest = new JSONObject(deleteRow);
@@ -207,7 +225,7 @@ public class BackUserController {
         return result;
     }
 
-    @PostMapping("/userBack/findTeacherByName")
+    @PostMapping("/findTeacherByName")
     public PageInfo<User> findTeacherByName(@RequestBody RealNameVo realNameVo) {
         PageHelper.startPage(realNameVo.getCurrentPage(), realNameVo.getPageSize());
         List<User> usersList;
@@ -220,7 +238,7 @@ public class BackUserController {
         }
     }
 
-    @PostMapping("/userBack/findStudentByName")
+    @PostMapping("/findStudentByName")
     public PageInfo<User> findStudentByName(@RequestBody RealNameVo realNameVo) {
         PageHelper.startPage(realNameVo.getCurrentPage(), realNameVo.getPageSize());
         List<User> usersList;

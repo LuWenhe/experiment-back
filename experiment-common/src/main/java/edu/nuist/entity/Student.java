@@ -49,6 +49,7 @@ public class Student {
     @ExcelProperty(value = "创建时间", converter = DateConverter.class)
     private Date createTime;
 
+    @ExcelProperty("班级")
     private Integer clazzId;
 
 }

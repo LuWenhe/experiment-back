@@ -20,7 +20,7 @@
         <file>${log.path}/experiment.log</file>
         <!--根据yyyy-MM-dd所以是每天新建文件，也可以设置其它格式，如每月或每分-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/system.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/experiment.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
