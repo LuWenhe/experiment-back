@@ -48,18 +48,6 @@ public class BackUserServiceTest {
         System.out.println("添加成功");
     }
 
-    @Test
-    public void addStudents() {
-        List<Student> students = new ArrayList<>();
-//        students.add(new Student(1, "小黑", "男",
-//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-//                "计算机", "硕士", "18876356782"));
-//        students.add(new Student(2, "小美", "男",
-//                new Date(System.currentTimeMillis()), "北京/气象谷", "xxx",
-//                "计算机", "硕士", "18876356782"));
-        backUserService.addStudents(students);
-    }
-
     private List<Student> getStudentList() {
         List<Student> studentList = new ArrayList<>();
 
