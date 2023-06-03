@@ -2,6 +2,7 @@ package edu.nuist.service;
 
 import edu.nuist.entity.UserExcel;
 import edu.nuist.vo.UserAndRole;
+import edu.nuist.vo.UserAndRoleVo;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface UserService {
     int findUserByNameAndPassword(String username,String password);
 
     UserAndRole findUserAndRole(String username, String password);
+
+    UserAndRoleVo getUserAndRole(String username, String password);
 
     UserAndRole findUserAndRoleInFront(String username,String password);
 

@@ -7,21 +7,20 @@ import edu.nuist.entity.Result;
 import edu.nuist.service.BackBannerService;
 import edu.nuist.vo.PageRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@RestController
 @Slf4j
-public class BackSysController {
+@RestController
+@RequestMapping("/banner")
+public class BackBannerController {
 
     @Resource
     private BackBannerService backBannerService;
 
-    @PostMapping(value = "/backSysAdmin/getAllBanner")
+    @PostMapping(value = "/getAllBanner")
     public PageInfo<Banner> getAllBanner(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
         List<Banner> bannersList;
@@ -34,7 +33,7 @@ public class BackSysController {
         }
     }
 
-    @PostMapping(value = "/backSysAdmin/updateBanner")
+    @PostMapping(value = "/updateBanner")
     public Result updateBanner(@RequestBody Banner banners) {
         return backBannerService.updateBanners(banners);
     }

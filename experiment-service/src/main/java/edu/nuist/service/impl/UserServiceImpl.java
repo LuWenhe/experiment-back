@@ -6,6 +6,7 @@ import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.GetCurrentDate;
 import edu.nuist.vo.UserAndRole;
+import edu.nuist.vo.UserAndRoleVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +26,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserAndRole findUserAndRole(String username, String password) {
         return userDao.findUserAndRole(username, password);
+    }
+
+    @Override
+    public UserAndRoleVo getUserAndRole(String username, String password) {
+        return userDao.getUserAndRole(username, password);
     }
 
     @Override

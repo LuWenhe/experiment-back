@@ -5,7 +5,9 @@ import edu.nuist.entity.User;
 import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.JWTUtils;
+import edu.nuist.util.RedisUtil;
 import edu.nuist.vo.UserAndRole;
+import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +18,18 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
     private UserService usersService;
 
-    @RequestMapping("/user/login")
+    @Resource
+    private RedisUtil redisUtil;
+
+    @RequestMapping("/login")
     @ResponseBody
     public Result login(@RequestBody User user) {
         Result result = new Result();
@@ -31,16 +37,19 @@ public class UserController {
         // 将传入的密码进行加密, 然后和数据库中加密后的密码进行比对
         if (usersService.findUserByNameAndPassword(user.getUsername(),
                 new EncryptUtil().getEnpPassword(user.getPassword())) > 0) {
-            UserAndRole userAndRole = usersService.findUserAndRole(user.getUsername(),
-                    new EncryptUtil().getEnpPassword(user.getPassword()));
-            Map<String, String> payload1 = new HashMap<>();
+            // 获得解密后的密码
+            String enpPassword = new EncryptUtil().getEnpPassword(user.getPassword());
+            UserAndRoleVo userAndRoleVo = usersService.getUserAndRole(user.getUsername(), enpPassword);
+            Map<String, String> payload = new HashMap<>();
 
-            payload1.put("username", user.getUsername());
+            // 将用户和角色信息放入Redis
+            redisUtil.set("user", userAndRoleVo);
+
             // 得到用户的token
-            String token = JWTUtils.getToken(payload1);
+            String token = JWTUtils.getToken(payload);
             result.setMsg("登录成功");
             result.setCode("200");
-            result.setData(userAndRole);
+            result.setData(userAndRoleVo);
             result.setToken(token);
         } else {
             result.setCode("500");
@@ -50,7 +59,7 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/frontLogin")
+    @RequestMapping("/frontLogin")
     @ResponseBody
     public Result frontLogin(@RequestBody User user) {
         Result result = new Result();
@@ -77,7 +86,6 @@ public class UserController {
             result.setMsg("登录失败");
             log.error("error login");
         }
-
         return result;
     }
 

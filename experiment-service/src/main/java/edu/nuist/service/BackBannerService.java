@@ -5,12 +5,10 @@ import edu.nuist.entity.Result;
 
 import java.util.List;
 
-public interface BackSysService {
+public interface BackBannerService {
 
     List<Banner> getAllBanners();
 
     Result updateBanners(Banner banners);
-
-    Result loadAllTeachers();
 
 }

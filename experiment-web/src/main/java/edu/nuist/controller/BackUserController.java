@@ -50,6 +50,22 @@ public class BackUserController {
         }
     }
 
+    @GetMapping(value = "/loadAllTeachers")
+    public Result updateBanner() {
+        Result result = new Result();
+
+        try {
+            List<User> allTeachers = backUserService.getAllTeachers();
+            result.setData(allTeachers);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
+    }
+
     @PostMapping(value = "/addTeacher")
     public Result addTeacher(@RequestBody User addTeacher) {
         Result result = new Result();

@@ -3,7 +3,9 @@ package edu.nuist.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.nuist.vo.UserAndRoleVo;
 
 import java.util.Date;
 import java.util.Map;
@@ -26,11 +28,17 @@ public class JWTUtils {
         }
 
         // 生成token字符串
-        String token = builder
+        return builder
                 .withExpiresAt(new Date(System.currentTimeMillis() + TIME))
                 .sign(Algorithm.HMAC256(SIGN));
+    }
 
-        return token;
+    /**
+     * 解析token
+     */
+    public static  Map<String, Claim> parseToken(String token) {
+        DecodedJWT decodedJWT = verify(token);
+        return decodedJWT.getClaims();
     }
 
     /**
