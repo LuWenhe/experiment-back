@@ -59,11 +59,11 @@ public interface BackTagDao {
     @Update("update tag set tagName = #{tagName} where tag_id = #{tag_id}")
     void updateTage(Tag tag);
 
-    @Delete("delete from tag where tag_id = #{tag_id}")
-    void delTag(Tag tag);
+    @Delete("delete from tag where tag_id = #{tagId}")
+    void delTag(Integer tagId);
 
-    @Select("select count(*) from lesson_tag where tag_id = #{tag_id}")
-    int findLessonTagNum(Tag tag);
+    @Select("select count(*) from lesson_tag where tag_id = #{tagId}")
+    int findLessonTagNum(Integer tagId);
 
     @Select("select count(*) from tag")
     int getTagNum();

@@ -4,12 +4,14 @@ import edu.nuist.entity.Province;
 import edu.nuist.entity.Result;
 import edu.nuist.service.ProvinceService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@RequestMapping("/province")
 public class ProvinceController {
 
     @Resource

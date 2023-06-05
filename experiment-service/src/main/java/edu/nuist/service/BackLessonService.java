@@ -25,7 +25,7 @@ public interface BackLessonService {
 
     List<Tool> getAllToolsByName(String tool_name);
 
-    Result addTool(Tool tools);
+    Result addTool(Tool tool);
 
     Result updateLessonInfo(LessonSubmit lessonSubmit);
 
@@ -45,10 +45,10 @@ public interface BackLessonService {
 
     Result addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 
-    Result deleteLessonById(LessonIdInfo lessonIdInfo);
+    Result deleteLessonById(Integer lessonId);
 
-    Result getEditSonChapterInfo(SonChapterAndUrl sonChapterAndUrl);
+    Result getEditSonChapterInfo(Integer sonId);
 
-    Result getChapterByLessonId(LessonSubmit lessonSubmit);
+    Result getChapterByLessonId(Integer lessonId);
 
 }

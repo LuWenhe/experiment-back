@@ -94,18 +94,18 @@ public interface BackLessonDao {
     void updateSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 
     @Delete("delete from lesson where lessonId = #{lessonId}")
-    void deleteLessonByLessonId(LessonIdInfo lessonIdInfo);
+    void deleteLessonByLessonId(Integer lessonId);
 
     @Delete("delete from chapter where lessonId = #{lessonId}")
-    void deleteChapterByLessonId(LessonIdInfo lessonIdInfo);
+    void deleteChapterByLessonId(Integer lessonId);
 
     @Delete("delete from son_chapter where lessonId = #{lessonId}")
-    void deleteSonChapterByLessonId(LessonIdInfo lessonIdInfo);
+    void deleteSonChapterByLessonId(Integer lessonId);
 
     @Delete("delete from lesson_tag where lessonId = #{lessonId}")
-    void deleteTagAndLesson(LessonIdInfo lessonIdInfo);
+    void deleteTagAndLesson(Integer lessonId);
 
-    @Select("select son_id,son_no,son_name,description,mp4,ppt from son_chapter where son_id = #{son_id}")
-    SonChapter getSonChapterInfoBySonId(SonChapterAndUrl sonChapterAndUrl);
+    @Select("select son_id,son_no,son_name,description,mp4,ppt from son_chapter where son_id = #{sonId}")
+    SonChapter getSonChapterInfoBySonId(Integer sonId);
 
 }

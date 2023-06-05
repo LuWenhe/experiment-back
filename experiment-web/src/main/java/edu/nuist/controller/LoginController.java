@@ -5,7 +5,6 @@ import edu.nuist.entity.User;
 import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.JWTUtils;
-import edu.nuist.util.RedisUtil;
 import edu.nuist.vo.UserAndRole;
 import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +20,10 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class LoginController {
 
     @Resource
     private UserService usersService;
-
-    @Resource
-    private RedisUtil redisUtil;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -40,13 +36,17 @@ public class UserController {
             // 获得解密后的密码
             String enpPassword = new EncryptUtil().getEnpPassword(user.getPassword());
             UserAndRoleVo userAndRoleVo = usersService.getUserAndRole(user.getUsername(), enpPassword);
+
             Map<String, String> payload = new HashMap<>();
 
-            // 将用户和角色信息放入Redis
-            redisUtil.set("user", userAndRoleVo);
+            payload.put("userId", String.valueOf(userAndRoleVo.getUserId()));
+            payload.put("username", userAndRoleVo.getUsername());
+            payload.put("roleId", String.valueOf(userAndRoleVo.getRoleId()));
+            payload.put("roleName", userAndRoleVo.getRoleName());
 
             // 得到用户的token
             String token = JWTUtils.getToken(payload);
+
             result.setMsg("登录成功");
             result.setCode("200");
             result.setData(userAndRoleVo);

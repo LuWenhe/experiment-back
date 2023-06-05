@@ -42,6 +42,21 @@ public class JWTUtils {
     }
 
     /**
+     * 解析Token获取用户对象
+     */
+    public static UserAndRoleVo getUserAndRoleFromToken(String token) {
+        DecodedJWT jwt = verify(token);
+        Map<String, Claim> claimMap = jwt.getClaims();
+
+        Integer userId = Integer.valueOf(claimMap.get("userId").asString());
+        String username = claimMap.get("username").asString();
+        Integer roleId = Integer.valueOf(claimMap.get("roleId").asString());
+        String roleName = claimMap.get("roleName").asString();
+
+        return new UserAndRoleVo(userId, username, roleId, roleName);
+    }
+
+    /**
      * 验证token合法性
      */
     public static DecodedJWT verify(String token) {

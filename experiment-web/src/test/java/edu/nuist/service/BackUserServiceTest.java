@@ -113,12 +113,18 @@ public class BackUserServiceTest {
     @Test
     public void testDeleteStudents() {
         List<Integer> studentIds = Arrays.asList(69);
-        backUserService.deleteStudentsByIds(studentIds);
+        backUserService.deleteUsersByIds(studentIds);
     }
 
     @Test
     public void testDeleteStudents2() {
         backUserService.deleteStudentsByClazzId(12);
+    }
+
+    @Test
+    void testGetTeachersByRealName() {
+        List<User> teachers = backUserService.getTeachersByRealName("小");
+        System.out.println(teachers);
     }
 
 }

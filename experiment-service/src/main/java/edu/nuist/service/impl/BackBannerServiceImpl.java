@@ -2,7 +2,6 @@ package edu.nuist.service.impl;
 
 import edu.nuist.dao.BackBannerDao;
 import edu.nuist.entity.Banner;
-import edu.nuist.entity.Result;
 import edu.nuist.service.BackBannerService;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +20,8 @@ public class BackBannerServiceImpl implements BackBannerService {
     }
 
     @Override
-    public Result updateBanners(Banner banner) {
-        Result result = new Result();
-
-        try {
-            backBannerDao.updateBanners(banner);
-            result.setCode("200");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void updateBanners(Banner banner) {
+        backBannerDao.updateBanners(banner);
     }
 
 }

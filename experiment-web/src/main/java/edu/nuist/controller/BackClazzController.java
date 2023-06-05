@@ -28,10 +28,9 @@ public class BackClazzController {
                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Result result = new Result();
         PageHelper.startPage(currentPage, pageSize);
-        List<Clazz> clazzList;
 
         try {
-            clazzList = backClazzService.getClazzListByTeacherId(teacherId);
+            List<Clazz> clazzList = backClazzService.getClazzListByTeacherId(teacherId);
             PageInfo<Clazz> pageInfo = new PageInfo<>(clazzList, pageSize);
             result.setData(pageInfo);
             result.setCode("200");
@@ -44,18 +43,23 @@ public class BackClazzController {
     }
 
     @GetMapping("/getStudents")
-    public PageInfo<Student> getStudents(@RequestParam("clazzId") Integer clazzId,
-                                         @RequestParam("currentPage") Integer currentPage,
-                                         @RequestParam("pageSize") Integer pageSize) {
+    public Result getStudentsByClazzId(@RequestParam("clazzId") Integer clazzId,
+                                       @RequestParam("currentPage") Integer currentPage,
+                                       @RequestParam("pageSize") Integer pageSize) {
+        Result result = new Result();
         PageHelper.startPage(currentPage, pageSize);
-        List<Student> students;
 
         try {
-            students = backClazzService.getStudentsByClazzId(clazzId);
-            return new PageInfo<>(students, pageSize);
+            List<Student> students = backClazzService.getStudentsByClazzId(clazzId);
+            PageInfo<Student> pageInfo = new PageInfo<>(students, pageSize);
+            result.setData(pageInfo);
+            result.setCode("200");
         } catch (Exception e) {
-            return new PageInfo<>(null, pageSize);
+            result.setCode("500");
+            e.printStackTrace();
         }
+
+        return result;
     }
 
     @PostMapping("/addClazz")
@@ -88,8 +92,8 @@ public class BackClazzController {
         return result;
     }
 
-    @PostMapping("/deleteClazz")
-    public Result deleteClazz(@RequestBody Integer clazzId) {
+    @GetMapping("/deleteClazz")
+    public Result deleteClazz(@RequestParam("clazzId") Integer clazzId) {
         Result result = new Result();
 
         try {

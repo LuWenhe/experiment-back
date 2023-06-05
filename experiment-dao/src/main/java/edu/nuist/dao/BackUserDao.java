@@ -19,7 +19,7 @@ public interface BackUserDao {
             "phone = #{phone},email = #{email} where user_id = #{user_id}")
     void editTeacher(User user);
 
-    @Select("select * from users where name = #{param1}")
+    @Select("select * from users where name like CONCAT('%', #{name}, '%')")
     List<User> findTeachersByRName(String name);
 
     @Select("select user_id,username,password,name,sex,birthday,work_place,job,major,qualification,phone,email," +
@@ -57,18 +57,18 @@ public interface BackUserDao {
 
     @Delete({"<script>",
             "DELETE FROM users WHERE user_id in (",
-            "<foreach collection='studentIds' item='userId' index='index' separator=','>",
+            "<foreach collection='userIds' item='userId' index='index' separator=','>",
             "#{userId}",
             "</foreach>",
             ")",
             "</script>"
     })
-    void deleteStudentsByStudentIds(List<Integer> studentIds);
+    void deleteUsersByUserIds(List<Integer> userIds);
 
     @Delete("delete from users where user_id = #{user_id}")
     void deleteUsers(User user);
 
-    @Select("select * from users where name = #{param1}")
+    @Select("select * from users where name like CONCAT('%', #{name}, '%')")
     List<User> findStudentByRName(String name);
 
 }

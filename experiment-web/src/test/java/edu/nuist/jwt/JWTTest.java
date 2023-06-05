@@ -14,14 +14,22 @@ public class JWTTest {
     @Test
     void testJwt() {
         String SIGN = "!Q@EeKE^EN%KN";
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODU4NjE0MDQsInVzZXJuYW1lI" +
-                "joidGVhY2hlcjEifQ.c-2jZsuFJmD4UuChL5D6S2VnUmKtM8_ag3mhRJZkzzc";
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOiIyIiwicm9sZU5hbWUiOiLogIHluIgiLCJle" +
+                "HAiOjE2ODYwNjAzMTMsInVzZXJJZCI6IjIiLCJ1c2VybmFtZSI6InRlYWNoZXIxIn0." +
+                "GT7hGBM94hdQkPQKYUvckKAhUnoY_SDbbAFD52wGGgc";
         DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
-        Map<String, Claim> claims = decodedJWT.getClaims();
-        for (Map.Entry<String, Claim> entry : claims.entrySet()) {
-            String key = entry.getKey();
-            Claim value = entry.getValue();
-        }
+        Map<String, Claim> claimMap = decodedJWT.getClaims();
+
+        System.out.println(claimMap);
+        Integer userId = Integer.valueOf(claimMap.get("userId").asString());
+        String username = claimMap.get("username").asString();
+        Integer roleId = Integer.valueOf(claimMap.get("roleId").asString());
+        String roleName = claimMap.get("roleName").asString();
+
+        System.out.println(userId);
+        System.out.println(username);
+        System.out.println(roleId);
+        System.out.println(roleName);
     }
 
 }

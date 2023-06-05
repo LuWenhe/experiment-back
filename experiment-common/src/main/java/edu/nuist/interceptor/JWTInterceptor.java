@@ -5,6 +5,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.nuist.util.JWTUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,9 +18,8 @@ import java.util.Map;
 /**
  * 自定义JWT拦截器类
  */
+@Slf4j
 public class JWTInterceptor implements HandlerInterceptor {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(JWTInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -39,20 +39,20 @@ public class JWTInterceptor implements HandlerInterceptor {
             JWTUtils.verify(token);
             return true;//放行请求
         } catch (SignatureVerificationException e) {
-            LOGGER.error("无效签名!");
+            log.error("无效签名!");
             //e.printStackTrace();
             map.put("msg","无效签名!");
         } catch (TokenExpiredException e){
             //e.printStackTrace();
-            LOGGER.error("token过期");
+            log.error("token过期");
             map.put("msg","token过期!");
         } catch (AlgorithmMismatchException e){
             // e.printStackTrace();
-            LOGGER.error("token算法不一致");
+            log.error("token算法不一致");
             map.put("msg","token算法不一致!");
         } catch (Exception e){
             // e.printStackTrace();
-            LOGGER.error("token无效");
+            log.error("token无效");
             map.put("msg","token无效!!");
         }
 

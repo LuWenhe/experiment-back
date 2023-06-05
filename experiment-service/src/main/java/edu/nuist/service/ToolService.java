@@ -1,16 +1,15 @@
 package edu.nuist.service;
 
-import edu.nuist.entity.Result;
 import edu.nuist.entity.Tool;
 
 import java.util.List;
 
 public interface ToolService {
 
-    void deleteTool(int tool_id);
+    void deleteToolsByToolIds(List<Integer> toolIds);
 
     List<Tool> getToolsByName(String name);
 
-    Result getTools(String name);
+    List<Tool> getTools(String name);
 
 }

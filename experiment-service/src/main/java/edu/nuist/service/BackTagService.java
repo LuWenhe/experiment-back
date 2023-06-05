@@ -13,6 +13,6 @@ public interface BackTagService {
 
     Result editTag(Tag tag);
 
-    Result delTag(Tag tag);
+    Result delTagByTagId(Integer tagId);
 
 }

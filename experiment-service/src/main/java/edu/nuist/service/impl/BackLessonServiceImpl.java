@@ -45,8 +45,8 @@ public class BackLessonServiceImpl implements BackLessonService {
                 tagAndLesson.setLessonId(lessonSubmit.getLessonId());
                 tagAndLesson.setTag_id(tagId);
                 backTagsDao.addTagAndLesson(tagAndLesson);
-
             }
+
             result.setCode("200");
             result.setData(lessonSubmit.getLessonId());
         } catch (NumberFormatException e) {
@@ -133,11 +133,11 @@ public class BackLessonServiceImpl implements BackLessonService {
 
     @Override
     @Transactional
-    public Result addTool(Tool Tool) {
+    public Result addTool(Tool tool) {
         Result result = new Result();
 
         try {
-            backLessonDao.addTool(Tool);
+            backLessonDao.addTool(tool);
             result.setCode("200");
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -163,7 +163,6 @@ public class BackLessonServiceImpl implements BackLessonService {
                 tagAndLesson.setLessonId(lessonSubmit.getLessonId());
                 tagAndLesson.setTag_id(tagId);
                 backTagsDao.addTagAndLesson(tagAndLesson);
-
             }
 
             backLessonDao.updateLessonInfo(lessonSubmit);
@@ -321,14 +320,14 @@ public class BackLessonServiceImpl implements BackLessonService {
 
     @Override
     @Transactional
-    public Result deleteLessonById(LessonIdInfo lessonIdInfo) {
+    public Result deleteLessonById(Integer lessonId) {
         Result result = new Result();
 
         try {
-            backLessonDao.deleteSonChapterByLessonId(lessonIdInfo);
-            backLessonDao.deleteChapterByLessonId(lessonIdInfo);
-            backLessonDao.deleteLessonByLessonId(lessonIdInfo);
-            backLessonDao.deleteTagAndLesson(lessonIdInfo);
+            backLessonDao.deleteSonChapterByLessonId(lessonId);
+            backLessonDao.deleteChapterByLessonId(lessonId);
+            backLessonDao.deleteLessonByLessonId(lessonId);
+            backLessonDao.deleteTagAndLesson(lessonId);
             result.setCode("200");
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -340,11 +339,11 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public Result getEditSonChapterInfo(SonChapterAndUrl sonChapterAndUrl) {
+    public Result getEditSonChapterInfo(Integer sonId) {
         Result result = new Result();
 
         try {
-            SonChapter sonChapter = backLessonDao.getSonChapterInfoBySonId(sonChapterAndUrl);
+            SonChapter sonChapter = backLessonDao.getSonChapterInfoBySonId(sonId);
             result.setCode("200");
             result.setData(sonChapter);
         } catch (Exception e) {
@@ -356,11 +355,11 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public Result getChapterByLessonId(LessonSubmit lessonSubmit) {
+    public Result getChapterByLessonId(Integer lessonId) {
         Result result = new Result();
 
         try {
-            List<Chapter> chapterList = backLessonDao.getChaptersByLessonId(lessonSubmit.getLessonId());
+            List<Chapter> chapterList = backLessonDao.getChaptersByLessonId(lessonId);
             result.setCode("200");
             result.setData(chapterList);
         } catch (Exception e) {

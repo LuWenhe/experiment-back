@@ -51,16 +51,16 @@ public class BackTagServiceImpl implements BackTagService {
     }
 
     @Override
-    public Result delTag(Tag tag) {
+    public Result delTagByTagId(Integer tagId) {
         Result result = new Result();
 
         try {
-            int count = backTagDao.findLessonTagNum(tag);
+            int count = backTagDao.findLessonTagNum(tagId);
 
             if (count > 0) {
                 result.setCode("502");
             } else {
-                backTagDao.delTag(tag);
+                backTagDao.delTag(tagId);
                 result.setCode("200");
             }
         } catch (Exception e) {

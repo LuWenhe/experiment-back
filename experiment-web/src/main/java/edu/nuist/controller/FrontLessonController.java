@@ -3,6 +3,7 @@ package edu.nuist.controller;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.SonChapter;
+import edu.nuist.entity.Tool;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.service.ToolService;
 import edu.nuist.vo.ActiveNameVO;
@@ -15,8 +16,9 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/front")
 public class FrontLessonController {
 
     @Resource
@@ -25,27 +27,27 @@ public class FrontLessonController {
     @Resource
     private ToolService toolService;
 
-    @PostMapping(value = "/front/getLessonByName")
+    @PostMapping(value = "/getLessonByName")
     public List<Lesson> getLessonByName(@RequestBody ActiveNameVO activeName) {
         return frontLessonService.getLessonByName(activeName);
     }
 
-    @PostMapping(value = "/front/getAllLessons")
-    public List<Lesson> getAllLessons(@RequestBody ActiveNameVO activeName){
+    @PostMapping("/getAllLessons")
+    public List<Lesson> getAllLessons(@RequestBody ActiveNameVO activeName) {
         return frontLessonService.getAllLesson(activeName.getActiveName());
     }
 
-    @GetMapping(value = "/front/loadLessonInfo")
-    public Result loadLessonInfo(@RequestParam("lessonId") int lessonId){
+    @GetMapping("/loadLessonInfo")
+    public Result loadLessonInfo(@RequestParam("lessonId") int lessonId) {
         return frontLessonService.loadLessonInfo(lessonId);
     }
 
-    @GetMapping(value = "/front/getGuideBook")
-    public Result getGuideBook(@RequestParam("son_id") int son_id){
-        return frontLessonService.getGuideBook(son_id);
+    @GetMapping("/getGuideBook")
+    public Result getGuideBook(@RequestParam("sonId") int sonId) {
+        return frontLessonService.getGuideBook(sonId);
     }
 
-//    @GetMapping(value = "/front/getDaymicExpUrl")
+//    @GetMapping("/getDaymicExpUrl")
 //    public String getDaymicExpUrl(){
 //
 //        String uri = "http://localhost:9000/createContainer";
@@ -85,19 +87,30 @@ public class FrontLessonController {
 //        }
 //    }
 
-    @PostMapping("/front/getDynamicExpUrl")
+    @PostMapping("/getDynamicExpUrl")
     public Result getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) throws IOException {
         return frontLessonService.getDynamicSonExpUrl(sonUserExp);
     }
 
-    @GetMapping("/front/loadToolList")
-    public Result loadToolList(){
+    @GetMapping("/loadToolList")
+    public Result loadToolList() {
         return frontLessonService.loadTool();
     }
 
-    @GetMapping("/front/loadToolListByName")
-    public Result loadToolListByName(@RequestParam("searchName") String name){
-        return toolService.getTools(name);
+    @GetMapping("/loadToolListByName")
+    public Result loadToolListByName(@RequestParam("searchName") String name) {
+        Result result = new Result();
+
+        try {
+            List<Tool> tools = toolService.getTools(name);
+            result.setData(tools);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
 }

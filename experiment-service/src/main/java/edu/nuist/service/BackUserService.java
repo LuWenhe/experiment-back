@@ -25,7 +25,7 @@ public interface BackUserService {
 
     void editStudent(Student student);
 
-    void deleteStudentsByIds(List<Integer> studentIds);
+    void deleteUsersByIds(List<Integer> studentIds);
 
     void deleteStudentsByClazzId(Integer clazzId);
 

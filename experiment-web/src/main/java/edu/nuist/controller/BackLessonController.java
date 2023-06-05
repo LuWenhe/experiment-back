@@ -14,8 +14,6 @@ import edu.nuist.service.UserService;
 import edu.nuist.vo.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +25,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/lesson")
 public class BackLessonController {
 
     @Resource
@@ -53,27 +52,32 @@ public class BackLessonController {
     private String address;
 
     @ApiOperation("管理页面返回所有课程")
-    @PostMapping(value = "/back/getAllLessons")
-    public PageInfo<Lesson> getAllLessons(@RequestBody PageRequest pageRequest) {
+    @PostMapping("/getAllLessons")
+    public Result getAllLessons(@RequestBody PageRequest pageRequest) {
+        Result result = new Result();
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
         List<Lesson> lessonList;
 
         try {
             if (pageRequest.getTagActive().equals("全部")) {
                 lessonList = backLessonService.getAllLessons();
-                return new PageInfo<>(lessonList, pageRequest.getPageSize());
             } else {
                 lessonList = backLessonService.getAllLessonsByTag(pageRequest.getTagActive());
-                return new PageInfo<>(lessonList, pageRequest.getPageSize());
             }
+
+            PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageRequest.getPageSize());
+            result.setData(pageInfo);
+            result.setCode("200");
         } catch (Exception e) {
-            // 将查询到的数据封装到PageInfo对象, 分割数据成功
-            return new PageInfo<>(null, pageRequest.getPageSize());
+            e.printStackTrace();
+            result.setCode("500");
         }
+
+        return result;
     }
 
     @ApiOperation("管理页面添加课程图片")
-    @PostMapping("/back/addLessonPic")
+    @PostMapping("/addLessonPic")
     public Result uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
 
@@ -83,56 +87,55 @@ public class BackLessonController {
         }
 
         String fileName = file.getOriginalFilename();
-        System.out.println(fileName);
         String fileName1 = fileName.split("\\.")[1];
-        String name = UUID.randomUUID().toString(); // 随机的uuid
+        String name = UUID.randomUUID().toString();
 
-        if (platformType.equals("windows")){
-            String filePath = "D:\\images\\" + name + "." + fileName1;
+        if (platformType.equals("windows")) {
+            String filePath = "D:/Projects/ActualProjects/experiment_ai/images/" + name + "." + fileName1;
             //String filePath = "/home/pic/"+name+"."+fileName1;
-            System.out.println(filePath);
+            log.info("filePath: {}", filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name + "." + fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         } else {
-            String filePath = "/home/pl/files/"+name+"."+fileName1;
+            String filePath = "/home/pl/files/" + name + "." + fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name+"."+fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         }
 
         return result;
     }
 
     @ApiOperation("管理页面添加课程")
-    @PostMapping("/back/addLesson")
-    public Result addLesson(@RequestBody LessonSubmit lessonSubmit){
+    @PostMapping("/addLesson")
+    public Result addLesson(@RequestBody LessonSubmit lessonSubmit) {
         return backLessonService.addLesson(lessonSubmit);
     }
 
     @ApiOperation("管理界面修改课程信息")
-    @PostMapping("/back/updateLessonInfo")
-    public Result updateLessonInfo(@RequestBody LessonSubmit lessonSubmit){
+    @PostMapping("/updateLessonInfo")
+    public Result updateLessonInfo(@RequestBody LessonSubmit lessonSubmit) {
         return backLessonService.updateLessonInfo(lessonSubmit);
     }
 
     @ApiOperation("获取课程详情")
-    @PostMapping("/back/getLessonDetail")
-    public Result getLessonDetail(@RequestBody LessonSubmit lessonSubmit){
-        return backLessonService.getLessonDetail(lessonSubmit.getLessonId());
+    @GetMapping("/getLessonDetail")
+    public Result getLessonDetail(Integer lessonId) {
+        return backLessonService.getLessonDetail(lessonId);
     }
 
     @ApiOperation("获取课程章节")
-    @PostMapping("/back/getChapterInfoByLessonId")
-    public Result getChapterInfoByLessonId(@RequestBody LessonSubmit lessonSubmit){
-        return backLessonService.getChapterByLessonId(lessonSubmit);
+    @GetMapping("/getChapterInfoByLessonId")
+    public Result getChapterInfoByLessonId(Integer lessonId) {
+        return backLessonService.getChapterByLessonId(lessonId);
     }
 
     @ApiOperation("添加小节的实验链接")
-    @PostMapping("back/addChapterJupyterURL")
+    @PostMapping("/addChapterJupyterURL")
     public Result singleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("son_id") int son_id) throws IOException {
         Result result = new Result();
@@ -154,47 +157,52 @@ public class BackLessonController {
     }
 
     @ApiOperation("按名称检索课程")
-    @PostMapping(value = "/back/findLessonsByName")
-    public PageInfo<Lesson> findLessonsByName(@RequestBody PageRequest pageRequest) throws IOException {
-        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Lesson> lessonList;
+    @GetMapping("/findLessonsByName")
+    public Result findLessonsByName(@RequestParam("lessonName") String lessonName,
+                                    @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Result result = new Result();
+        PageHelper.startPage(currentPage, pageSize);
 
         try {
-            lessonList = backLessonService.findLessonsByName(pageRequest.getLesson_name());
-            return new PageInfo<>(lessonList, pageRequest.getPageSize());
+            List<Lesson> lessonList = backLessonService.findLessonsByName(lessonName);
+            PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageSize);
+            result.setData(pageInfo);
+            result.setCode("200");
         } catch (Exception e) {
-
-            return new PageInfo<>(null, pageRequest.getPageSize());
+            e.printStackTrace();
+            result.setCode("500");
         }
+
+        return result;
     }
 
-    @PostMapping("/back/AddChapterInEdit")
-    public Result AddChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit){
+    @PostMapping("/addChapterInEdit")
+    public Result addChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit) {
         return backLessonService.AddChapterInEditPart(addChapterInEdit);
     }
 
-    @GetMapping("/back/delChapterInEdit")
-    public Result delChapterInEdit(@RequestParam("chapter_id") Integer chapter_id){
-        return backLessonService.delChapterInEdit(chapter_id);
+    @GetMapping("/delChapterInEdit")
+    public Result delChapterInEdit(@RequestParam("chapterId") Integer chapterId) {
+        return backLessonService.delChapterInEdit(chapterId);
     }
 
-    @GetMapping("/back/delSonChapterInEdit")
-    public Result delSonChapterInEdit(@RequestParam("son_id") Integer son_id){
-        return backLessonService.delSonChapterInEdit(son_id);
+    @GetMapping("/delSonChapterInEdit")
+    public Result delSonChapterInEdit(@RequestParam("sonId") Integer sonId) {
+        return backLessonService.delSonChapterInEdit(sonId);
     }
 
-    @PostMapping("/back/AddSonChapterInEdit")
-    public Result AddSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit){
+    @PostMapping("/addSonChapterInEdit")
+    public Result addSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
         return backLessonService.AddSonChapterInEdit(addSonChapterInEdit);
     }
 
-    @PostMapping("/back/EditSonChapterInEdit")
-    public Result AddEditSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit){
-        log.info(addSonChapterInEdit.toString());
+    @PostMapping("/editSonChapterInEdit")
+    public Result editSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
         return backLessonService.editSonChapterInEdit(addSonChapterInEdit);
     }
 
-    @PostMapping("/back/uploadAttachmentMp4")
+    @PostMapping("/uploadAttachmentMp4")
     public Result uploadAttachmentMp4(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
 
@@ -208,27 +216,27 @@ public class BackLessonController {
         String name = UUID.randomUUID().toString();
 
         //result.setData("http://10.14.253.39:8081/images/"+name+"."+fileName1);
-        if (platformType.equals("windows")){
+        if (platformType.equals("windows")) {
             String filePath = "D:\\images\\" + name + "." + fileName1;
             //String filePath = "/home/pic/"+name+"."+fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name + "." + fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         } else {
-            String filePath = "/home/pl/files/"+name+"."+fileName1;
+            String filePath = "/home/pl/files/" + name + "." + fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name+"."+fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         }
 
         return result;
     }
 
-    @PostMapping("/back/uploadAttachmentPPT")
+    @PostMapping("/uploadAttachmentPPT")
     public Result uploadAttachmentPPT(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
 
@@ -241,27 +249,27 @@ public class BackLessonController {
         String fileName1 = fileName.split("\\.")[1];
         String name = UUID.randomUUID().toString(); // 随机的uuid
 
-        if (platformType.equals("windows")){
+        if (platformType.equals("windows")) {
             String filePath = "D:\\images\\" + name + "." + fileName1;
             //String filePath = "/home/pic/"+name+"."+fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name + "." + fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         } else {
-            String filePath = "/home/pl/files/"+name+"."+fileName1;
+            String filePath = "/home/pl/files/" + name + "." + fileName1;
             System.out.println(filePath);
             File dest = new File(filePath);
             file.transferTo(dest);
             result.setCode("200");
-            result.setData(address+":8081/"+name+"."+fileName1);
+            result.setData(address + ":8081/" + name + "." + fileName1);
         }
 
         return result;
     }
 
-    @PostMapping("/back/uploadExcelImport")
+    @PostMapping("/uploadExcelImport")
     public Result uploadExcelImport(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
         ExcelReader excelReader = null;
@@ -287,7 +295,7 @@ public class BackLessonController {
         return result;
     }
 
-    @PostMapping("/back/uploadExcelImportStu")
+    @PostMapping("/uploadExcelImportStu")
     public Result uploadExcelImportStu(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
         ExcelReader excelReader = null;
@@ -314,104 +322,113 @@ public class BackLessonController {
         return result;
     }
 
-    @PostMapping("/back/loadTagList")
-    public PageInfo<Tag> loadTagList(@RequestBody PageRequest pageRequest) {
-        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Tag> tagList;
+    @GetMapping("/loadTagList")
+    public Result loadTagList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Result result = new Result();
+        PageHelper.startPage(currentPage, pageSize);
 
         try {
-            tagList = backTagService.getAllTags();
-            return new PageInfo<>(tagList, pageRequest.getPageSize());
+            List<Tag> tagList = backTagService.getAllTags();
+            PageInfo<Tag> pageInfo = new PageInfo<>(tagList, pageSize);
+            result.setData(pageInfo);
+            result.setCode("200");
         } catch (Exception e) {
-            // 将查询到的数据封装到PageInfo对象
-            return new PageInfo<>(null, pageRequest.getPageSize());
+            e.printStackTrace();
+            result.setCode("500");
         }
+
+        return result;
     }
 
-    @PostMapping("/back/addTag")
+    @PostMapping("/addTag")
     public Result addTag(@RequestBody Tag tag) {
         return backTagService.addTag(tag);
     }
 
-    @PostMapping("/back/editTag")
+    @PostMapping("/editTag")
     public Result editTag(@RequestBody Tag tag) {
         return backTagService.editTag(tag);
     }
 
-    @PostMapping("/back/delTag")
-    public Result delTag(@RequestBody Tag tag) {
-        return backTagService.delTag(tag);
+    @GetMapping("/delTag")
+    public Result delTag(Integer tagId) {
+        return backTagService.delTagByTagId(tagId);
     }
 
-    @GetMapping("/back/getOptionList")
-    public Result getOptionList(){
+    @GetMapping("/getOptionList")
+    public Result getOptionList() {
         return backLessonService.getAllOptionList();
     }
 
-    @PostMapping("/back/addSonChapterBook")
+    @PostMapping("/addSonChapterBook")
     public Result addSonChapterBook(@RequestBody SonChapterAndUrl sonChapterAndUrl) {
         return backLessonService.addSonChapterBook(sonChapterAndUrl);
     }
 
-    @GetMapping("/back/deleteLessonById")
-    public Result deleteLessonById(@RequestParam("lesson_id") int lesson_id){
-        LessonIdInfo lessonIdInfo = new LessonIdInfo();
-        lessonIdInfo.setLessonId(lesson_id);
-        return backLessonService.deleteLessonById(lessonIdInfo);
+    @GetMapping("/deleteLessonById")
+    public Result deleteLessonById(@RequestParam("lessonId") int lessonId) {
+        return backLessonService.deleteLessonById(lessonId);
     }
 
-    @PostMapping("/back/getEditSonChapterInfo")
-    public Result getEditSonChapterInfo(@RequestBody SonChapterAndUrl sonChapterAndUrl){
-        return backLessonService.getEditSonChapterInfo(sonChapterAndUrl);
+    @GetMapping("/getEditSonChapterInfo")
+    public Result getEditSonChapterInfo(Integer sonId) {
+        return backLessonService.getEditSonChapterInfo(sonId);
     }
 
-    @PostMapping(value = "/back/getAllTools")
-    public PageInfo<Tool> getAllTools(@RequestBody PageRequest pageRequest)  {
-        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Tool> toolsList;
-
-        try {
-            toolsList = backLessonService.getAllTools();
-            return new PageInfo<>(toolsList, pageRequest.getPageSize());
-        } catch (Exception e) {
-            return new PageInfo<>(null, pageRequest.getPageSize());
-        }
-    }
-
-    @PostMapping(value = "/back/findToolByName")
-    public PageInfo<Tool> findToolByName(@RequestBody PageRequest pageRequest) {
-        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Tool> toolsList;
-
-        try {
-            toolsList = backLessonService.getAllToolsByName(pageRequest.getTool_name());
-            return new PageInfo<>(toolsList, pageRequest.getPageSize());
-        } catch (Exception e) {
-            return new PageInfo<>(null, pageRequest.getPageSize());
-        }
-    }
-
-    @PostMapping(value = "/back/addTool")
-    public Result addTool(@RequestBody Tool tools) {
-        System.out.println(tools);
-        return backLessonService.addTool(tools);
-    }
-
-    ///back/deleteTools
-    @PostMapping(value = "/back/deleteTools")
-    public synchronized Result deleteTools(@RequestBody String deleteRow) throws JSONException {
+    @GetMapping("/getAllTools")
+    public Result getAllTools(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Result result = new Result();
-        JSONObject jsonTest = new JSONObject(deleteRow);
+        PageHelper.startPage(currentPage, pageSize);
 
         try {
-            List<Tool> toolsList = com.alibaba.fastjson.JSONObject.parseArray(jsonTest.getString("deleteRow"), Tool.class);
-
-            for (Tool tools : toolsList) {
-                toolService.deleteTool(tools.getTool_id());
-            }
-
+            List<Tool> toolsList = backLessonService.getAllTools();
+            PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
+            result.setData(pageInfo);
             result.setCode("200");
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            result.setCode("500");
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @GetMapping("/findToolByName")
+    public Result findToolByName(@RequestParam("toolName") String toolName,
+                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Result result = new Result();
+        PageHelper.startPage(currentPage, pageSize);
+        List<Tool> toolsList;
+
+        try {
+            toolsList = backLessonService.getAllToolsByName(toolName);
+            PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
+            result.setData(pageInfo);
+            result.setCode("200");
+        } catch (Exception e) {
+            result.setCode("500");
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @PostMapping("/addTool")
+    public Result addTool(@RequestBody Tool tool) {
+        return backLessonService.addTool(tool);
+    }
+
+    @PostMapping("/deleteTools")
+    public Result deleteTools(@RequestBody List<Integer> toolIds) {
+        Result result = new Result();
+
+        try {
+            toolService.deleteToolsByToolIds(toolIds);
+            result.setCode("200");
+        } catch (Exception e) {
             e.printStackTrace();
             result.setCode("500");
         }
