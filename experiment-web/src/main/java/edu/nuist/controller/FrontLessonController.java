@@ -7,13 +7,11 @@ import edu.nuist.entity.Tool;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.service.ToolService;
 import edu.nuist.vo.ActiveNameVO;
-import edu.nuist.vo.GetAllLessons;
 import edu.nuist.vo.SonUserExp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -39,12 +37,35 @@ public class FrontLessonController {
 
     @GetMapping("/loadLessonInfo")
     public Result loadLessonInfo(@RequestParam("lessonId") int lessonId) {
-        return frontLessonService.loadLessonInfo(lessonId);
+        Result result = new Result();
+
+        try {
+            Lesson lesson = frontLessonService.loadLessonInfo(lessonId);
+            result.setCode("200");
+            result.setData(lesson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setData("500");
+        }
+
+        return result;
     }
 
     @GetMapping("/getGuideBook")
     public Result getGuideBook(@RequestParam("sonId") int sonId) {
-        return frontLessonService.getGuideBook(sonId);
+        Result result = new Result();
+        SonChapter sonChapter;
+
+        try {
+            sonChapter = frontLessonService.getGuideBook(sonId);
+            result.setCode("200");
+            result.setData(sonChapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
 //    @GetMapping("/getDaymicExpUrl")
@@ -88,13 +109,36 @@ public class FrontLessonController {
 //    }
 
     @PostMapping("/getDynamicExpUrl")
-    public Result getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) throws IOException {
-        return frontLessonService.getDynamicSonExpUrl(sonUserExp);
+    public Result getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) {
+        Result result = new Result();
+
+        try {
+            SonUserExp sonExpUrl = frontLessonService.getDynamicSonExpUrl(sonUserExp);
+            result.setData(sonExpUrl);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @GetMapping("/loadToolList")
     public Result loadToolList() {
-        return frontLessonService.loadTool();
+        Result result = new Result();
+        List<Tool> allTools;
+
+        try {
+            allTools = frontLessonService.getAllTools();
+            result.setData(allTools);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @GetMapping("/loadToolListByName")

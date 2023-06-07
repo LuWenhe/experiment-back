@@ -7,7 +7,6 @@ import edu.nuist.service.FrontLessonService;
 import edu.nuist.vo.ActiveNameVO;
 import edu.nuist.vo.HistoryLesson;
 import edu.nuist.vo.SonUserExp;
-import edu.nuist.vo.UserAndRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +29,12 @@ public class FrontLessonServiceImpl implements FrontLessonService {
 
     @Value("${platform.address}")
     private String address;
+
+    @Value("${platform.windowsExpUrl}")
+    private String windowExpUrl;
+
+    @Value("${platform.linuxExpUrl}")
+    private String linuxExpUrl;
 
     @Override
     public List<Lesson> getAllLesson(String activeName) {
@@ -83,111 +88,62 @@ public class FrontLessonServiceImpl implements FrontLessonService {
     }
 
     @Override
-    public Result loadLessonInfo(int lessonId) {
-        Result result = new Result();
-
-        try {
-            Lesson lesson = frontLessonsDao.getLessonInfoByLessonId(lessonId);
-            result.setCode("200");
-            result.setData(lesson);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setData("500");
-        }
-
-        return result;
+    public Lesson loadLessonInfo(int lessonId) {
+        return frontLessonsDao.getLessonInfoByLessonId(lessonId);
     }
 
     @Override
-    public Result getGuideBook(int son_id) {
-        Result result = new Result();
-        SonChapter sonChapter;
-
-        try {
-            sonChapter = frontLessonsDao.getSonChapterBySonId(son_id);
-            result.setCode("200");
-            result.setData(sonChapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public SonChapter getGuideBook(int sonId) {
+        return frontLessonsDao.getSonChapterBySonId(sonId);
     }
 
     @Override
-    public Result getDynamicSonExpUrl(SonUserExp sonUserExp) {
-        Result result = new Result();
-        SonUserExp sonUserExp1 = frontLessonsDao.IsHasSonUserExpUrl(sonUserExp);
+    public SonUserExp getDynamicSonExpUrl(SonUserExp sonUserExp) throws IOException {
+        // 查询是否有jupyter文件
+        SonUserExp sonUserExp1 = frontLessonsDao.isHasSonUserExpUrl(sonUserExp);
 
-        try {
-            if (sonUserExp1 != null) {
-                result.setData(sonUserExp1);
-                result.setCode("200");
+        if (sonUserExp1 != null) {
+            return sonUserExp1;
+        } else {
+            int sonId = sonUserExp.getSon_id();
+            int userId = sonUserExp.getUser_id();
+            String cmdString;   // 执行复制的指令
+            String expUrl;      // 生成Jupyter的地址
+
+            if (platformType.equals("windows")) {
+                cmdString = "cmd /c COPY C:/Users/luwen/template.ipynb C:/Users/luwen/"
+                        + sonId + userId + ".ipynb";
+                expUrl = windowExpUrl + sonId + userId + ".ipynb";
             } else {
-                if (platformType.equals("windows")) {
-                    String cmdString = "cmd /c COPY C:\\Users\\luwen\\template.ipynb C:\\Users\\luwen\\"
-                            + sonUserExp.getSon_id() + sonUserExp.getUser_id() + ".ipynb";
-                    System.out.println(cmdString);
-                    Runtime.getRuntime().exec(cmdString);
-                    sonUserExp.setExp_url("http://localhost:8888/notebooks/" + sonUserExp.getSon_id()
-                            + sonUserExp.getUser_id() + ".ipynb");
-                } else {
-                    String cmdString = "cp /home/pl/jupyter_files/template.ipynb /home/pl/jupyter_files/" + sonUserExp.getSon_id() + sonUserExp.getUser_id() + ".ipynb";
-                    Runtime.getRuntime().exec(cmdString);
-                    sonUserExp.setExp_url("http://10.0.7.205:8888/notebooks/" + sonUserExp.getSon_id() + sonUserExp.getUser_id() + ".ipynb");
-                }
-
-                frontLessonsDao.addSonUserExpUrl(sonUserExp);
-                sonUserExp.setId(frontLessonsDao.IsHasSonUserExpUrl(sonUserExp).getId());
-                result.setCode("200");
-                result.setData(sonUserExp);
+                cmdString = "cp /home/pl/jupyter_files/template.ipynb /home/pl/jupyter_files/"
+                        + sonId + userId + ".ipynb";
+                expUrl = linuxExpUrl + sonId + userId + "./ipynb";
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
 
-        return result;
+            // 执行指令
+            Runtime.getRuntime().exec(cmdString);
+            sonUserExp.setExp_url(expUrl);
+            frontLessonsDao.addSonUserExpUrl(sonUserExp);
+            sonUserExp.setId(frontLessonsDao.isHasSonUserExpUrl(sonUserExp).getId());
+            return sonUserExp;
+        }
     }
 
     @Override
-    public Result loadTool() {
-        Result result = new Result();
-        List<Tool> allTools;
-
-        try {
-            allTools = frontLessonsDao.getAllTools();
-            result.setData(allTools);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public List<Tool> getAllTools() {
+        return frontLessonsDao.getAllTools();
     }
 
     @Override
-    public Result getHistoryLesson(UserAndRole userAndRole) {
-        Result result = new Result();
+    public List<Lesson> getHistoryLesson(Integer userId) {
+        List<HistoryLesson> historyLessons = frontLessonsDao.getHistoryID(userId);
+        List<Lesson> lessonList = new ArrayList<>();
 
-        try {
-            List<HistoryLesson> historyLessonList = frontLessonsDao.getHistoryID(userAndRole.getUser_id());
-            List<Lesson> lessonList = new ArrayList<>();
-
-            for (HistoryLesson historyLesson : historyLessonList) {
-                lessonList.add(frontLessonsDao.getLessonById(historyLesson.getLessonId()));
-            }
-
-            result.setData(lessonList);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
+        for (HistoryLesson historyLesson : historyLessons) {
+            lessonList.add(frontLessonsDao.getLessonById(historyLesson.getLessonId()));
         }
 
-        return result;
+        return lessonList;
     }
 
 }

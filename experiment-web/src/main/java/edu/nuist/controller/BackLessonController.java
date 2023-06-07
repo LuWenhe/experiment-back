@@ -343,17 +343,47 @@ public class BackLessonController {
 
     @PostMapping("/addTag")
     public Result addTag(@RequestBody Tag tag) {
-        return backTagService.addTag(tag);
+        Result result = new Result();
+
+        try {
+            backTagService.addTag(tag);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @PostMapping("/editTag")
     public Result editTag(@RequestBody Tag tag) {
-        return backTagService.editTag(tag);
+        Result result = new Result();
+
+        try {
+            backTagService.editTag(tag);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @GetMapping("/delTag")
     public Result delTag(Integer tagId) {
-        return backTagService.delTagByTagId(tagId);
+        Result result = new Result();
+
+        try {
+            backTagService.delTagByTagId(tagId);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
     @GetMapping("/getOptionList")

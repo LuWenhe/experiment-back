@@ -10,6 +10,8 @@ platform:
   type: windows
 #  address: http://10.0.7.205
   address: http://localhost
+  windowsExpUrl: http://10.0.7.205:8888/notebooks/
+  linuxExpUrl: http://10.0.7.205:8888/notebooks/
 logging:
   level:
     root: info

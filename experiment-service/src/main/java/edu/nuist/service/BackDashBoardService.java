@@ -1,9 +1,9 @@
 package edu.nuist.service;
 
-import edu.nuist.entity.Result;
+import edu.nuist.vo.DashBoardCount;
 
 public interface BackDashBoardService {
 
-    Result getDashBoardInfo();
+    DashBoardCount getDashBoardInfo();
 
 }

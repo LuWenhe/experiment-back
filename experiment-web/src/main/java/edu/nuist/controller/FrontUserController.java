@@ -1,11 +1,11 @@
 package edu.nuist.controller;
 
+import edu.nuist.entity.Lesson;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.User;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.service.FrontUserService;
 import edu.nuist.util.EncryptUtil;
-import edu.nuist.vo.UserAndRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/frontUser")
 public class FrontUserController {
 
     @Resource
@@ -24,8 +26,8 @@ public class FrontUserController {
     @Resource
     private FrontLessonService frontLessonService;
 
-    @RequestMapping("/frontUser/getPersonInfo")
-    public Result getPersonInfo(@RequestParam("uid") int user_id){
+    @RequestMapping("/getPersonInfo")
+    public Result getPersonInfo(@RequestParam("uid") int user_id) {
         Result result = new Result();
 
         try {
@@ -40,8 +42,8 @@ public class FrontUserController {
         return result;
     }
 
-    @RequestMapping("/frontUser/updatePersonInfo")
-    public Result updatePersonInfo(@RequestBody User user){
+    @RequestMapping("/updatePersonInfo")
+    public Result updatePersonInfo(@RequestBody User user) {
         Result result = new Result();
 
         try {
@@ -55,8 +57,8 @@ public class FrontUserController {
         return result;
     }
 
-    @RequestMapping("/frontUser/changePass")
-    public Result changePass(@RequestBody User user){
+    @RequestMapping("/changePass")
+    public Result changePass(@RequestBody User user) {
         Result result = new Result();
 
         if (frontUserService.validatePassword(user.getUid())
@@ -72,11 +74,20 @@ public class FrontUserController {
         return result;
     }
 
-    @RequestMapping("/frontUser/getHistoryLesson")
-    public Result getHistoryLesson(@RequestParam("uid") int user_id){
-        UserAndRole userAndRole = new UserAndRole();
-        userAndRole.setUser_id(user_id);
-        return frontLessonService.getHistoryLesson(userAndRole);
+    @RequestMapping("/getHistoryLesson")
+    public Result getHistoryLesson(@RequestParam("uid") int user_id) {
+        Result result = new Result();
+
+        try {
+            List<Lesson> historyLesson = frontLessonService.getHistoryLesson(user_id);
+            result.setData(historyLesson);
+            result.setCode("200");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode("500");
+        }
+
+        return result;
     }
 
 }

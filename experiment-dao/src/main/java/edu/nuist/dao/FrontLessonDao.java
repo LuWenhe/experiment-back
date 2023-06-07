@@ -26,7 +26,7 @@ public interface FrontLessonDao {
     SonChapter getSonChapterBySonId(int son_id);
 
     @Select("select * from son_user_exp where user_id = #{user_id} and son_id = #{son_id}")
-    SonUserExp IsHasSonUserExpUrl(SonUserExp sonUserExp);
+    SonUserExp isHasSonUserExpUrl(SonUserExp sonUserExp);
 
     @Insert("insert into son_user_exp(son_id,user_id,exp_url,lessonId) " +
             "values (#{son_id},#{user_id},#{exp_url},#{lessonId}) ")
