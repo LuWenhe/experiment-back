@@ -3,8 +3,10 @@ package edu.nuist.dao;
 import edu.nuist.entity.Chapter;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.SonChapter;
-import edu.nuist.entity.Tool;
-import edu.nuist.vo.*;
+import edu.nuist.vo.AddChapterInEdit;
+import edu.nuist.vo.AddSonChapterInEdit;
+import edu.nuist.vo.LessonSubmit;
+import edu.nuist.vo.SonChapterAndUrl;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -49,16 +51,6 @@ public interface BackLessonDao {
 
     @Select("select lessonId,lesson_name,pic_url from lesson where lesson_name = #{param1}")
     List<Lesson> findLessonsByName(String lesson_name);
-
-    @Select("select * from tools")
-    List<Tool> getAllTools();
-
-    @Select("select * from tools where tool_name like  concat('%',#{param1},'%')")
-    List<Tool> getAllToolsByName(String tool_name);
-
-    @Insert("insert into tools (tool_name,tool_env,upload_time,download_url) " +
-            "values (#{tool_name},#{tool_env},#{upload_time},#{download_url})")
-    void addTool(Tool tools);
 
     @Update("update lesson set lesson_name = #{lesson_name},pic_url = #{pic_url},difficulty = #{difficulty}," +
             "learn_time = #{learn_time},learn_credit = #{learn_credit},canLearn = #{canLearn}," +

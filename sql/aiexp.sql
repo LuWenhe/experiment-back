@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 03/06/2023 22:37:05
+ Date: 08/06/2023 11:30:43
 */
 
 SET NAMES utf8mb4;
@@ -100,23 +100,23 @@ CREATE TABLE `lesson`  (
   `suitablePerson` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `canLearn` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `teacher_id` int(11) NULL DEFAULT NULL,
   `teacher_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `teacher_id` int(11) NULL DEFAULT NULL,
   `user_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`lessonId`) USING BTREE,
   INDEX `lesson_name_index`(`lesson_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of lesson
 -- ----------------------------
-INSERT INTO `lesson` VALUES (1, 'TensorFlow', 'http://localhost:8081/3e0c8303-52f3-4098-a167-32bdfbc4ffd2.png', 2, 22, 2, '研究生', '', '深度学习最早兴起于图像识别，但在短短几年时间内，深度学习推广到了机器学习的各个领域。如今深度学习已经应用于计算机视觉、自然语言处理、情感分析、医学自动诊断等各个领域。\n\n', NULL, 'teacher1', NULL);
-INSERT INTO `lesson` VALUES (2, 'PyTorch教程', 'http://localhost:8081/2c2f312d-9ee4-4306-8c18-960046c32302.png', 2, 22, 2, '研究生', '', '深度学习框架', NULL, 'nxd', NULL);
-INSERT INTO `lesson` VALUES (3, '数据挖掘', 'http://localhost:8081/20211214210608.png', 3, 22, 2, '研究生', '', '', NULL, 'teacher1', NULL);
-INSERT INTO `lesson` VALUES (5, '深度学习雷雨大风分类与识别模块', 'http://localhost:8081/20211214210408.png', 2, 22, 2, '研究生', '基于深度学习的短临预报', '利用深度学习方法实现对雷暴大风灾害性天气的识别、预警，以地面自动站出现7级风作为出现灾害性雷暴大风天气的判据，建立一套雷暴大风实时识别、落区预报、落区检验于一体的综合系统。', NULL, 'nxd', NULL);
-INSERT INTO `lesson` VALUES (6, '机器学习', 'http://localhost:8081/f707c3bc-60d9-43a0-920a-e73f15b6e3a7.png', 2, 22, 2, '研究生', '', '机器学习是一门多领域交叉学科，涉及概率论、统计学、逼近论、凸分析、算法复杂度理论等多门学科。专门研究计算机怎样模拟或实现人类的学习行为，以获取新的知识或技能，重新组织已有的知识结构使之不断改善自身的性能。\n它是人工智能核心，是使计算机具有智能的根本途径。', NULL, 'nxd', NULL);
-INSERT INTO `lesson` VALUES (7, '计算机视觉', 'http://localhost:8081/4ce3e6b3-f15e-4c12-b3c6-4238aabebde9.png', 2, 22, 2, '研究生', '知识', '计算机视觉', NULL, 'teacher1', NULL);
-INSERT INTO `lesson` VALUES (8, '气象雷达智能外推', 'http://localhost:8081/4b68f5fc-649e-4627-8221-668f178e9232.png', 2, 22, 2, '研究生', '基于ConvLSTM Encoder-Decoder的雷达回波外推', '基于深度学习算法模型对气象雷达数据进行外推，雷达数据是一种典型的时空序列数据，短临降水预测属于典型的时空序列预测任务。由于雷达数据不仅具有时间上的连续性，还具有空间性，需要同时进行时间和空间信息的学习，是一种高度非线性和随机性的问题，而深度学习可以通过对非线性系统进行建模，来对降水格点数据进行合理外推，并能够在一定程度上解决随机性的问题，从而实现较为准确的短临降水预报。\n![f444aab5415c42c68c03a6c981a4fcc7.jpg](http://localhost:8081/a4edaa61-db35-4ea5-ad2f-695bbe42d7d4.jpg)\nhello', NULL, 'nxd', NULL);
+INSERT INTO `lesson` VALUES (1, 'TensorFlow', 'http://localhost:8081/3e0c8303-52f3-4098-a167-32bdfbc4ffd2.png', 2, 22, 2, '研究生', '', '深度学习最早兴起于图像识别，但在短短几年时间内，深度学习推广到了机器学习的各个领域。如今深度学习已经应用于计算机视觉、自然语言处理、情感分析、医学自动诊断等各个领域。\n\n', 'teacher1', 2, 2);
+INSERT INTO `lesson` VALUES (2, 'PyTorch教程', 'http://localhost:8081/2c2f312d-9ee4-4306-8c18-960046c32302.png', 2, 22, 2, '研究生', '', '深度学习框架', 'nxd', 2, 2);
+INSERT INTO `lesson` VALUES (3, '数据挖掘', 'http://localhost:8081/20211214210608.png', 3, 22, 2, '研究生', '', '', 'teacher1', 2, 2);
+INSERT INTO `lesson` VALUES (5, '深度学习雷雨大风分类与识别模块', 'http://localhost:8081/20211214210408.png', 2, 22, 2, '研究生', '基于深度学习的短临预报', '利用深度学习方法实现对雷暴大风灾害性天气的识别、预警，以地面自动站出现7级风作为出现灾害性雷暴大风天气的判据，建立一套雷暴大风实时识别、落区预报、落区检验于一体的综合系统。', 'nxd', 2, 2);
+INSERT INTO `lesson` VALUES (6, '机器学习', 'http://localhost:8081/f707c3bc-60d9-43a0-920a-e73f15b6e3a7.png', 2, 22, 2, '研究生', '', '机器学习是一门多领域交叉学科，涉及概率论、统计学、逼近论、凸分析、算法复杂度理论等多门学科。专门研究计算机怎样模拟或实现人类的学习行为，以获取新的知识或技能，重新组织已有的知识结构使之不断改善自身的性能。\n它是人工智能核心，是使计算机具有智能的根本途径。', 'nxd', 4, 4);
+INSERT INTO `lesson` VALUES (7, '计算机视觉', 'http://localhost:8081/4ce3e6b3-f15e-4c12-b3c6-4238aabebde9.png', 2, 22, 2, '研究生', '知识', '计算机视觉', 'teacher1', 4, 4);
+INSERT INTO `lesson` VALUES (8, '气象雷达智能外推', 'http://localhost:8081/4b68f5fc-649e-4627-8221-668f178e9232.png', 2, 22, 2, '研究生', '基于ConvLSTM Encoder-Decoder的雷达回波外推', '基于深度学习算法模型对气象雷达数据进行外推，雷达数据是一种典型的时空序列数据，短临降水预测属于典型的时空序列预测任务。由于雷达数据不仅具有时间上的连续性，还具有空间性，需要同时进行时间和空间信息的学习，是一种高度非线性和随机性的问题，而深度学习可以通过对非线性系统进行建模，来对降水格点数据进行合理外推，并能够在一定程度上解决随机性的问题，从而实现较为准确的短临降水预报。\n![f444aab5415c42c68c03a6c981a4fcc7.jpg](http://localhost:8081/a4edaa61-db35-4ea5-ad2f-695bbe42d7d4.jpg)\nhello', 'nxd', 4, 4);
 
 -- ----------------------------
 -- Table structure for lesson_tag
@@ -127,7 +127,7 @@ CREATE TABLE `lesson_tag`  (
   `lessonId` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of lesson_tag
@@ -135,10 +135,10 @@ CREATE TABLE `lesson_tag`  (
 INSERT INTO `lesson_tag` VALUES (22, 7, 1);
 INSERT INTO `lesson_tag` VALUES (29, 6, 1);
 INSERT INTO `lesson_tag` VALUES (30, 2, 1);
-INSERT INTO `lesson_tag` VALUES (31, 1, 1);
 INSERT INTO `lesson_tag` VALUES (32, 3, 1);
 INSERT INTO `lesson_tag` VALUES (37, 5, 2);
 INSERT INTO `lesson_tag` VALUES (39, 8, 2);
+INSERT INTO `lesson_tag` VALUES (40, 1, 1);
 
 -- ----------------------------
 -- Table structure for permission
@@ -148,19 +148,30 @@ CREATE TABLE `permission`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
   `description` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限描述',
-  `url` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限访问路径',
+  `router_url` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前端路由路径',
+  `request_url` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限地址路径',
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '父结点的Id',
+  `icon` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图表名称',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES (1, '用户管理', '用户管理', '/userBack', '2023-06-02 19:59:42', '2023-06-02 19:59:42');
-INSERT INTO `permission` VALUES (2, '课程管理', '课程管理', '/back', '2023-06-02 20:00:52', '2023-06-02 20:00:52');
-INSERT INTO `permission` VALUES (3, '班级管理', '班级管理', '/clazz', '2023-06-02 20:01:48', '2023-06-02 20:01:48');
-INSERT INTO `permission` VALUES (4, '轮播管理', '轮播管理', '/banner', '2023-06-02 20:16:08', '2023-06-02 20:16:23');
+INSERT INTO `permission` VALUES (1, '系统首页', '系统首页', '/dashboard', NULL, 0, 'el-icon-lx-home', '2023-06-02 19:59:42', '2023-06-07 19:49:36');
+INSERT INTO `permission` VALUES (2, '用户管理', '用户管理', '/userManage', '', 1, 'el-icon-s-custom', '2023-06-02 20:00:52', '2023-06-08 10:18:38');
+INSERT INTO `permission` VALUES (3, '课程管理', '课程管理', '/lessonIndex', '', 1, 'el-icon-reading', '2023-06-02 20:01:48', '2023-06-08 10:18:49');
+INSERT INTO `permission` VALUES (4, '班级管理', '班级管理', '/clazzManage', '/clazz', 1, 'el-icon-school', '2023-06-02 20:16:08', '2023-06-07 21:26:41');
+INSERT INTO `permission` VALUES (5, '轮播管理', '轮播管理', '/bannerManage', '/bannerManage', 1, 'el-icon-set-up', '2023-06-07 13:57:36', '2023-06-07 21:31:36');
+INSERT INTO `permission` VALUES (6, '教师管理', '教师管理', '/teacherManage', '/backUser', 2, 'el-icon-user', '2023-06-07 14:04:06', '2023-06-07 21:50:55');
+INSERT INTO `permission` VALUES (7, '学生管理', '学生管理', '/studentManage', '/backUser', 2, 'el-icon-user', '2023-06-07 14:04:17', '2023-06-07 21:50:57');
+INSERT INTO `permission` VALUES (8, '课程列表', '课程列表', '/lessonManage', '/backLesson', 3, 'el-icon-s-order', '2023-06-07 14:04:33', '2023-06-08 10:22:14');
+INSERT INTO `permission` VALUES (9, '标签管理', '标签管理', '/tagManage', '/backTag', 3, 'el-icon-s-management', '2023-06-07 14:04:44', '2023-06-08 10:24:34');
+INSERT INTO `permission` VALUES (10, '工具管理', '工具管理', '/toolManage', '/backTool', 3, 'el-icon-s-management', '2023-06-07 14:04:59', '2023-06-08 10:19:32');
+INSERT INTO `permission` VALUES (11, '班级列表', '班级列表', '/clazzManage', '/backClazz', 4, 'el-icon-s-custom', '2023-06-07 14:08:31', '2023-06-08 10:25:02');
+INSERT INTO `permission` VALUES (12, '轮播管理', '轮播管理', '/bannerManage', '/backBanner', 5, 'el-icon-s-order', '2023-06-07 14:08:54', '2023-06-08 10:25:12');
 
 -- ----------------------------
 -- Table structure for province
@@ -236,7 +247,7 @@ CREATE TABLE `role_permission`  (
   `role_id` int(11) NULL DEFAULT NULL COMMENT '角色id',
   `permission_id` int(11) NULL DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role_permission
@@ -245,10 +256,26 @@ INSERT INTO `role_permission` VALUES (1, 1, 1);
 INSERT INTO `role_permission` VALUES (2, 1, 2);
 INSERT INTO `role_permission` VALUES (3, 1, 3);
 INSERT INTO `role_permission` VALUES (4, 1, 4);
-INSERT INTO `role_permission` VALUES (5, 2, 1);
-INSERT INTO `role_permission` VALUES (6, 2, 2);
-INSERT INTO `role_permission` VALUES (7, 2, 3);
-INSERT INTO `role_permission` VALUES (8, 2, 4);
+INSERT INTO `role_permission` VALUES (5, 1, 5);
+INSERT INTO `role_permission` VALUES (6, 1, 6);
+INSERT INTO `role_permission` VALUES (7, 1, 7);
+INSERT INTO `role_permission` VALUES (8, 1, 8);
+INSERT INTO `role_permission` VALUES (9, 1, 9);
+INSERT INTO `role_permission` VALUES (10, 1, 10);
+INSERT INTO `role_permission` VALUES (11, 1, 11);
+INSERT INTO `role_permission` VALUES (12, 1, 12);
+INSERT INTO `role_permission` VALUES (13, 2, 1);
+INSERT INTO `role_permission` VALUES (14, 2, 2);
+INSERT INTO `role_permission` VALUES (15, 2, 3);
+INSERT INTO `role_permission` VALUES (16, 2, 4);
+INSERT INTO `role_permission` VALUES (17, 2, 7);
+INSERT INTO `role_permission` VALUES (18, 2, 8);
+INSERT INTO `role_permission` VALUES (19, 2, 9);
+INSERT INTO `role_permission` VALUES (20, 2, 10);
+INSERT INTO `role_permission` VALUES (21, 2, 11);
+INSERT INTO `role_permission` VALUES (22, 3, 1);
+INSERT INTO `role_permission` VALUES (23, 3, 3);
+INSERT INTO `role_permission` VALUES (25, 3, 8);
 
 -- ----------------------------
 -- Table structure for sidemenu
@@ -331,7 +358,7 @@ CREATE TABLE `tag`  (
   `tag_id` int(11) NOT NULL AUTO_INCREMENT,
   `tagName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`tag_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tag
@@ -359,7 +386,6 @@ CREATE TABLE `tools`  (
 -- ----------------------------
 INSERT INTO `tools` VALUES (1, '《地面气象测报业务系统软件 2004》完整版V3.0.18', 'windows', '2022-05-02', 'http://localhost:4040/《地面气象测报业务系统软件 2004》完整版V3.0.18.exe');
 INSERT INTO `tools` VALUES (2, 'navicat', 'windows', '2022-05-30', 'http://localhost:4040/0a7e66b7-b2bf-46dc-84be-eddee0f995f1.zip');
-INSERT INTO `tools` VALUES (3, 'FSCapture截图软件', 'windows', '2022-05-30', 'http://localhost:4040/485041af-bd6f-40ac-95d5-6b6c94a3a9e5.rar');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -435,86 +461,86 @@ CREATE TABLE `users`  (
   `qualification` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `created_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `role` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `avatar_image` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `clazz_id` int(11) NULL DEFAULT NULL,
+  `created_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `user_id_index`(`user_id`) USING BTREE,
   INDEX `username_index`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 230 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 234 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'admin', 'b084fbd93e31cd32436e791be42072df', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-11-03 00:00:00', '0', 'http://localhost:8081/img.jpg', NULL);
-INSERT INTO `users` VALUES (2, 'teacher1', 'b084fbd93e31cd32436e791be42072df', '教师1', '女', '1991-06-18', NULL, NULL, NULL, NULL, '17312228383', 'demo1@163.com', '2021-11-03 00:00:00', '1', 'http://localhost:8081/img.jpg', NULL);
-INSERT INTO `users` VALUES (3, 'student12', 'b084fbd93e31cd32436e791be42072df', '学生1', '男', '2003-02-06', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312222222', 'demo1@163.com', '2021-11-04 00:00:00', '2', 'http://localhost:8081/28812c7c-2604-4957-9cd0-f8ee4eaf4fbc.jpg', NULL);
-INSERT INTO `users` VALUES (4, 'teacher2', 'b084fbd93e31cd32436e791be42072df', '教师2', '男', '2000-06-29', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312260306', 'xueleijia@163.com', '2022-02-22 00:00:00', '1', 'http://localhost:8081/img.jpg', NULL);
-INSERT INTO `users` VALUES (5, 'teacher3', 'b084fbd93e31cd32436e791be42072df', '教师3', '男', NULL, NULL, NULL, NULL, NULL, '17327190317', 'aaa@123.com', '2022-04-03 00:00:00', '1', 'http://localhost:8081/img.jpg', NULL);
-INSERT INTO `users` VALUES (6, 'student2', 'b084fbd93e31cd32436e791be42072df', '李四44', '男', '1989-06-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312260409', 'asaa@sina.com', '2022-04-04 00:00:00', '2', 'http://localhost:8081/img.jpg', NULL);
-INSERT INTO `users` VALUES (50, 'luw', 'f15525b5d704eddb71167246b6bef6cf', '芦苇', '男', '2010-01-01', '北京/气象局/', '研发', '气象学', '硕士', '18876543456', NULL, '2023-05-14 00:00:00', '2', NULL, NULL);
-INSERT INTO `users` VALUES (51, 'xiaoli', '4bc346a259ed79cf8c6f223ac39bdf22', '小李', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (52, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (53, 'xiaogang', '4bc346a259ed79cf8c6f223ac39bdf22', '小刚', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (54, 'xiaolu', '4bc346a259ed79cf8c6f223ac39bdf22', '小陆', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (55, 'xiaoming', '4bc346a259ed79cf8c6f223ac39bdf22', '小明', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (56, 'xiaoqian', '4bc346a259ed79cf8c6f223ac39bdf22', '小钱', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (57, 'xiaozhao', '4bc346a259ed79cf8c6f223ac39bdf22', '小赵', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (58, 'xiaowang', '4bc346a259ed79cf8c6f223ac39bdf22', '小王', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (59, 'xiaozhang', '4bc346a259ed79cf8c6f223ac39bdf22', '小张', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (61, 'xiaochen', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 4);
-INSERT INTO `users` VALUES (62, 'xiaoyang', '4bc346a259ed79cf8c6f223ac39bdf22', '小杨', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 4);
-INSERT INTO `users` VALUES (63, 'xiaohuang', '4bc346a259ed79cf8c6f223ac39bdf22', '小黄', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 4);
-INSERT INTO `users` VALUES (64, 'xiaosun', '4bc346a259ed79cf8c6f223ac39bdf22', '小孙', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 4);
-INSERT INTO `users` VALUES (65, 'xiaozhou', '4bc346a259ed79cf8c6f223ac39bdf22', '小周', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 4);
-INSERT INTO `users` VALUES (66, 'xiaowu', '4bc346a259ed79cf8c6f223ac39bdf22', '小吴', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 5);
-INSERT INTO `users` VALUES (67, 'xiaoxu', '4bc346a259ed79cf8c6f223ac39bdf22', '小徐', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 5);
-INSERT INTO `users` VALUES (68, 'xiaozhao', '4bc346a259ed79cf8c6f223ac39bdf22', '小赵', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 5);
-INSERT INTO `users` VALUES (70, 'xiaozheng', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-14 00:00:00', '2', NULL, 5);
-INSERT INTO `users` VALUES (71, 'abc22', 'a3bd88eae6c7aad2f85433501ff3bbfe', '按不出', '男', '2023-05-02', '天津/气象局/研发部', '研发部', '气象学', '硕士', '18876765676', NULL, '2023-05-25 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (116, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (117, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (118, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (119, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (120, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (121, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (122, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (123, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (124, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (125, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (126, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (127, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (128, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (129, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (130, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (131, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (132, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (133, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (134, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (135, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-29 00:00:00', '2', NULL, 3);
-INSERT INTO `users` VALUES (136, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-30 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (137, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-30 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (138, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-30 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (139, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-30 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (141, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-05-30 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (146, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (147, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (148, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (149, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (152, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (153, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (154, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (155, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 1);
-INSERT INTO `users` VALUES (168, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (169, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (170, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (171, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (172, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (173, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (174, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (175, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (176, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
-INSERT INTO `users` VALUES (177, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2023-06-01 00:00:00', '2', NULL, 2);
+INSERT INTO `users` VALUES (1, 'admin', 'b084fbd93e31cd32436e791be42072df', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 'http://localhost:8081/img.jpg', NULL, '2021-11-03 00:00:00');
+INSERT INTO `users` VALUES (2, 'teacher1', 'b084fbd93e31cd32436e791be42072df', '热日日', '女', '1991-06-18', NULL, NULL, NULL, NULL, '17312228383', 'demo1@163.com', '1', 'http://localhost:8081/img.jpg', NULL, '2021-11-03 00:00:00');
+INSERT INTO `users` VALUES (3, 'student12', 'b084fbd93e31cd32436e791be42072df', '学生1', '男', '2003-02-06', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312222222', 'demo1@163.com', '2', 'http://localhost:8081/28812c7c-2604-4957-9cd0-f8ee4eaf4fbc.jpg', NULL, '2021-11-04 00:00:00');
+INSERT INTO `users` VALUES (4, 'teacher2', 'b084fbd93e31cd32436e791be42072df', '教师2', '男', '2000-06-29', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312260306', 'xueleijia@163.com', '1', 'http://localhost:8081/img.jpg', NULL, '2022-02-22 00:00:00');
+INSERT INTO `users` VALUES (5, 'teacher3', 'b084fbd93e31cd32436e791be42072df', '教师3', '男', NULL, NULL, NULL, NULL, NULL, '17327190317', 'aaa@123.com', '1', 'http://localhost:8081/img.jpg', NULL, '2022-04-03 00:00:00');
+INSERT INTO `users` VALUES (6, 'student2', 'b084fbd93e31cd32436e791be42072df', '李四44', '男', '1989-06-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '17312260409', 'asaa@sina.com', '2', 'http://localhost:8081/img.jpg', NULL, '2022-04-04 00:00:00');
+INSERT INTO `users` VALUES (50, 'luw', 'f15525b5d704eddb71167246b6bef6cf', '芦苇', '男', '2010-01-01', '北京/气象局/', '研发', '气象学', '硕士', '18876543456', NULL, '2', NULL, 1, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (51, 'xiaoli', '4bc346a259ed79cf8c6f223ac39bdf22', '小李', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (52, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (53, 'xiaogang', '4bc346a259ed79cf8c6f223ac39bdf22', '小刚', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (54, 'xiaolu', '4bc346a259ed79cf8c6f223ac39bdf22', '小陆', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (55, 'xiaoming', '4bc346a259ed79cf8c6f223ac39bdf22', '小明', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (56, 'xiaoqian', '4bc346a259ed79cf8c6f223ac39bdf22', '小钱', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (57, 'xiaozhao', '4bc346a259ed79cf8c6f223ac39bdf22', '小赵', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (58, 'xiaowang', '4bc346a259ed79cf8c6f223ac39bdf22', '小王', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (59, 'xiaozhang', '4bc346a259ed79cf8c6f223ac39bdf22', '小张', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (61, 'xiaochen', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 4, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (62, 'xiaoyang', '4bc346a259ed79cf8c6f223ac39bdf22', '小杨', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 4, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (63, 'xiaohuang', '4bc346a259ed79cf8c6f223ac39bdf22', '小黄', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 4, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (64, 'xiaosun', '4bc346a259ed79cf8c6f223ac39bdf22', '小孙', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 4, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (65, 'xiaozhou', '4bc346a259ed79cf8c6f223ac39bdf22', '小周', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 4, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (66, 'xiaowu', '4bc346a259ed79cf8c6f223ac39bdf22', '小吴', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 5, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (67, 'xiaoxu', '4bc346a259ed79cf8c6f223ac39bdf22', '小徐', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 5, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (68, 'xiaozhao', '4bc346a259ed79cf8c6f223ac39bdf22', '小赵', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 5, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (70, 'xiaozheng', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '男', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 5, '2023-05-14 00:00:00');
+INSERT INTO `users` VALUES (71, 'abc22', 'a3bd88eae6c7aad2f85433501ff3bbfe', '按不出', '男', '2023-05-02', '天津/气象局/研发部', '研发部', '气象学', '硕士', '18876765676', NULL, '2', NULL, 1, '2023-05-25 00:00:00');
+INSERT INTO `users` VALUES (116, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (117, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (118, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (119, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (120, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (121, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (122, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (123, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (124, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (125, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (126, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (127, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (128, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (129, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (130, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (131, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (132, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (133, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (134, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (135, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 3, '2023-05-29 00:00:00');
+INSERT INTO `users` VALUES (136, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-30 00:00:00');
+INSERT INTO `users` VALUES (137, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-30 00:00:00');
+INSERT INTO `users` VALUES (138, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-30 00:00:00');
+INSERT INTO `users` VALUES (139, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-30 00:00:00');
+INSERT INTO `users` VALUES (141, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-05-30 00:00:00');
+INSERT INTO `users` VALUES (146, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (147, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (148, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (149, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (152, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (153, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (154, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (155, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-05-05', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 1, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (168, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (169, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (170, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (171, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (172, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (173, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (174, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (175, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (176, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
+INSERT INTO `users` VALUES (177, 'xiaohong', '4bc346a259ed79cf8c6f223ac39bdf22', '小红', '女', '2023-06-01', '北京/气象谷', '打杂滴', '计算机科学', '硕士', '18865437393', NULL, '2', NULL, 2, '2023-06-01 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;

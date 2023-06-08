@@ -2,8 +2,10 @@ package edu.nuist.service;
 
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.Result;
-import edu.nuist.entity.Tool;
-import edu.nuist.vo.*;
+import edu.nuist.vo.AddChapterInEdit;
+import edu.nuist.vo.AddSonChapterInEdit;
+import edu.nuist.vo.LessonSubmit;
+import edu.nuist.vo.SonChapterAndUrl;
 
 import java.util.List;
 
@@ -21,12 +23,6 @@ public interface BackLessonService {
 
     List<Lesson> findLessonsByName(String lesson_name);
 
-    List<Tool> getAllTools();
-
-    List<Tool> getAllToolsByName(String tool_name);
-
-    Result addTool(Tool tool);
-
     Result updateLessonInfo(LessonSubmit lessonSubmit);
 
     Result AddChapterInEditPart(AddChapterInEdit addChapterInEdit);
@@ -40,8 +36,6 @@ public interface BackLessonService {
     Result editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
     List<Lesson> getAllLessonsByTag(String tagName);
-
-    Result getAllOptionList();
 
     Result addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 

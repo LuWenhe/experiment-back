@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/clazz")
+@RequestMapping("/backClazz")
 public class BackClazzController {
 
     @Resource

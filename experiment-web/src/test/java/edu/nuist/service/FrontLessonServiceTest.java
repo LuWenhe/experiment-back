@@ -1,7 +1,6 @@
 package edu.nuist.service;
 
 import com.alibaba.excel.EasyExcel;
-import edu.nuist.entity.Result;
 import edu.nuist.entity.UserExcel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,6 @@ public class FrontLessonServiceTest {
 
     @Autowired
     private FrontLessonService frontLessonService;
-
-    @Test
-    public void testGetGuideBook() {
-        Result guideBook = frontLessonService.getGuideBook(52);
-        System.out.println(guideBook);
-    }
 
     private List<UserExcel> getUserList() {
         List<UserExcel> list = new ArrayList<>();

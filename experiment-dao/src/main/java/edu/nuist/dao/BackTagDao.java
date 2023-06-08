@@ -50,8 +50,8 @@ public interface BackTagDao {
     @Select("select *  from lesson where lessonId = #{param1}")
     Lesson getLessonByLessonId(int lessonId);
 
-    @Select("select tag_id,tagName from tag")
-    List<Tag> getAllTags();
+    @Select("select tag_id, tagName from tag")
+    List<Tag> getTags();
 
     @Insert("insert into tag(tagName) values (#{tagName}) ")
     void addTag(Tag tag);

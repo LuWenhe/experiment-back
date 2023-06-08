@@ -15,8 +15,8 @@ public class BackTagServiceImpl implements BackTagService {
     private BackTagDao backTagDao;
 
     @Override
-    public List<Tag> getAllTags() {
-        return backTagDao.getAllTags();
+    public List<Tag> getTags() {
+        return backTagDao.getTags();
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/banner")
+@RequestMapping("/backBanner")
 public class BackBannerController {
 
     @Resource

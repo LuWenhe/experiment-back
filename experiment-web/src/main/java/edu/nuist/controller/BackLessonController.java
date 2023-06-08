@@ -5,11 +5,11 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import edu.nuist.entity.*;
+import edu.nuist.entity.Lesson;
+import edu.nuist.entity.Result;
+import edu.nuist.entity.UserExcel;
 import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackLessonService;
-import edu.nuist.service.BackTagService;
-import edu.nuist.service.ToolService;
 import edu.nuist.service.UserService;
 import edu.nuist.vo.*;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/lesson")
+@RequestMapping("/backLesson")
 public class BackLessonController {
 
     @Resource
@@ -35,12 +35,6 @@ public class BackLessonController {
 
     @Resource
     private BackLessonService backLessonService;
-
-    @Resource
-    private BackTagService backTagService;
-
-    @Resource
-    private ToolService toolService;
 
     @Value("${avatar.image}")
     private String image;
@@ -322,75 +316,6 @@ public class BackLessonController {
         return result;
     }
 
-    @GetMapping("/loadTagList")
-    public Result loadTagList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
-        PageHelper.startPage(currentPage, pageSize);
-
-        try {
-            List<Tag> tagList = backTagService.getAllTags();
-            PageInfo<Tag> pageInfo = new PageInfo<>(tagList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
-
-    @PostMapping("/addTag")
-    public Result addTag(@RequestBody Tag tag) {
-        Result result = new Result();
-
-        try {
-            backTagService.addTag(tag);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
-
-    @PostMapping("/editTag")
-    public Result editTag(@RequestBody Tag tag) {
-        Result result = new Result();
-
-        try {
-            backTagService.editTag(tag);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
-
-    @GetMapping("/delTag")
-    public Result delTag(Integer tagId) {
-        Result result = new Result();
-
-        try {
-            backTagService.delTagByTagId(tagId);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
-
-    @GetMapping("/getOptionList")
-    public Result getOptionList() {
-        return backLessonService.getAllOptionList();
-    }
-
     @PostMapping("/addSonChapterBook")
     public Result addSonChapterBook(@RequestBody SonChapterAndUrl sonChapterAndUrl) {
         return backLessonService.addSonChapterBook(sonChapterAndUrl);
@@ -404,66 +329,6 @@ public class BackLessonController {
     @GetMapping("/getEditSonChapterInfo")
     public Result getEditSonChapterInfo(Integer sonId) {
         return backLessonService.getEditSonChapterInfo(sonId);
-    }
-
-    @GetMapping("/getAllTools")
-    public Result getAllTools(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
-        PageHelper.startPage(currentPage, pageSize);
-
-        try {
-            List<Tool> toolsList = backLessonService.getAllTools();
-            PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    @GetMapping("/findToolByName")
-    public Result findToolByName(@RequestParam("toolName") String toolName,
-                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
-        PageHelper.startPage(currentPage, pageSize);
-        List<Tool> toolsList;
-
-        try {
-            toolsList = backLessonService.getAllToolsByName(toolName);
-            PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    @PostMapping("/addTool")
-    public Result addTool(@RequestBody Tool tool) {
-        return backLessonService.addTool(tool);
-    }
-
-    @PostMapping("/deleteTools")
-    public Result deleteTools(@RequestBody List<Integer> toolIds) {
-        Result result = new Result();
-
-        try {
-            toolService.deleteToolsByToolIds(toolIds);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
     }
 
 }

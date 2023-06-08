@@ -5,7 +5,6 @@ import edu.nuist.entity.Result;
 import edu.nuist.entity.SonChapter;
 import edu.nuist.entity.Tool;
 import edu.nuist.service.FrontLessonService;
-import edu.nuist.service.ToolService;
 import edu.nuist.vo.ActiveNameVO;
 import edu.nuist.vo.SonUserExp;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +15,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/front")
+@RequestMapping("/frontLesson")
 public class FrontLessonController {
 
     @Resource
     private FrontLessonService frontLessonService;
-
-    @Resource
-    private ToolService toolService;
 
     @PostMapping(value = "/getLessonByName")
     public List<Lesson> getLessonByName(@RequestBody ActiveNameVO activeName) {
@@ -132,22 +128,6 @@ public class FrontLessonController {
         try {
             allTools = frontLessonService.getAllTools();
             result.setData(allTools);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
-
-    @GetMapping("/loadToolListByName")
-    public Result loadToolListByName(@RequestParam("searchName") String name) {
-        Result result = new Result();
-
-        try {
-            List<Tool> tools = toolService.getTools(name);
-            result.setData(tools);
             result.setCode("200");
         } catch (Exception e) {
             e.printStackTrace();

@@ -25,8 +25,13 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<Tool> getTools(String name) {
-        return toolDao.getToolsByName(name);
+    public List<Tool> getAllTools() {
+        return toolDao.getAllTools();
+    }
+
+    @Override
+    public void addTool(Tool tool) {
+        toolDao.addTool(tool);
     }
 
 }

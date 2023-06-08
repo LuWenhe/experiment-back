@@ -1,6 +1,8 @@
 package edu.nuist.service;
 
+import edu.nuist.dto.MenuDto;
 import edu.nuist.entity.Permission;
+import edu.nuist.util.TreeUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,9 +30,9 @@ public class SysPermissionServiceTest {
         List<Permission> permissions = sysPermissionService.getPermissionsByRoleId(2);
         List<String> urls = new ArrayList<>();
 
-        // [/userBack, /back, /clazz, /banner]
+        // [/backUser, /back, /clazz, /banner]
         for (Permission permission : permissions) {
-            urls.add(permission.getUrl());
+            urls.add(permission.getRouterUrl());
         }
 
         String requestUrl = "/clazz/getClazzList";
@@ -41,6 +43,13 @@ public class SysPermissionServiceTest {
         } else {
             System.out.println("not contains");
         }
+    }
+
+    @Test
+    void testPermissionsMenu() {
+        List<MenuDto> menuDtoList = sysPermissionService.getMenuByUserId(3);
+        MenuDto menuDto = TreeUtils.getMenuTrees(menuDtoList);
+        System.out.println(menuDto);
     }
 
 }

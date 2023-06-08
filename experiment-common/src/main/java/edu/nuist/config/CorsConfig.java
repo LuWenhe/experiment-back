@@ -32,7 +32,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JWTInterceptor())
                 // 拦截的地址, 需要进入拦截器类
-                .addPathPatterns("/back/**", "/backSysAdmin/**", "/userBack/**")
+                .addPathPatterns("/back/**", "/backSysAdmin/**", "/backUser/**")
                 // 放行的地址
                 .excludePathPatterns("/user/login");
     }

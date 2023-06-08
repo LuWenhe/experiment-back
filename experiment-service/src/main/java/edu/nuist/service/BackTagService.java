@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BackTagService {
 
-    List<Tag> getAllTags();
+    List<Tag> getTags();
 
     void addTag(Tag tag);
 

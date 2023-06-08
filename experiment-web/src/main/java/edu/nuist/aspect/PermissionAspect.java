@@ -44,12 +44,15 @@ public class PermissionAspect {
         List<String> urlList = new ArrayList<>();
 
         for (Permission permission : permissions) {
-            urlList.add(permission.getUrl());
+            urlList.add(permission.getRequestUrl());
         }
 
         // 获取请求的Url
         String requestURI = request.getRequestURI();
         String subRequestURI = requestURI.substring(0, requestURI.lastIndexOf("/"));
+
+        log.info("urList: {}", urlList);
+        log.info("subRequestURI: {}", subRequestURI);
 
         Result result = new Result();
 

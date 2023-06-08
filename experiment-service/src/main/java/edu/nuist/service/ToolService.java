@@ -10,6 +10,8 @@ public interface ToolService {
 
     List<Tool> getToolsByName(String name);
 
-    List<Tool> getTools(String name);
+    List<Tool> getAllTools();
+
+    void addTool(Tool tool);
 
 }

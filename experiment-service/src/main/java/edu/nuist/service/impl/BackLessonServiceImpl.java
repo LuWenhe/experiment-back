@@ -20,7 +20,7 @@ public class BackLessonServiceImpl implements BackLessonService {
     private BackLessonDao backLessonDao;
 
     @Resource
-    private BackTagDao backTagsDao;
+    private BackTagDao backTagDao;
 
     @Override
     public List<Lesson> getAllLessons() {
@@ -40,11 +40,11 @@ public class BackLessonServiceImpl implements BackLessonService {
             String[] tags = lessonSubmit.getTags();
 
             for (String tag : tags) {
-                int tagId = backTagsDao.getTagId(tag);
+                int tagId = backTagDao.getTagId(tag);
                 TagAndLesson tagAndLesson = new TagAndLesson();
                 tagAndLesson.setLessonId(lessonSubmit.getLessonId());
                 tagAndLesson.setTag_id(tagId);
-                backTagsDao.addTagAndLesson(tagAndLesson);
+                backTagDao.addTagAndLesson(tagAndLesson);
             }
 
             result.setCode("200");
@@ -64,7 +64,7 @@ public class BackLessonServiceImpl implements BackLessonService {
 
         try {
             LessonSubmit lessonDetailByLessonId = backLessonDao.getLessonDetailByLessonId(lessonId);
-            List<TagAndLesson> lessonsTagByLessonId = backTagsDao.getLessonsTagByLessonId(lessonId);
+            List<TagAndLesson> lessonsTagByLessonId = backTagDao.getLessonsTagByLessonId(lessonId);
             String[] tags = new String[lessonsTagByLessonId.size()];
 
             for (int i = 0; i < lessonsTagByLessonId.size(); i++) {
@@ -121,32 +121,6 @@ public class BackLessonServiceImpl implements BackLessonService {
         return backLessonDao.findLessonsByName(lesson_name);
     }
 
-    @Override
-    public List<Tool> getAllTools() {
-        return backLessonDao.getAllTools();
-    }
-
-    @Override
-    public List<Tool> getAllToolsByName(String tool_name) {
-        return backLessonDao.getAllToolsByName(tool_name);
-    }
-
-    @Override
-    @Transactional
-    public Result addTool(Tool tool) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.addTool(tool);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
-    }
 
     @Override
     @Transactional
@@ -154,15 +128,15 @@ public class BackLessonServiceImpl implements BackLessonService {
         Result result = new Result();
 
         try {
-            backTagsDao.delLessonAndTag(lessonSubmit.getLessonId());
+            backTagDao.delLessonAndTag(lessonSubmit.getLessonId());
             String[] tags = lessonSubmit.getTags();
 
             for (String tag : tags) {
-                int tagId = backTagsDao.getTagId(tag);
+                int tagId = backTagDao.getTagId(tag);
                 TagAndLesson tagAndLesson = new TagAndLesson();
                 tagAndLesson.setLessonId(lessonSubmit.getLessonId());
                 tagAndLesson.setTag_id(tagId);
-                backTagsDao.addTagAndLesson(tagAndLesson);
+                backTagDao.addTagAndLesson(tagAndLesson);
             }
 
             backLessonDao.updateLessonInfo(lessonSubmit);
@@ -267,8 +241,8 @@ public class BackLessonServiceImpl implements BackLessonService {
 
     @Override
     public List<Lesson> getAllLessonsByTag(String tagName) {
-        int tag_id = backTagsDao.getTagIDByTagName(tagName);
-        List<TagLesson> tagLessonList = backTagsDao.getTagLessons(tag_id);
+        int tag_id = backTagDao.getTagIDByTagName(tagName);
+        List<TagLesson> tagLessonList = backTagDao.getTagLessons(tag_id);
         List<Lesson> lessonList = new ArrayList<>();
 
         for (TagLesson tagLesson : tagLessonList) {
@@ -277,28 +251,6 @@ public class BackLessonServiceImpl implements BackLessonService {
         }
 
         return lessonList;
-    }
-
-    @Override
-    public Result getAllOptionList() {
-        Result result = new Result();
-
-        try {
-            List<OptionList> optionListList = new ArrayList<>();
-            List<Tag> tagList = backTagsDao.getAllTags();
-
-            for (Tag tag : tagList) {
-                optionListList.add(new OptionList(tag.getTagName(),tag.getTagName()));
-            }
-
-            result.setCode("200");
-            result.setData(optionListList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
     }
 
     @Override
