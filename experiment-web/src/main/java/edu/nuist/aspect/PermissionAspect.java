@@ -1,21 +1,23 @@
 package edu.nuist.aspect;
 
-import edu.nuist.entity.Permission;
+import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Result;
+import edu.nuist.enums.StatusEnum;
 import edu.nuist.service.SysPermissionService;
 import edu.nuist.util.JWTUtils;
+import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -29,23 +31,29 @@ public class PermissionAspect {
     private SysPermissionService sysPermissionService;
 
     // 定义切点
-    @Pointcut("@annotation(edu.nuist.annotation.PermissionAnnotation)")
+    @Pointcut("@annotation(edu.nuist.annotation.PermissionAnnotation) " +
+            "|| @within(edu.nuist.annotation.PermissionAnnotation)")
     public void declarePointCut() {}
 
     // 环绕通知
     @Around("declarePointCut()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         String token = request.getHeader("token");
-        UserAndRoleVo userAndRoleVo = JWTUtils.getUserAndRoleFromToken(token);
-        Integer roleId = userAndRoleVo.getRoleId();
+        Result result = new Result();
 
-        // 拿到用户所属角色拥有的权限
-        List<Permission> permissions = sysPermissionService.getPermissionsByRoleId(roleId);
-        List<String> urlList = new ArrayList<>();
-
-        for (Permission permission : permissions) {
-            urlList.add(permission.getRequestUrl());
+        // 如果token为空
+        if (StringUtils.isBlank(token)) {
+            result.setCode("500");
+            result.setMsg("token为空");
+            return result;
         }
+
+        UserAndRoleVo userAndRoleVo = JWTUtils.getUserAndRoleFromToken(token);
+        Integer userId = userAndRoleVo.getUserId();
+        String username = userAndRoleVo.getUsername();
+
+        UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
+        Set<String> urlList = userPermissionDto.getRequestUrlList();
 
         // 获取请求的Url
         String requestURI = request.getRequestURI();
@@ -54,13 +62,10 @@ public class PermissionAspect {
         log.info("urList: {}", urlList);
         log.info("subRequestURI: {}", subRequestURI);
 
-        Result result = new Result();
-
-        // 如果改角色拥有的权限地址不包含请求的接口, 则不执行接下来的代码
+        // 如果用户拥有的权限地址不包含请求的接口, 则不执行接下来的代码
         if (!urlList.contains(subRequestURI)) {
-            result.setCode("500");
-            result.setMsg("用户权限不足");
-            return result;
+            log.info("用户{}接口权限不足", username);
+            return BasicResultVO.fail(StatusEnum.ERROR_401,"用户权限不足");
         }
 
         // 使方法继续执行

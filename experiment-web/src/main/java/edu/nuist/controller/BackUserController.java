@@ -15,8 +15,6 @@ import edu.nuist.util.EncryptUtil;
 import edu.nuist.vo.PageRequest;
 import edu.nuist.vo.RealNameVo;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/backUser")
+
 public class BackUserController {
 
     @Resource
@@ -72,6 +71,7 @@ public class BackUserController {
     }
 
     @PostMapping(value = "/addTeacher")
+
     public Result addTeacher(@RequestBody User addTeacher) {
         Result result = new Result();
 
@@ -88,6 +88,7 @@ public class BackUserController {
     }
 
     @PostMapping(value = "/editTeacher")
+
     public Result editTeacher(@RequestBody User user) {
         Result result = new Result();
 
@@ -116,6 +117,7 @@ public class BackUserController {
     }
 
     @PostMapping("/addStudent")
+
     public Result addStudent(@RequestBody Student student) {
         Result result = new Result();
 
@@ -132,6 +134,7 @@ public class BackUserController {
     }
 
     @PostMapping("/addStudents")
+
     public Result addStudents(@RequestBody List<Student> students) {
         Result result = new Result();
 
@@ -147,6 +150,7 @@ public class BackUserController {
     }
 
     @PostMapping("/editStudent")
+
     public Result editStudentInfo(@RequestBody Student student) {
         Result result = new Result();
 
@@ -162,6 +166,7 @@ public class BackUserController {
     }
 
     @PostMapping("/deleteUsersByIds")
+
     public Result deleteUsers(@RequestBody List<Integer> studentIds) {
         Result result = new Result();
 
@@ -177,6 +182,7 @@ public class BackUserController {
     }
 
     @GetMapping("/deleteStudentsAndClazzByClazzId")
+
     public Result deleteStudentsByClazzId(Integer clazzId) {
         Result result = new Result();
 
@@ -221,28 +227,6 @@ public class BackUserController {
             if (excelReader != null) {
                 excelReader.finish();
             }
-        }
-
-        return result;
-    }
-
-    @PostMapping(value = "/deleteTeachers")
-    public Result deleteUser(@RequestBody String deleteRow) throws JSONException {
-        Result result = new Result();
-        JSONObject jsonTest = new JSONObject(deleteRow);
-
-        try {
-            List<User> userList = com.alibaba.fastjson.JSONObject
-                    .parseArray(jsonTest.getString("deleteRow"), User.class);
-
-            for (User user : userList) {
-                backUserService.deleteUser(user);
-            }
-
-            result.setCode("200");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            result.setCode("500");
         }
 
         return result;

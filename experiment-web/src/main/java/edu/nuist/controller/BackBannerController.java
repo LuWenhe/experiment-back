@@ -2,6 +2,7 @@ package edu.nuist.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import edu.nuist.annotation.PermissionAnnotation;
 import edu.nuist.entity.Banner;
 import edu.nuist.entity.Result;
 import edu.nuist.service.BackBannerService;
@@ -14,6 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/backBanner")
+@PermissionAnnotation
 public class BackBannerController {
 
     @Resource

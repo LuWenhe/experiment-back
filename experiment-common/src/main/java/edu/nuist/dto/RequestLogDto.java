@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestLogDTO {
+public class RequestLogDto {
 
     // 请求ID（UUID）与 ResponseLogVo id 一致
     private String id;

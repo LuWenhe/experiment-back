@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum RoleEnum {
 
-    ADMIN_ROLE(0,"管理员"),
-    TEACHER_ROLE(1,"老师"),
-    STUDENT_ROLE(2, "学生");
+    ADMIN_ROLE(1,"管理员"),
+    TEACHER_ROLE(2,"老师"),
+    STUDENT_ROLE(3, "学生");
 
     private Integer code;
 

@@ -16,6 +16,23 @@ public interface BackLessonDao {
     @Select("SELECT * from lesson")
     List<Lesson> getAllLessons();
 
+    /**
+     * 根据教师id获取教师所教的所有课程
+     */
+    @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
+            "le.suitablePerson, le.canLearn, le.description, le.teacher_name, le.teacher_id " +
+            "FROM users s INNER JOIN lesson le ON s.user_id = le.teacher_id WHERE s.user_id = #{teacherId}")
+    List<Lesson> getLessonsByTeacherId(Integer teacherId);
+
+    /**
+     * 根据学生id获取学生所学的所有课程
+     */
+    @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
+            "le.suitablePerson, le.canLearn, le.description, le.teacher_name, le.teacher_id " +
+            "FROM users s INNER JOIN clazz c ON s.clazz_id = c.id " +
+            "INNER JOIN lesson le ON c.teacher_id = le.teacher_id WHERE s.user_id = #{userId}")
+    List<Lesson> getLessonsByUserId(Integer userId);
+
     @Options(useGeneratedKeys = true, keyProperty = "lessonId", keyColumn = "lessonId")
     @Insert("insert into lesson(lesson_name,pic_url,difficulty,learn_time,learn_credit," +
             "canLearn,description,teacher_name,suitablePerson) " +
@@ -49,8 +66,8 @@ public interface BackLessonDao {
     @Update("update son_chapter set exp_url = #{exp_url} where son_id = #{son_id}")
     void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
 
-    @Select("select lessonId,lesson_name,pic_url from lesson where lesson_name = #{param1}")
-    List<Lesson> findLessonsByName(String lesson_name);
+    @Select("select lessonId,lesson_name,pic_url from lesson where teacher_id = #{teacherId} lesson_name = #{lessonName} ")
+    List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
     @Update("update lesson set lesson_name = #{lesson_name},pic_url = #{pic_url},difficulty = #{difficulty}," +
             "learn_time = #{learn_time},learn_credit = #{learn_credit},canLearn = #{canLearn}," +

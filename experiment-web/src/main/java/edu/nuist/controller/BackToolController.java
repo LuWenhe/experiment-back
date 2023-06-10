@@ -2,6 +2,7 @@ package edu.nuist.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import edu.nuist.annotation.PermissionAnnotation;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.Tool;
 import edu.nuist.service.ToolService;
@@ -39,6 +40,7 @@ public class BackToolController {
     }
 
     @PostMapping("/deleteTools")
+    @PermissionAnnotation
     public Result deleteTools(@RequestBody List<Integer> toolIds) {
         Result result = new Result();
 
@@ -75,6 +77,7 @@ public class BackToolController {
     }
 
     @PostMapping("/addTool")
+    @PermissionAnnotation
     public Result addTool(@RequestBody Tool tool) {
         Result result = new Result();
 

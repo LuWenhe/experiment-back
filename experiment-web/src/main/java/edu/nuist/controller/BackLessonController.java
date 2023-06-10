@@ -5,6 +5,7 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import edu.nuist.annotation.PermissionAnnotation;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.UserExcel;
@@ -28,6 +29,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/backLesson")
+@PermissionAnnotation
 public class BackLessonController {
 
     @Resource
@@ -45,29 +47,38 @@ public class BackLessonController {
     @Value("${platform.address}")
     private String address;
 
-    @ApiOperation("管理页面返回所有课程")
-    @PostMapping("/getAllLessons")
-    public Result getAllLessons(@RequestBody PageRequest pageRequest) {
-        Result result = new Result();
+    @ApiOperation("根据id返回老师或学生的所有课程")
+    @PostMapping("/getLessonsByUserId")
+    public BasicResultVO<PageInfo<Lesson>> getLessonsByUserId(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Lesson> lessonList;
+        Integer userId = pageRequest.getUserId();
+        Integer roleId = pageRequest.getRoleId();
 
         try {
-            if (pageRequest.getTagActive().equals("全部")) {
-                lessonList = backLessonService.getAllLessons();
-            } else {
-                lessonList = backLessonService.getAllLessonsByTag(pageRequest.getTagActive());
-            }
-
-            PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageRequest.getPageSize());
-            result.setData(pageInfo);
-            result.setCode("200");
+            List<Lesson> lessons = backLessonService.getLessonsByUserId(userId, roleId);
+            PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
+            return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
+    }
 
-        return result;
+    // Todo
+    @ApiOperation("根据标签名称获取课程")
+    @PostMapping("/getLessonsByTagName")
+    public BasicResultVO<PageInfo<Lesson>> getLessonsByTagName(@RequestBody PageRequest pageRequest) {
+        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
+        String tagName = pageRequest.getTagName();
+
+        try {
+            List<Lesson> lessons = backLessonService.getAllLessonsByTag(tagName);
+            PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
+            return BasicResultVO.success(pageInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @ApiOperation("管理页面添加课程图片")
@@ -106,12 +117,14 @@ public class BackLessonController {
 
     @ApiOperation("管理页面添加课程")
     @PostMapping("/addLesson")
+    @PermissionAnnotation("lesson:add")
     public Result addLesson(@RequestBody LessonSubmit lessonSubmit) {
         return backLessonService.addLesson(lessonSubmit);
     }
 
     @ApiOperation("管理界面修改课程信息")
     @PostMapping("/updateLessonInfo")
+    @PermissionAnnotation("lesson:update")
     public Result updateLessonInfo(@RequestBody LessonSubmit lessonSubmit) {
         return backLessonService.updateLessonInfo(lessonSubmit);
     }
@@ -151,24 +164,20 @@ public class BackLessonController {
     }
 
     @ApiOperation("按名称检索课程")
-    @GetMapping("/findLessonsByName")
-    public Result findLessonsByName(@RequestParam("lessonName") String lessonName,
-                                    @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
-        PageHelper.startPage(currentPage, pageSize);
+    @PostMapping("/findLessonsByName")
+    public BasicResultVO<PageInfo<Lesson>> findLessonsByName(@RequestBody PageRequest pageRequest) {
+        PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
+        Integer userId = pageRequest.getUserId();
+        String lessonName = pageRequest.getLessonName();
 
         try {
-            List<Lesson> lessonList = backLessonService.findLessonsByName(lessonName);
-            PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
+            List<Lesson> lessonList = backLessonService.findLessonsByName(userId, lessonName);
+            PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageRequest.getPageSize());
+            return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @PostMapping("/addChapterInEdit")

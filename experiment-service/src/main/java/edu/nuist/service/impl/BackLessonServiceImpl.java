@@ -3,6 +3,7 @@ package edu.nuist.service.impl;
 import edu.nuist.dao.BackLessonDao;
 import edu.nuist.dao.BackTagDao;
 import edu.nuist.entity.*;
+import edu.nuist.enums.RoleEnum;
 import edu.nuist.service.BackLessonService;
 import edu.nuist.vo.*;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,19 @@ public class BackLessonServiceImpl implements BackLessonService {
     @Override
     public List<Lesson> getAllLessons() {
         return backLessonDao.getAllLessons();
+    }
+
+    @Override
+    public List<Lesson> getLessonsByUserId(Integer userId, Integer roleId) {
+        List<Lesson> lessons = null;
+
+        if (roleId.equals(RoleEnum.STUDENT_ROLE.getCode())) {
+            lessons = backLessonDao.getLessonsByUserId(userId);
+        } else if (roleId.equals(RoleEnum.TEACHER_ROLE.getCode())) {
+            lessons = backLessonDao.getLessonsByTeacherId(userId);
+        }
+
+        return lessons;
     }
 
     @Override
@@ -117,10 +131,9 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public List<Lesson> findLessonsByName(String lesson_name) {
-        return backLessonDao.findLessonsByName(lesson_name);
+    public List<Lesson> findLessonsByName(Integer teacherId, String lessonName) {
+        return backLessonDao.findLessonsByName(teacherId, lessonName);
     }
-
 
     @Override
     @Transactional
@@ -247,7 +260,6 @@ public class BackLessonServiceImpl implements BackLessonService {
 
         for (TagLesson tagLesson : tagLessonList) {
             lessonList.add(tagLesson.getLesson());
-
         }
 
         return lessonList;

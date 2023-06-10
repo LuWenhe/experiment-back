@@ -16,12 +16,12 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/backClazz")
+@PermissionAnnotation
 public class BackClazzController {
 
     @Resource
     private BackClazzService backClazzService;
 
-    @PermissionAnnotation
     @GetMapping("/getClazzList")
     public Result getClazzList(@RequestParam("teacherId") Integer teacherId,
                                @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,

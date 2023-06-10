@@ -32,7 +32,6 @@ public class User {
     private int uid;
     private SideMenu sideMenu;
     private SysToken sysToken;
-    private UserPermission userPermission;
 
     public User(String username, String role) {
         this.username = username;

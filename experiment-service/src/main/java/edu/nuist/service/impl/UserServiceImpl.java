@@ -5,7 +5,7 @@ import edu.nuist.entity.UserExcel;
 import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.GetCurrentDate;
-import edu.nuist.vo.UserAndRole;
+import edu.nuist.dto.UserAndRoleDto;
 import edu.nuist.vo.UserAndRoleVo;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserAndRole findUserAndRole(String username, String password) {
+    public UserAndRoleDto findUserAndRole(String username, String password) {
         return userDao.findUserAndRole(username, password);
     }
 
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserAndRole findUserAndRoleInFront(String username, String password) {
+    public UserAndRoleDto findUserAndRoleInFront(String username, String password) {
         return userDao.findUserAndRoleInFront(username, password);
     }
 

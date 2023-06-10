@@ -1,7 +1,7 @@
 package edu.nuist.dao;
 
 import edu.nuist.entity.UserExcel;
-import edu.nuist.vo.UserAndRole;
+import edu.nuist.dto.UserAndRoleDto;
 import edu.nuist.vo.UserAndRoleVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
@@ -15,7 +15,7 @@ public interface UserDao {
 
     @Select("select user_id, username, role, avatar_image from users " +
             "where username = #{param1} and password = #{param2} ")
-    UserAndRole findUserAndRole(String username, String password);
+    UserAndRoleDto findUserAndRole(String username, String password);
 
     /**
      * 根据用户名和密码获取用户和对应的角色
@@ -31,7 +31,7 @@ public interface UserDao {
     UserAndRoleVo getUserAndRole(String username, String password);
 
     @Select("select * from users where username = #{param1} and password = #{param2} and role = 2 ")
-    UserAndRole findUserAndRoleInFront(String username,String password);
+    UserAndRoleDto findUserAndRoleInFront(String username, String password);
 
     @Insert("insert into users (username,password,name,phone,email,created_time,role,avatar_image) " +
             "values (#{username},#{password},#{name},#{phone},#{email},#{created_time},1,#{avatar_image})")

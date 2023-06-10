@@ -1,11 +1,13 @@
 package edu.nuist.controller;
 
+import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Result;
 import edu.nuist.entity.User;
+import edu.nuist.service.SysPermissionService;
 import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.JWTUtils;
-import edu.nuist.vo.UserAndRole;
+import edu.nuist.dto.UserAndRoleDto;
 import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,21 +27,25 @@ public class LoginController {
     @Resource
     private UserService usersService;
 
+    @Resource
+    private SysPermissionService sysPermissionService;
+
     @RequestMapping("/login")
     @ResponseBody
     public Result login(@RequestBody User user) {
         Result result = new Result();
 
-        // 将传入的密码进行加密, 然后和数据库中加密后的密码进行比对
-        if (usersService.findUserByNameAndPassword(user.getUsername(),
-                new EncryptUtil().getEnpPassword(user.getPassword())) > 0) {
-            // 获得解密后的密码
-            String enpPassword = new EncryptUtil().getEnpPassword(user.getPassword());
-            UserAndRoleVo userAndRoleVo = usersService.getUserAndRole(user.getUsername(), enpPassword);
+        String username = user.getUsername();
+        // 获得解密后的密码
+        String enpPassword = new EncryptUtil().getEnpPassword(user.getPassword());
 
+        if (usersService.findUserByNameAndPassword(username, enpPassword) > 0) {
+            UserAndRoleVo userAndRoleVo = usersService.getUserAndRole(username, enpPassword);
             Map<String, String> payload = new HashMap<>();
 
-            payload.put("userId", String.valueOf(userAndRoleVo.getUserId()));
+            Integer userId = userAndRoleVo.getUserId();
+
+            payload.put("userId", String.valueOf(userId));
             payload.put("username", userAndRoleVo.getUsername());
             payload.put("roleId", String.valueOf(userAndRoleVo.getRoleId()));
             payload.put("roleName", userAndRoleVo.getRoleName());
@@ -47,9 +53,11 @@ public class LoginController {
             // 得到用户的token
             String token = JWTUtils.getToken(payload);
 
+            UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
+
             result.setMsg("登录成功");
             result.setCode("200");
-            result.setData(userAndRoleVo);
+            result.setData(userPermissionDto);
             result.setToken(token);
         } else {
             result.setCode("500");
@@ -69,9 +77,9 @@ public class LoginController {
         if (usersService.findUserByNameAndPassword(user.getUsername(),
                 new EncryptUtil().getEnpPassword(user.getPassword())) > 0) {
             // 获取用户的角色
-            UserAndRole userAndRole = usersService.findUserAndRoleInFront(user.getUsername(),
+            UserAndRoleDto userAndRoleDto = usersService.findUserAndRoleInFront(user.getUsername(),
                     new EncryptUtil().getEnpPassword(user.getPassword()));
-            log.info(userAndRole.toString());
+            log.info(userAndRoleDto.toString());
             Map<String, String> payload1 = new HashMap<>();
 
             payload1.put("username", user.getUsername());
@@ -79,7 +87,7 @@ public class LoginController {
             String token = JWTUtils.getToken(payload1);
             result.setMsg("登录成功");
             result.setCode("200");
-            result.setData(userAndRole);
+            result.setData(userAndRoleDto);
             result.setToken(token);
         } else {
             result.setCode("500");

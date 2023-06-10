@@ -1,14 +1,18 @@
 package edu.nuist.service;
 
 import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
 import edu.nuist.util.TreeUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootTest
 public class SysPermissionServiceTest {
@@ -17,12 +21,25 @@ public class SysPermissionServiceTest {
     private SysPermissionService sysPermissionService;
 
     @Test
+    void testGetUserPermissions() {
+        UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(3);
+        System.out.println(userPermissionDto);
+    }
+
+    @Test
     void testGetPermissionsByRoleId() {
         List<Permission> permissions = sysPermissionService.getPermissionsByRoleId(1);
+        Set<String> urlList = new HashSet<>();
 
         for (Permission permission : permissions) {
-            System.out.println(permission);
+            String requestUrl = permission.getRequestUrl();
+
+            if (!StringUtils.isBlank(requestUrl)) {
+                urlList.add(requestUrl);
+            }
         }
+
+        System.out.println(urlList);
     }
 
     @Test

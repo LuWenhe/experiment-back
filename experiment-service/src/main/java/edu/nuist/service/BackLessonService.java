@@ -13,6 +13,8 @@ public interface BackLessonService {
 
     List<Lesson> getAllLessons();
 
+    List<Lesson> getLessonsByUserId(Integer userId, Integer roleId);
+
     Result addLesson(LessonSubmit lessonSubmit);
 
     Result getLessonDetail(int lessonId);
@@ -21,7 +23,7 @@ public interface BackLessonService {
 
     Result addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
 
-    List<Lesson> findLessonsByName(String lesson_name);
+    List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
     Result updateLessonInfo(LessonSubmit lessonSubmit);
 

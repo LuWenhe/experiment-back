@@ -1,4 +1,4 @@
-package edu.nuist.vo;
+package edu.nuist.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAndRole {
+public class UserAndRoleDto {
 
     private int user_id;
     private String username;
