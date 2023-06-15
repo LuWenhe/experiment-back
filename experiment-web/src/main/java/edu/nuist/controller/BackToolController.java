@@ -3,9 +3,9 @@ package edu.nuist.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
-import edu.nuist.entity.Result;
 import edu.nuist.entity.Tool;
 import edu.nuist.service.ToolService;
+import edu.nuist.vo.BasicResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,91 +21,72 @@ public class BackToolController {
     private ToolService toolService;
 
     @GetMapping("/getAllTools")
-    public Result getAllTools(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
+    public BasicResultVO<PageInfo<Tool>> getAllTools(
+            @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         PageHelper.startPage(currentPage, pageSize);
 
         try {
             List<Tool> toolsList = toolService.getAllTools();
             PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
+            return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            result.setCode("500");
             e.printStackTrace();
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @PostMapping("/deleteTools")
     @PermissionAnnotation
-    public Result deleteTools(@RequestBody List<Integer> toolIds) {
-        Result result = new Result();
-
+    public BasicResultVO<Void> deleteTools(@RequestBody List<Integer> toolIds) {
         try {
             toolService.deleteToolsByToolIds(toolIds);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @GetMapping("/findToolByName")
-    public Result findToolByName(@RequestParam("toolName") String toolName,
-                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
+    public BasicResultVO<PageInfo<Tool>> findToolByName(
+            @RequestParam("toolName") String toolName,
+            @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         PageHelper.startPage(currentPage, pageSize);
         List<Tool> toolsList;
 
         try {
             toolsList = toolService.getToolsByName(toolName);
             PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
+            return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            result.setCode("500");
             e.printStackTrace();
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @PostMapping("/addTool")
     @PermissionAnnotation
-    public Result addTool(@RequestBody Tool tool) {
-        Result result = new Result();
-
+    public BasicResultVO<Void> addTool(@RequestBody Tool tool) {
         try {
             toolService.addTool(tool);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
-    @GetMapping("/loadToolListByName")
-    public Result loadToolListByName(@RequestParam("searchName") String name) {
-        Result result = new Result();
-
+    @GetMapping("/getToolsByName")
+    public BasicResultVO<List<Tool>> getToolsByName(@RequestParam("toolName") String toolName) {
         try {
-            List<Tool> tools = toolService.getToolsByName(name);
-            result.setData(tools);
-            result.setCode("200");
+            List<Tool> tools = toolService.getToolsByName(toolName);
+            return BasicResultVO.success(tools);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
 }

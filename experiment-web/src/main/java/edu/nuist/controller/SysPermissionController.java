@@ -3,7 +3,6 @@ package edu.nuist.controller;
 import edu.nuist.dto.MenuDto;
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
-import edu.nuist.entity.Result;
 import edu.nuist.service.SysPermissionService;
 import edu.nuist.util.TreeUtils;
 import edu.nuist.vo.BasicResultVO;
@@ -26,35 +25,15 @@ public class SysPermissionController {
     private SysPermissionService sysPermissionService;
 
     @GetMapping("/getPermissionsByRoleId")
-    public Result getPermissionsByRoleId(Integer roleId) {
-        Result result = new Result();
-
-        try {
-            List<Permission> permissions = sysPermissionService.getPermissionsByRoleId(roleId);
-            result.setData(permissions);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
+    public BasicResultVO<List<Permission>> getPermissionsByRoleId(Integer roleId) {
+        List<Permission> permissions = sysPermissionService.getPermissionsByRoleId(roleId);
+        return BasicResultVO.success(permissions);
     }
 
     @GetMapping("/getPermissionsByUserId")
-    public Result getPermissionsByUserId(Integer userId) {
-        Result result = new Result();
-
-        try {
-            List<Permission> permissions = sysPermissionService.getPermissionsByUserId(userId);
-            result.setData(permissions);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
+    public BasicResultVO<List<Permission>> getPermissionsByUserId(Integer userId) {
+        List<Permission> permissions = sysPermissionService.getPermissionsByUserId(userId);
+        return BasicResultVO.success(permissions);
     }
 
     @GetMapping("/getUserPermission")
@@ -64,6 +43,7 @@ public class SysPermissionController {
                     sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
             return BasicResultVO.success(userPermissionDto);
         } catch (Exception e) {
+            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
 import edu.nuist.entity.Clazz;
-import edu.nuist.entity.Result;
 import edu.nuist.entity.Student;
 import edu.nuist.service.BackClazzService;
+import edu.nuist.vo.BasicResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,88 +23,57 @@ public class BackClazzController {
     private BackClazzService backClazzService;
 
     @GetMapping("/getClazzList")
-    public Result getClazzList(@RequestParam("teacherId") Integer teacherId,
-                               @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Result result = new Result();
+    public BasicResultVO<PageInfo<Clazz>> getClazzList(
+                                      @RequestParam("teacherId") Integer teacherId,
+                                      @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                      @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-
-        try {
-            List<Clazz> clazzList = backClazzService.getClazzListByTeacherId(teacherId);
-            PageInfo<Clazz> pageInfo = new PageInfo<>(clazzList, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
+        List<Clazz> clazzList = backClazzService.getClazzListByTeacherId(teacherId);
+        PageInfo<Clazz> pageInfo = new PageInfo<>(clazzList, pageSize);
+        return BasicResultVO.success(pageInfo);
     }
 
     @GetMapping("/getStudents")
-    public Result getStudentsByClazzId(@RequestParam("clazzId") Integer clazzId,
+    public BasicResultVO<PageInfo<Student>> getStudentsByClazzId(@RequestParam("clazzId") Integer clazzId,
                                        @RequestParam("currentPage") Integer currentPage,
                                        @RequestParam("pageSize") Integer pageSize) {
-        Result result = new Result();
         PageHelper.startPage(currentPage, pageSize);
-
-        try {
-            List<Student> students = backClazzService.getStudentsByClazzId(clazzId);
-            PageInfo<Student> pageInfo = new PageInfo<>(students, pageSize);
-            result.setData(pageInfo);
-            result.setCode("200");
-        } catch (Exception e) {
-            result.setCode("500");
-            e.printStackTrace();
-        }
-
-        return result;
+        List<Student> students = backClazzService.getStudentsByClazzId(clazzId);
+        PageInfo<Student> pageInfo = new PageInfo<>(students, pageSize);
+        return BasicResultVO.success(pageInfo);
     }
 
     @PostMapping("/addClazz")
-    public Result addClazz(@RequestBody Clazz clazz) {
-        Result result = new Result();
-
+    public BasicResultVO<Void> addClazz(@RequestBody Clazz clazz) {
         try {
             backClazzService.addClazz(clazz);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @PostMapping("/updateClazz")
-    public Result editClazz(@RequestBody Clazz clazz) {
-        Result result = new Result();
-
+    public BasicResultVO<Void> editClazz(@RequestBody Clazz clazz) {
         try {
             backClazzService.updateClazz(clazz);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @GetMapping("/deleteClazz")
-    public Result deleteClazz(@RequestParam("clazzId") Integer clazzId) {
-        Result result = new Result();
-
+    public BasicResultVO<Void> deleteClazz(@RequestParam("clazzId") Integer clazzId) {
         try {
             backClazzService.deleteClazz(clazzId);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
 }

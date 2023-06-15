@@ -7,7 +7,7 @@ import edu.nuist.entity.Permission;
 import edu.nuist.entity.UserPermission;
 import edu.nuist.enums.RoleEnum;
 import edu.nuist.service.SysPermissionService;
-import org.junit.platform.commons.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

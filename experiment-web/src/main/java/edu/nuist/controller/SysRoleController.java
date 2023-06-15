@@ -1,8 +1,8 @@
 package edu.nuist.controller;
 
-import edu.nuist.entity.Result;
 import edu.nuist.entity.Role;
 import edu.nuist.service.SysRoleService;
+import edu.nuist.vo.BasicResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,19 +24,9 @@ public class SysRoleController {
 
     @ApiOperation("根据用户id获取用户角色")
     @PostMapping("/getRoles")
-    public Result getRolesByUserId(@RequestBody Integer userId) {
-        Result result = new Result();
-
-        try {
-            Role role = sysRoleService.getRoleByUserId(userId);
-            result.setData(role);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public BasicResultVO<Role> getRolesByUserId(@RequestBody Integer userId) {
+        Role role = sysRoleService.getRoleByUserId(userId);
+        return BasicResultVO.success(role);
     }
 
 }

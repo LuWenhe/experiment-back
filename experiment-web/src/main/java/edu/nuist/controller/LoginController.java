@@ -1,13 +1,13 @@
 package edu.nuist.controller;
 
+import edu.nuist.dto.UserAndRoleDto;
 import edu.nuist.dto.UserPermissionDto;
-import edu.nuist.entity.Result;
 import edu.nuist.entity.User;
 import edu.nuist.service.SysPermissionService;
 import edu.nuist.service.UserService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.util.JWTUtils;
-import edu.nuist.dto.UserAndRoleDto;
+import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,9 +32,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public Result login(@RequestBody User user) {
-        Result result = new Result();
-
+    public BasicResultVO<UserPermissionDto> login(@RequestBody User user) {
         String username = user.getUsername();
         // 获得解密后的密码
         String enpPassword = new EncryptUtil().getEnpPassword(user.getPassword());
@@ -54,47 +52,30 @@ public class LoginController {
             String token = JWTUtils.getToken(payload);
 
             UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
-
-            result.setMsg("登录成功");
-            result.setCode("200");
-            result.setData(userPermissionDto);
-            result.setToken(token);
+            return BasicResultVO.success("登录成功", userPermissionDto, token);
         } else {
-            result.setCode("500");
-            result.setMsg("登录失败");
+            return BasicResultVO.fail("登录失败");
         }
-
-        return result;
     }
 
     @RequestMapping("/frontLogin")
     @ResponseBody
-    public Result frontLogin(@RequestBody User user) {
-        Result result = new Result();
-        System.out.println(user);
-
+    public BasicResultVO<UserAndRoleDto> frontLogin(@RequestBody User user) {
         // 将用户名和加密后的密码和数据库中加密的密码比对
         if (usersService.findUserByNameAndPassword(user.getUsername(),
                 new EncryptUtil().getEnpPassword(user.getPassword())) > 0) {
             // 获取用户的角色
             UserAndRoleDto userAndRoleDto = usersService.findUserAndRoleInFront(user.getUsername(),
                     new EncryptUtil().getEnpPassword(user.getPassword()));
-            log.info(userAndRoleDto.toString());
             Map<String, String> payload1 = new HashMap<>();
 
             payload1.put("username", user.getUsername());
             // 根据用户名拿到Token
             String token = JWTUtils.getToken(payload1);
-            result.setMsg("登录成功");
-            result.setCode("200");
-            result.setData(userAndRoleDto);
-            result.setToken(token);
+            return BasicResultVO.success("登录成功", userAndRoleDto, token);
         } else {
-            result.setCode("500");
-            result.setMsg("登录失败");
-            log.error("error login");
+            return BasicResultVO.fail("登录失败");
         }
-        return result;
     }
 
 }

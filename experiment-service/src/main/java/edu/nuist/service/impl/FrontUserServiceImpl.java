@@ -20,8 +20,8 @@ public class FrontUserServiceImpl implements FrontUserService {
     }
 
     @Override
-    public User getPersonInfo(int user_id) {
-        return frontUserDao.getPersonInfo(user_id);
+    public User getPersonInfo(int userId) {
+        return frontUserDao.getPersonInfo(userId);
     }
 
     @Override

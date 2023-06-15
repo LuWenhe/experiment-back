@@ -1,7 +1,8 @@
 package edu.nuist.service;
 
+import edu.nuist.entity.Chapter;
 import edu.nuist.entity.Lesson;
-import edu.nuist.entity.Result;
+import edu.nuist.entity.SonChapter;
 import edu.nuist.vo.AddChapterInEdit;
 import edu.nuist.vo.AddSonChapterInEdit;
 import edu.nuist.vo.LessonSubmit;
@@ -15,36 +16,36 @@ public interface BackLessonService {
 
     List<Lesson> getLessonsByUserId(Integer userId, Integer roleId);
 
-    Result addLesson(LessonSubmit lessonSubmit);
+    void addLesson(LessonSubmit lessonSubmit);
 
-    Result getLessonDetail(int lessonId);
+    LessonSubmit getLessonDetail(int lessonId);
 
-    Result getChaptersInfoByLessonId(int lesson_id);
+    List<Chapter> getChaptersInfoByLessonId(int lesson_id);
 
-    Result addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
+    void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
 
     List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
-    Result updateLessonInfo(LessonSubmit lessonSubmit);
+    void updateLessonInfo(LessonSubmit lessonSubmit);
 
-    Result AddChapterInEditPart(AddChapterInEdit addChapterInEdit);
+    List<Chapter> AddChapterInEditPart(AddChapterInEdit addChapterInEdit);
 
-    Result delChapterInEdit(Integer chapter_id);
+    void delChapterInEdit(Integer chapter_id);
 
-    Result delSonChapterInEdit(Integer son_id);
+    void delSonChapterInEdit(Integer son_id);
 
-    Result AddSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
+    void addSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
-    Result editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
+    void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
     List<Lesson> getAllLessonsByTag(String tagName);
 
-    Result addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
+    void addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 
-    Result deleteLessonById(Integer lessonId);
+    void deleteLessonById(Integer lessonId);
 
-    Result getEditSonChapterInfo(Integer sonId);
+    SonChapter getEditSonChapterInfo(Integer sonId);
 
-    Result getChapterByLessonId(Integer lessonId);
+    List<Chapter> getChapterByLessonId(Integer lessonId);
 
 }

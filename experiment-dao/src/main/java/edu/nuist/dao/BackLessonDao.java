@@ -35,9 +35,12 @@ public interface BackLessonDao {
 
     @Options(useGeneratedKeys = true, keyProperty = "lessonId", keyColumn = "lessonId")
     @Insert("insert into lesson(lesson_name,pic_url,difficulty,learn_time,learn_credit," +
-            "canLearn,description,teacher_name,suitablePerson) " +
+            "canLearn,description,teacher_name,suitablePerson,teacher_id) " +
             "values(#{lesson_name},#{pic_url},#{difficulty},#{learn_time},#{learn_credit}," +
-            "#{canLearn},#{description},#{teacher_name},#{suitablePerson})")
+            "#{canLearn},#{description},#{teacher_name},#{suitablePerson},#{teacherId})")
+    @Results({
+            @Result(column = "teacher_id", property = "teacherId")
+    })
     void addLesson(LessonSubmit lessonSubmit);
 
     @Select("SELECT * from lesson where lessonId = #{param1}")
@@ -56,7 +59,6 @@ public interface BackLessonDao {
             @Result(column = "exp_type", property = "exp_type"),
             @Result(column = "guide_book", property = "guide_book"),
             @Result(column = "lessonId", property = "lessonId")
-
     })
     List<Chapter> getChaptersByLessonId(int lesson_id);
 

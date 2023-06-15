@@ -3,8 +3,6 @@ package edu.nuist.dao;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.SonChapter;
 import edu.nuist.entity.Tool;
-import edu.nuist.vo.ActiveNameVO;
-import edu.nuist.vo.HistoryLesson;
 import edu.nuist.vo.SonUserExp;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -19,8 +17,8 @@ public interface FrontLessonDao {
     @Select("select * from lesson where lessonId = #{param1}")
     Lesson getLessonInfoByLessonId(int lessonId);
 
-    @Select("select * from lesson where lesson_name like  CONCAT('%',#{searchName},'%')")
-    List<Lesson> getLessonByName(ActiveNameVO activeNameVO);
+    @Select("select * from lesson where lesson_name like CONCAT('%',#{searchName},'%')")
+    List<Lesson> getLessonByName(String lessonName);
 
     @Select("select * from son_chapter where son_id = #{param1}")
     SonChapter getSonChapterBySonId(int son_id);
@@ -36,7 +34,7 @@ public interface FrontLessonDao {
     List<Tool> getAllTools();
 
     @Select("select distinct lessonId from son_user_exp where user_id = #{param1}")
-    List<HistoryLesson> getHistoryID(int user_id);
+    List<Integer> getLessonByUserId(int userId);
 
     @Select("select lessonId,lesson_name,pic_url,teacher_name from lesson where lessonId = #{param1} ")
     Lesson getLessonById(int lessonId);

@@ -1,27 +1,30 @@
 package edu.nuist.controller;
 
-import edu.nuist.entity.IDEInput;
-import edu.nuist.entity.Result;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import edu.nuist.vo.BasicResultVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.*;
 
+@Slf4j
 @RestController
+@RequestMapping("/IDE")
 public class IDEController {
 
-    @PostMapping("/IDE/OnlineIDESub")
-    public Result onlineIdepost(@RequestBody IDEInput ideInput)
+    @GetMapping("/OnlineIDESub")
+    public BasicResultVO<Object> onlineIDE(String codeInput)
             throws InterruptedException, ExecutionException {
-        Result result = new Result();
+        BasicResultVO<Object> res = null;
         int taskSize = 50;
         long startTime = new Date().getTime();
 
@@ -29,7 +32,7 @@ public class IDEController {
         List<Future> list = new ArrayList<>();
 
         for (int i = 0; i < taskSize; i++) {
-            Callable c = new MyCallable(ideInput.getCodeInput());
+            Callable c = new MyCallable(codeInput);
             Future f = pool.submit(c);
             list.add(f);
         }
@@ -41,23 +44,18 @@ public class IDEController {
         for (Future f : list) {
             // 从Future对象上获取任务的返回值，并输出到控制台
             if (f.get().toString().equals("error")) {
-                result.setCode("500");
+                res = BasicResultVO.fail();
             } else {
-                result.setCode("200");
-                result.setWasteTime(wasteTime);
-                result.setData(f.get().toString());
+                res = BasicResultVO.success(f.get().toString());
             }
         }
 
-        return result;
+        return res;
     }
 
 }
 
 class MyCallable implements Callable<Object> {
-
-    @Value("${platform.type}")
-    private String platformType;
 
     private final String codeInput;
 
@@ -67,18 +65,18 @@ class MyCallable implements Callable<Object> {
 
     @Override
     public Object call() throws Exception {
-        String pythonV = "python";
-        String[] codeString = codeInput.split("\n");
         String file_name = UUID.randomUUID().toString();
         File file;
         Process proc;
 
+        String platformType = "windows";
+
         if (platformType.equals("windows")) {
-            file = new File("D:\\data\\" + file_name + ".py");
+            file = new File("D:/data/" + file_name + ".py");
             boolean newFile = file.createNewFile();
 
             try {
-                proc = Runtime.getRuntime().exec("python " + "D:\\data\\" + file_name + ".py");
+                proc = Runtime.getRuntime().exec("python " + "D:/data/" + file_name + ".py");
                 BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                 String line;
                 String resultString = "";
@@ -117,4 +115,5 @@ class MyCallable implements Callable<Object> {
             }
         }
     }
+
 }

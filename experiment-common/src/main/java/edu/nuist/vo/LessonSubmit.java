@@ -25,6 +25,6 @@ public class LessonSubmit {
     private double learnTime;
     private double learnCredit;
     private Integer lessonId;
-
+    private Integer teacherId;
 
 }

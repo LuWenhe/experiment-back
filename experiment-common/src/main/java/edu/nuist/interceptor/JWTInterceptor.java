@@ -6,8 +6,6 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.nuist.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,34 +28,31 @@ public class JWTInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> hashMap = new HashMap<>();
         //获取请求头中令牌
         String token = request.getHeader("token");
 
         try {
-            //验证令牌
+            // 验证令牌
             JWTUtils.verify(token);
-            return true;//放行请求
+            // 放行请求
+            return true;
         } catch (SignatureVerificationException e) {
             log.error("无效签名!");
-            //e.printStackTrace();
-            map.put("msg","无效签名!");
+            hashMap.put("msg","无效签名!");
         } catch (TokenExpiredException e){
-            //e.printStackTrace();
             log.error("token过期");
-            map.put("msg","token过期!");
+            hashMap.put("msg","token过期!");
         } catch (AlgorithmMismatchException e){
-            // e.printStackTrace();
             log.error("token算法不一致");
-            map.put("msg","token算法不一致!");
+            hashMap.put("msg","token算法不一致!");
         } catch (Exception e){
-            // e.printStackTrace();
             log.error("token无效");
-            map.put("msg","token无效!!");
+            hashMap.put("msg","token无效!!");
         }
 
-        map.put("state", false);//设置状态
-        String json = new ObjectMapper().writeValueAsString(map);
+        hashMap.put("status", 500);
+        String json = new ObjectMapper().writeValueAsString(hashMap);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println("json: " + json);
 

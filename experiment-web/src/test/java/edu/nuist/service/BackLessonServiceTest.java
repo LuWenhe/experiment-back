@@ -1,7 +1,7 @@
 package edu.nuist.service;
 
 import edu.nuist.entity.Lesson;
-import edu.nuist.entity.Result;
+import edu.nuist.vo.LessonSubmit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +16,8 @@ class BackLessonServiceTest {
 
     @Test
     void getLessonDetail() {
-        Result lessonDetail = backLessonService.getLessonDetail(8);
-        System.out.println(lessonDetail);
+        LessonSubmit lessonSubmit = backLessonService.getLessonDetail(8);
+        System.out.println(lessonSubmit);
     }
 
     @Test

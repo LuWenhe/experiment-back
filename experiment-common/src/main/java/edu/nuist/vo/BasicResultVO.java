@@ -1,13 +1,11 @@
 package edu.nuist.vo;
 
 import edu.nuist.enums.StatusEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class BasicResultVO <T> {
 
     // 响应状态
@@ -19,13 +17,14 @@ public class BasicResultVO <T> {
     // 返回数据
     private T data;
 
-    public BasicResultVO(String status, String msg) {
-        this.status = status;
-        this.msg = msg;
-    }
+    private String token;
 
     public BasicResultVO(StatusEnum status) {
         this(status, null);
+    }
+
+    public BasicResultVO(StatusEnum status, String msg, String token) {
+        this(status, msg, null, token);
     }
 
     public BasicResultVO(StatusEnum status, T data) {
@@ -38,11 +37,26 @@ public class BasicResultVO <T> {
         this.data = data;
     }
 
+    public BasicResultVO(StatusEnum status, String msg, T data, String token) {
+        this.status = status.getCode();;
+        this.msg = msg;
+        this.data = data;
+        this.token = token;
+    }
+
     /**
      * 默认成功响应
      */
     public static BasicResultVO<Void> success() {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200);
+    }
+
+    public static <T> BasicResultVO<T> success(String msg, String token) {
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, token);
+    }
+
+    public static <T> BasicResultVO<T> success(String msg, T data, String token) {
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, data, token);
     }
 
     /**
@@ -57,6 +71,10 @@ public class BasicResultVO <T> {
      * 带数据的成功响应
      */
     public static <T> BasicResultVO<T> success(T data) {
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, data);
+    }
+
+    public static <T> BasicResultVO<T> success(String msg, T data) {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200, data);
     }
 

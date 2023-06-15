@@ -1,11 +1,9 @@
 package edu.nuist.controller;
 
-import edu.nuist.entity.Lesson;
-import edu.nuist.entity.Result;
-import edu.nuist.entity.SonChapter;
-import edu.nuist.entity.Tool;
+import edu.nuist.entity.*;
+import edu.nuist.service.BackLessonService;
 import edu.nuist.service.FrontLessonService;
-import edu.nuist.vo.ActiveNameVO;
+import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.SonUserExp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,47 +19,41 @@ public class FrontLessonController {
     @Resource
     private FrontLessonService frontLessonService;
 
-    @PostMapping(value = "/getLessonByName")
-    public List<Lesson> getLessonByName(@RequestBody ActiveNameVO activeName) {
-        return frontLessonService.getLessonByName(activeName);
-    }
+    @Resource
+    private BackLessonService backLessonService;
 
-    @PostMapping("/getAllLessons")
-    public List<Lesson> getAllLessons(@RequestBody ActiveNameVO activeName) {
-        return frontLessonService.getAllLesson(activeName.getActiveName());
-    }
-
-    @GetMapping("/loadLessonInfo")
-    public Result loadLessonInfo(@RequestParam("lessonId") int lessonId) {
-        Result result = new Result();
-
+    @GetMapping(value = "/getLessonsByName")
+    public BasicResultVO<List<Lesson>> getLessonByName(String lessonName) {
         try {
-            Lesson lesson = frontLessonService.loadLessonInfo(lessonId);
-            result.setCode("200");
-            result.setData(lesson);
+            List<Lesson> lesson = frontLessonService.getLessonByName(lessonName);
+            return BasicResultVO.success(lesson);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("500");
+            return BasicResultVO.fail();
         }
+    }
 
-        return result;
+    @GetMapping("/getAllLessons")
+    public BasicResultVO<List<Lesson>> getAllLessons(String activeName) {
+        try {
+            List<Lesson> allLesson = frontLessonService.getAllLesson(activeName);
+            return BasicResultVO.success(allLesson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
+    }
+
+    @GetMapping("/getLessonInfo")
+    public BasicResultVO<Lesson> loadLessonInfo(@RequestParam("lessonId") int lessonId) {
+        Lesson lesson = frontLessonService.loadLessonInfo(lessonId);
+        return BasicResultVO.success(lesson);
     }
 
     @GetMapping("/getGuideBook")
-    public Result getGuideBook(@RequestParam("sonId") int sonId) {
-        Result result = new Result();
-        SonChapter sonChapter;
-
-        try {
-            sonChapter = frontLessonService.getGuideBook(sonId);
-            result.setCode("200");
-            result.setData(sonChapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public BasicResultVO<SonChapter> getGuideBook(@RequestParam("sonId") int sonId) {
+        SonChapter sonChapter = frontLessonService.getGuideBook(sonId);
+        return BasicResultVO.success(sonChapter);
     }
 
 //    @GetMapping("/getDaymicExpUrl")
@@ -105,36 +97,32 @@ public class FrontLessonController {
 //    }
 
     @PostMapping("/getDynamicExpUrl")
-    public Result getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) {
-        Result result = new Result();
-
+    public BasicResultVO<SonUserExp> getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) {
         try {
             SonUserExp sonExpUrl = frontLessonService.getDynamicSonExpUrl(sonUserExp);
-            result.setData(sonExpUrl);
-            result.setCode("200");
+            return BasicResultVO.success(sonExpUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
     @GetMapping("/loadToolList")
-    public Result loadToolList() {
-        Result result = new Result();
-        List<Tool> allTools;
+    public BasicResultVO<List<Tool>> loadToolList() {
+        List<Tool> allTools = frontLessonService.getAllTools();
+        return BasicResultVO.success(allTools);
+    }
 
-        try {
-            allTools = frontLessonService.getAllTools();
-            result.setData(allTools);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
+    @GetMapping("/getLessonsByUserId")
+    public BasicResultVO<List<Lesson>> getLessons(Integer userId) {
+        List<Lesson> lessons = frontLessonService.getLessonByUserId(userId);
+        return BasicResultVO.success(lessons);
+    }
 
-        return result;
+    @GetMapping("/getChapterInfoByLessonId")
+    public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
+        List<Chapter> chapters = backLessonService.getChapterByLessonId(lessonId);
+        return BasicResultVO.success(chapters);
     }
 
 }

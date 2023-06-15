@@ -20,7 +20,7 @@ public class Lesson {
     private String suitablePerson;
     private String canLearn;
     private String description;
-    private Integer teacher_id;
+    private Integer teacherId;
     private User user;
     private List<Chapter> chapters;
     private List<Tag> tags;

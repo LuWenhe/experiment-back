@@ -1,16 +1,13 @@
 package edu.nuist.controller;
 
 import edu.nuist.entity.Lesson;
-import edu.nuist.entity.Result;
 import edu.nuist.entity.User;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.service.FrontUserService;
 import edu.nuist.util.EncryptUtil;
+import edu.nuist.vo.BasicResultVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,68 +23,44 @@ public class FrontUserController {
     @Resource
     private FrontLessonService frontLessonService;
 
-    @RequestMapping("/getPersonInfo")
-    public Result getPersonInfo(@RequestParam("uid") int user_id) {
-        Result result = new Result();
-
-        try {
-            result.setData(frontUserService.getPersonInfo(user_id));
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-
-        return result;
+    @GetMapping("/getPersonInfo")
+    public BasicResultVO<User> getPersonInfo(@RequestParam("userId") int userId) {
+        User user = frontUserService.getPersonInfo(userId);
+        return BasicResultVO.success(user);
     }
 
-    @RequestMapping("/updatePersonInfo")
-    public Result updatePersonInfo(@RequestBody User user) {
-        Result result = new Result();
-
+    @PostMapping("/updatePersonInfo")
+    public BasicResultVO<Void> updatePersonInfo(@RequestBody User user) {
         try {
             frontUserService.updatePersonInfo(user);
-            result.setCode("200");
+            return BasicResultVO.success();
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
-    @RequestMapping("/changePass")
-    public Result changePass(@RequestBody User user) {
-        Result result = new Result();
-
+    @PostMapping("/changePassword")
+    public BasicResultVO<Void> changePassword(@RequestBody User user) {
         if (frontUserService.validatePassword(user.getUid())
                 .equals(new EncryptUtil().getEnpPassword(user.getOld_password()))) {
             user.setPassword(new EncryptUtil().getEnpPassword(user.getNew_password()));
             frontUserService.changePass(user);
-            result.setCode("200");
+            return BasicResultVO.success();
         } else {
-            result.setCode("502");
-            result.setMsg("旧密码输入错误");
+            return BasicResultVO.fail("旧密码输入错误");
         }
-
-        return result;
     }
 
-    @RequestMapping("/getHistoryLesson")
-    public Result getHistoryLesson(@RequestParam("uid") int user_id) {
-        Result result = new Result();
-
+    @GetMapping("/getHistoryLesson")
+    public BasicResultVO<List<Lesson>> getHistoryLesson(@RequestParam("uid") int user_id) {
         try {
-            List<Lesson> historyLesson = frontLessonService.getHistoryLesson(user_id);
-            result.setData(historyLesson);
-            result.setCode("200");
+            List<Lesson> historyLesson = frontLessonService.getLessonByUserId(user_id);
+            return BasicResultVO.success(historyLesson);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setCode("500");
+            return BasicResultVO.fail();
         }
-
-        return result;
     }
 
 }

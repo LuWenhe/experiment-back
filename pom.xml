@@ -37,6 +37,7 @@
         <swagger.version>2.9.2</swagger.version>
         <easyexcel.version>2.1.6</easyexcel.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <commons-lang3>3.12.0</commons-lang3>
     </properties>
 
     <!-- SpringBoot的父项目 -->
@@ -118,6 +119,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

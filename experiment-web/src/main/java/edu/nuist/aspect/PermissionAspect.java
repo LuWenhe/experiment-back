@@ -1,18 +1,17 @@
 package edu.nuist.aspect;
 
 import edu.nuist.dto.UserPermissionDto;
-import edu.nuist.entity.Result;
 import edu.nuist.enums.StatusEnum;
 import edu.nuist.service.SysPermissionService;
 import edu.nuist.util.JWTUtils;
 import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,13 +38,10 @@ public class PermissionAspect {
     @Around("declarePointCut()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         String token = request.getHeader("token");
-        Result result = new Result();
 
         // 如果token为空
         if (StringUtils.isBlank(token)) {
-            result.setCode("500");
-            result.setMsg("token为空");
-            return result;
+            return BasicResultVO.fail("token为空");
         }
 
         UserAndRoleVo userAndRoleVo = JWTUtils.getUserAndRoleFromToken(token);

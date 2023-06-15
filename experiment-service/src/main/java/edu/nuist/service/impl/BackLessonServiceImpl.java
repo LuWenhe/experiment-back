@@ -5,10 +5,12 @@ import edu.nuist.dao.BackTagDao;
 import edu.nuist.entity.*;
 import edu.nuist.enums.RoleEnum;
 import edu.nuist.service.BackLessonService;
-import edu.nuist.vo.*;
+import edu.nuist.vo.AddChapterInEdit;
+import edu.nuist.vo.AddSonChapterInEdit;
+import edu.nuist.vo.LessonSubmit;
+import edu.nuist.vo.SonChapterAndUrl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -42,92 +44,44 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    @Transactional
-    public Result addLesson(LessonSubmit lessonSubmit) {
-        Result result = new Result();
+    public void addLesson(LessonSubmit lessonSubmit) {
+        lessonSubmit.setLearnCredit(Double.parseDouble(lessonSubmit.getLearn_time()));
+        lessonSubmit.setLearnTime(Double.parseDouble(lessonSubmit.getLearn_time()));
 
-        try {
-            lessonSubmit.setLearnCredit(Double.parseDouble(lessonSubmit.getLearn_time()));
-            lessonSubmit.setLearnTime(Double.parseDouble(lessonSubmit.getLearn_time()));
+        backLessonDao.addLesson(lessonSubmit);
+        String[] tags = lessonSubmit.getTags();
 
-            backLessonDao.addLesson(lessonSubmit);
-            String[] tags = lessonSubmit.getTags();
-
-            for (String tag : tags) {
-                int tagId = backTagDao.getTagId(tag);
-                TagAndLesson tagAndLesson = new TagAndLesson();
-                tagAndLesson.setLessonId(lessonSubmit.getLessonId());
-                tagAndLesson.setTag_id(tagId);
-                backTagDao.addTagAndLesson(tagAndLesson);
-            }
-
-            result.setCode("200");
-            result.setData(lessonSubmit.getLessonId());
-        } catch (NumberFormatException e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
+        for (String tag : tags) {
+            int tagId = backTagDao.getTagId(tag);
+            TagAndLesson tagAndLesson = new TagAndLesson();
+            tagAndLesson.setLessonId(lessonSubmit.getLessonId());
+            tagAndLesson.setTag_id(tagId);
+            backTagDao.addTagAndLesson(tagAndLesson);
         }
-
-        return result;
     }
 
     @Override
-    public Result getLessonDetail(int lessonId) {
-        Result result = new Result();
+    public LessonSubmit getLessonDetail(int lessonId) {
+        LessonSubmit lessonSubmit = backLessonDao.getLessonDetailByLessonId(lessonId);
+        List<TagAndLesson> lessonsTagByLessonId = backTagDao.getLessonsTagByLessonId(lessonId);
+        String[] tags = new String[lessonsTagByLessonId.size()];
 
-        try {
-            LessonSubmit lessonDetailByLessonId = backLessonDao.getLessonDetailByLessonId(lessonId);
-            List<TagAndLesson> lessonsTagByLessonId = backTagDao.getLessonsTagByLessonId(lessonId);
-            String[] tags = new String[lessonsTagByLessonId.size()];
-
-            for (int i = 0; i < lessonsTagByLessonId.size(); i++) {
-                tags[i] = lessonsTagByLessonId.get(i).getTag().getTagName();
-            }
-
-            lessonDetailByLessonId.setTags(tags);
-            result.setData(lessonDetailByLessonId);
-            result.setCode("200");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
+        for (int i = 0; i < lessonsTagByLessonId.size(); i++) {
+            tags[i] = lessonsTagByLessonId.get(i).getTag().getTagName();
         }
 
-        return result;
+        lessonSubmit.setTags(tags);
+        return lessonSubmit;
     }
 
     @Override
-    public Result getChaptersInfoByLessonId(int lesson_id) {
-        Result result = new Result();
-
-        try {
-            List<Chapter> chapterList = backLessonDao.getChaptersByLessonId(lesson_id);
-            result.setCode("200");
-            result.setData(chapterList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public List<Chapter> getChaptersInfoByLessonId(int lesson_id) {
+        return backLessonDao.getChaptersByLessonId(lesson_id);
     }
 
     @Override
-    @Transactional
-    public Result addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.addSonChapterJupyterURL(sonChapterAndUrl);
-            result.setCode("200");
-            result.setData(sonChapterAndUrl);
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl) {
+        backLessonDao.addSonChapterJupyterURL(sonChapterAndUrl);
     }
 
     @Override
@@ -136,119 +90,46 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    @Transactional
-    public Result updateLessonInfo(LessonSubmit lessonSubmit) {
-        Result result = new Result();
+    public void updateLessonInfo(LessonSubmit lessonSubmit) {
+        backTagDao.delLessonAndTag(lessonSubmit.getLessonId());
+        String[] tags = lessonSubmit.getTags();
 
-        try {
-            backTagDao.delLessonAndTag(lessonSubmit.getLessonId());
-            String[] tags = lessonSubmit.getTags();
-
-            for (String tag : tags) {
-                int tagId = backTagDao.getTagId(tag);
-                TagAndLesson tagAndLesson = new TagAndLesson();
-                tagAndLesson.setLessonId(lessonSubmit.getLessonId());
-                tagAndLesson.setTag_id(tagId);
-                backTagDao.addTagAndLesson(tagAndLesson);
-            }
-
-            backLessonDao.updateLessonInfo(lessonSubmit);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
+        for (String tag : tags) {
+            int tagId = backTagDao.getTagId(tag);
+            TagAndLesson tagAndLesson = new TagAndLesson();
+            tagAndLesson.setLessonId(lessonSubmit.getLessonId());
+            tagAndLesson.setTag_id(tagId);
+            backTagDao.addTagAndLesson(tagAndLesson);
         }
 
-        return result;
+        backLessonDao.updateLessonInfo(lessonSubmit);
     }
 
     @Override
-    @Transactional
-    public Result AddChapterInEditPart(AddChapterInEdit addChapterInEdit) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.addChapterInEditPart(addChapterInEdit);
-            List<Chapter> chapterList = backLessonDao.getChaptersByLessonId(addChapterInEdit.getLessonId());
-            result.setCode("200");
-            result.setData(chapterList);
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public List<Chapter> AddChapterInEditPart(AddChapterInEdit addChapterInEdit) {
+        backLessonDao.addChapterInEditPart(addChapterInEdit);
+        return backLessonDao.getChaptersByLessonId(addChapterInEdit.getLessonId());
     }
 
     @Override
-    @Transactional
-    public Result delChapterInEdit(Integer chapter_id) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.delChapterInEdit(chapter_id);
-            backLessonDao.deleteSonChapterInEdit(chapter_id);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void delChapterInEdit(Integer chapter_id) {
+        backLessonDao.delChapterInEdit(chapter_id);
+        backLessonDao.deleteSonChapterInEdit(chapter_id);
     }
 
     @Override
-    @Transactional
-    public Result delSonChapterInEdit(Integer son_id) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.deleteSonChapterInEditSingle(son_id);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void delSonChapterInEdit(Integer son_id) {
+        backLessonDao.deleteSonChapterInEditSingle(son_id);
     }
 
     @Override
-    @Transactional
-    public Result AddSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.addSonChapterInEdit(addSonChapterInEdit);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void addSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
+        backLessonDao.addSonChapterInEdit(addSonChapterInEdit);
     }
 
     @Override
-    @Transactional
-    public Result editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.editSonChapterInEdit(addSonChapterInEdit);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
+        backLessonDao.editSonChapterInEdit(addSonChapterInEdit);
     }
 
 
@@ -266,72 +147,27 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    @Transactional
-    public Result addSonChapterBook(SonChapterAndUrl sonChapterAndUrl) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.updateSonChapterBook(sonChapterAndUrl);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void addSonChapterBook(SonChapterAndUrl sonChapterAndUrl) {
+        backLessonDao.updateSonChapterBook(sonChapterAndUrl);
     }
 
     @Override
     @Transactional
-    public Result deleteLessonById(Integer lessonId) {
-        Result result = new Result();
-
-        try {
-            backLessonDao.deleteSonChapterByLessonId(lessonId);
-            backLessonDao.deleteChapterByLessonId(lessonId);
-            backLessonDao.deleteLessonByLessonId(lessonId);
-            backLessonDao.deleteTagAndLesson(lessonId);
-            result.setCode("200");
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public void deleteLessonById(Integer lessonId) {
+        backLessonDao.deleteSonChapterByLessonId(lessonId);
+        backLessonDao.deleteChapterByLessonId(lessonId);
+        backLessonDao.deleteLessonByLessonId(lessonId);
+        backLessonDao.deleteTagAndLesson(lessonId);
     }
 
     @Override
-    public Result getEditSonChapterInfo(Integer sonId) {
-        Result result = new Result();
-
-        try {
-            SonChapter sonChapter = backLessonDao.getSonChapterInfoBySonId(sonId);
-            result.setCode("200");
-            result.setData(sonChapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public SonChapter getEditSonChapterInfo(Integer sonId) {
+        return backLessonDao.getSonChapterInfoBySonId(sonId);
     }
 
     @Override
-    public Result getChapterByLessonId(Integer lessonId) {
-        Result result = new Result();
-
-        try {
-            List<Chapter> chapterList = backLessonDao.getChaptersByLessonId(lessonId);
-            result.setCode("200");
-            result.setData(chapterList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setCode("500");
-        }
-
-        return result;
+    public List<Chapter> getChapterByLessonId(Integer lessonId) {
+        return backLessonDao.getChaptersByLessonId(lessonId);
     }
 
 }

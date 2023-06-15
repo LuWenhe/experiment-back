@@ -6,12 +6,12 @@ import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
-import edu.nuist.entity.Lesson;
-import edu.nuist.entity.Result;
-import edu.nuist.entity.UserExcel;
+import edu.nuist.entity.*;
+import edu.nuist.enums.StatusEnum;
 import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackLessonService;
 import edu.nuist.service.UserService;
+import edu.nuist.util.FileUtils;
 import edu.nuist.vo.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -41,11 +40,11 @@ public class BackLessonController {
     @Value("${avatar.image}")
     private String image;
 
-    @Value("${platform.type}")
-    private String platformType;
-
-    @Value("${platform.address}")
+    @Value("${file.address}")
     private String address;
+
+    @Value("${file.fileDirectory}")
+    private String fileDirectory;
 
     @ApiOperation("根据id返回老师或学生的所有课程")
     @PostMapping("/getLessonsByUserId")
@@ -69,104 +68,89 @@ public class BackLessonController {
     @PostMapping("/getLessonsByTagName")
     public BasicResultVO<PageInfo<Lesson>> getLessonsByTagName(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        String tagName = pageRequest.getTagName();
+        List<Lesson> lessons = backLessonService.getAllLessonsByTag(pageRequest.getTagName());
+        PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
+        return BasicResultVO.success(pageInfo);
+    }
 
+    @ApiOperation("管理页面添加课程图片")
+    @PostMapping("/addLessonPic")
+    public BasicResultVO<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return BasicResultVO.fail("文件为空!");
+        }
+
+        String filePath = fileDirectory + "images/";
+        String imgUrl = FileUtils.uploadFile(file, filePath);
+
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, address + imgUrl);
+    }
+
+    @ApiOperation("管理页面添加课程")
+    @PostMapping("/addLesson")
+    @PermissionAnnotation("lesson:add")
+    public BasicResultVO<Integer> addLesson(@RequestBody LessonSubmit lessonSubmit) {
         try {
-            List<Lesson> lessons = backLessonService.getAllLessonsByTag(tagName);
-            PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
-            return BasicResultVO.success(pageInfo);
+            backLessonService.addLesson(lessonSubmit);
+            return BasicResultVO.success(lessonSubmit.getLessonId());
         } catch (Exception e) {
             e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @ApiOperation("管理页面添加课程图片")
-    @PostMapping("/addLessonPic")
-    public Result uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        Result result = new Result();
-
-        if (file.isEmpty()) {
-            result.setCode("500");
-            return result;
-        }
-
-        String fileName = file.getOriginalFilename();
-        String fileName1 = fileName.split("\\.")[1];
-        String name = UUID.randomUUID().toString();
-
-        if (platformType.equals("windows")) {
-            String filePath = "D:/Projects/ActualProjects/experiment_ai/images/" + name + "." + fileName1;
-            //String filePath = "/home/pic/"+name+"."+fileName1;
-            log.info("filePath: {}", filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        } else {
-            String filePath = "/home/pl/files/" + name + "." + fileName1;
-            System.out.println(filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        }
-
-        return result;
-    }
-
-    @ApiOperation("管理页面添加课程")
-    @PostMapping("/addLesson")
-    @PermissionAnnotation("lesson:add")
-    public Result addLesson(@RequestBody LessonSubmit lessonSubmit) {
-        return backLessonService.addLesson(lessonSubmit);
-    }
-
     @ApiOperation("管理界面修改课程信息")
     @PostMapping("/updateLessonInfo")
     @PermissionAnnotation("lesson:update")
-    public Result updateLessonInfo(@RequestBody LessonSubmit lessonSubmit) {
-        return backLessonService.updateLessonInfo(lessonSubmit);
+    public BasicResultVO<Void> updateLessonInfo(@RequestBody LessonSubmit lessonSubmit) {
+        try {
+            backLessonService.updateLessonInfo(lessonSubmit);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @ApiOperation("获取课程详情")
     @GetMapping("/getLessonDetail")
-    public Result getLessonDetail(Integer lessonId) {
-        return backLessonService.getLessonDetail(lessonId);
+    public BasicResultVO<LessonSubmit> getLessonDetail(Integer lessonId) {
+        LessonSubmit lessonSubmit = backLessonService.getLessonDetail(lessonId);
+        return BasicResultVO.success(lessonSubmit);
     }
 
     @ApiOperation("获取课程章节")
     @GetMapping("/getChapterInfoByLessonId")
-    public Result getChapterInfoByLessonId(Integer lessonId) {
-        return backLessonService.getChapterByLessonId(lessonId);
+    public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
+        List<Chapter> chapters = backLessonService.getChapterByLessonId(lessonId);
+        return BasicResultVO.success(chapters);
     }
 
     @ApiOperation("添加小节的实验链接")
-    @PostMapping("/addChapterJupyterURL")
-    public Result singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   @RequestParam("son_id") int son_id) throws IOException {
-        Result result = new Result();
-
+    @PostMapping("/addChapteraddress")
+    public BasicResultVO<SonChapterAndUrl> singleFileUpload(@RequestParam("file") MultipartFile file,
+                                                            @RequestParam("son_id") int son_id) throws IOException {
         if (file.isEmpty()) {
-            result.setCode("500");
-            return result;
+            return BasicResultVO.fail("文件为空!");
         }
 
         String fileName = file.getOriginalFilename();
-        String filePath = "C:\\Users\\Dell\\" + fileName;
-        File dest = new File(filePath);
-        file.transferTo(dest);
+        String filePath = fileDirectory + "jupyter/" + fileName;
+        FileUtils.uploadFile(file, filePath);
 
         SonChapterAndUrl sonChapterAndUrl = new SonChapterAndUrl();
         sonChapterAndUrl.setExp_url(address + ":8888/notebooks/" + fileName);
         sonChapterAndUrl.setSon_id(son_id);
-        return backLessonService.addSonChapterJupyterURL(sonChapterAndUrl);
+
+        backLessonService.addSonChapterJupyterURL(sonChapterAndUrl);
+        return BasicResultVO.success(sonChapterAndUrl);
     }
 
     @ApiOperation("按名称检索课程")
     @PostMapping("/findLessonsByName")
     public BasicResultVO<PageInfo<Lesson>> findLessonsByName(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
+
         Integer userId = pageRequest.getUserId();
         String lessonName = pageRequest.getLessonName();
 
@@ -181,100 +165,82 @@ public class BackLessonController {
     }
 
     @PostMapping("/addChapterInEdit")
-    public Result addChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit) {
-        return backLessonService.AddChapterInEditPart(addChapterInEdit);
+    public BasicResultVO<List<Chapter>> addChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit) {
+        List<Chapter> chapters = backLessonService.AddChapterInEditPart(addChapterInEdit);
+        return BasicResultVO.success(chapters);
     }
 
     @GetMapping("/delChapterInEdit")
-    public Result delChapterInEdit(@RequestParam("chapterId") Integer chapterId) {
-        return backLessonService.delChapterInEdit(chapterId);
+    public BasicResultVO<Void> delChapterInEdit(@RequestParam("chapterId") Integer chapterId) {
+        try {
+            backLessonService.delChapterInEdit(chapterId);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @GetMapping("/delSonChapterInEdit")
-    public Result delSonChapterInEdit(@RequestParam("sonId") Integer sonId) {
-        return backLessonService.delSonChapterInEdit(sonId);
+    public BasicResultVO<Void> delSonChapterInEdit(@RequestParam("sonId") Integer sonId) {
+        try {
+            backLessonService.delSonChapterInEdit(sonId);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @PostMapping("/addSonChapterInEdit")
-    public Result addSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
-        return backLessonService.AddSonChapterInEdit(addSonChapterInEdit);
+    public BasicResultVO<Void> addSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
+        try {
+            backLessonService.addSonChapterInEdit(addSonChapterInEdit);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @PostMapping("/editSonChapterInEdit")
-    public Result editSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
-        return backLessonService.editSonChapterInEdit(addSonChapterInEdit);
+    public BasicResultVO<Void> editSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
+        try {
+            backLessonService.editSonChapterInEdit(addSonChapterInEdit);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
+    // Todo
     @PostMapping("/uploadAttachmentMp4")
-    public Result uploadAttachmentMp4(@RequestParam("file") MultipartFile file) throws IOException {
-        Result result = new Result();
-
+    public BasicResultVO<String> uploadAttachmentMp4(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
-            result.setCode("500");
-            return result;
+            return BasicResultVO.fail("文件为空");
         }
 
-        String fileName = file.getOriginalFilename();
-        String fileName1 = fileName.split("\\.")[1];
+        String suffix = file.getOriginalFilename().split("\\.")[1];
         String name = UUID.randomUUID().toString();
-
-        //result.setData("http://10.14.253.39:8081/images/"+name+"."+fileName1);
-        if (platformType.equals("windows")) {
-            String filePath = "D:\\images\\" + name + "." + fileName1;
-            //String filePath = "/home/pic/"+name+"."+fileName1;
-            System.out.println(filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        } else {
-            String filePath = "/home/pl/files/" + name + "." + fileName1;
-            System.out.println(filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        }
-
-        return result;
+        String filePath = fileDirectory + "video/" + name + "." + suffix;
+        FileUtils.uploadFile(file, filePath);
+        return BasicResultVO.success(address + ":8081/" + name + "." + suffix);
     }
 
     @PostMapping("/uploadAttachmentPPT")
-    public Result uploadAttachmentPPT(@RequestParam("file") MultipartFile file) throws IOException {
-        Result result = new Result();
-
+    public BasicResultVO<String> uploadAttachmentPPT(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
-            result.setCode("500");
-            return result;
+            return BasicResultVO.fail();
         }
 
-        String fileName = file.getOriginalFilename();
-        String fileName1 = fileName.split("\\.")[1];
-        String name = UUID.randomUUID().toString(); // 随机的uuid
-
-        if (platformType.equals("windows")) {
-            String filePath = "D:\\images\\" + name + "." + fileName1;
-            //String filePath = "/home/pic/"+name+"."+fileName1;
-            System.out.println(filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        } else {
-            String filePath = "/home/pl/files/" + name + "." + fileName1;
-            System.out.println(filePath);
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            result.setCode("200");
-            result.setData(address + ":8081/" + name + "." + fileName1);
-        }
-
-        return result;
+        String filePath = fileDirectory + "ppt/";
+        String savePath = FileUtils.uploadFile(file, filePath);
+        return BasicResultVO.success(savePath);
     }
 
     @PostMapping("/uploadExcelImport")
-    public Result uploadExcelImport(@RequestParam("file") MultipartFile file) throws IOException {
-        Result result = new Result();
+    public BasicResultVO<Void> uploadExcelImport(@RequestParam("file") MultipartFile file) throws IOException {
         ExcelReader excelReader = null;
         InputStream in = null;
 
@@ -283,10 +249,10 @@ public class BackLessonController {
             excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
-            result.setCode("200");
+            return BasicResultVO.success("上传成功");
         } catch (IOException ex) {
             log.error("import excel to db fail", ex);
-            result.setCode("500");
+            return BasicResultVO.fail("上传失败");
         } finally {
             in.close();
             // 这里一定别忘记关闭，读的时候会创建临时文件，到时磁盘会崩
@@ -294,26 +260,22 @@ public class BackLessonController {
                 excelReader.finish();
             }
         }
-
-        return result;
     }
 
     @PostMapping("/uploadExcelImportStu")
-    public Result uploadExcelImportStu(@RequestParam("file") MultipartFile file) throws IOException {
-        Result result = new Result();
+    public BasicResultVO<Void> uploadExcelImportStu(@RequestParam("file") MultipartFile file) throws IOException {
         ExcelReader excelReader = null;
         InputStream in = null;
-        System.out.println(file.getOriginalFilename());
 
         try {
             in = file.getInputStream();
             excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
-            result.setCode("200");
+            return BasicResultVO.success("上传成功");
         } catch (IOException ex) {
             log.error("import excel to db fail", ex);
-            result.setCode("500");
+            return BasicResultVO.fail("上传失败");
         } finally {
             in.close();
             // 这里一定别忘记关闭，读的时候会创建临时文件，到时磁盘会崩
@@ -321,23 +283,34 @@ public class BackLessonController {
                 excelReader.finish();
             }
         }
-
-        return result;
     }
 
     @PostMapping("/addSonChapterBook")
-    public Result addSonChapterBook(@RequestBody SonChapterAndUrl sonChapterAndUrl) {
-        return backLessonService.addSonChapterBook(sonChapterAndUrl);
+    public BasicResultVO<Void> addSonChapterBook(@RequestBody SonChapterAndUrl sonChapterAndUrl) {
+        try {
+            backLessonService.addSonChapterBook(sonChapterAndUrl);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @GetMapping("/deleteLessonById")
-    public Result deleteLessonById(@RequestParam("lessonId") int lessonId) {
-        return backLessonService.deleteLessonById(lessonId);
+    public BasicResultVO<Void> deleteLessonById(@RequestParam("lessonId") int lessonId) {
+        try {
+            backLessonService.deleteLessonById(lessonId);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @GetMapping("/getEditSonChapterInfo")
-    public Result getEditSonChapterInfo(Integer sonId) {
-        return backLessonService.getEditSonChapterInfo(sonId);
+    public BasicResultVO<SonChapter> getEditSonChapterInfo(Integer sonId) {
+        SonChapter sonChapter = backLessonService.getEditSonChapterInfo(sonId);
+        return BasicResultVO.success(sonChapter);
     }
 
 }
