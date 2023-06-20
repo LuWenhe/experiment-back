@@ -156,7 +156,8 @@ public class BackUserController {
     }
 
     @PostMapping("/uploadFromExcel")
-    public BasicResultVO<Void> addStudentFromExcel(@RequestParam("clazzId") Integer clazzId,
+    public BasicResultVO<Void> addStudentFromExcel(
+                                      @RequestParam("clazzId") Integer clazzId,
                                       @RequestParam("file") MultipartFile file) throws IOException {
         ExcelReader excelReader = null;
         InputStream inputStream = null;

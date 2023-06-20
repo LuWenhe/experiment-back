@@ -16,6 +16,11 @@ public class BackClazzServiceImpl implements BackClazzService {
     private BackClazzDao backClazzDao;
 
     @Override
+    public List<Clazz> getAllClazzList() {
+        return backClazzDao.getAllClazzList();
+    }
+
+    @Override
     public List<Clazz> getClazzListByTeacherId(Integer teacherId) {
         return backClazzDao.getClazzByTeacherId(teacherId);
     }

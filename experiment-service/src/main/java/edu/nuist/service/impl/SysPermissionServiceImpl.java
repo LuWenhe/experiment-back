@@ -48,7 +48,9 @@ public class SysPermissionServiceImpl implements SysPermissionService {
             }
         }
 
+        String username = userPermissions.get(0).getUsername();
         Integer roleId = userPermissions.get(0).getRoleId();
+        String avatarImage = userPermissions.get(0).getAvatarImage();
         String roleName;
 
         if (roleId.equals(RoleEnum.ADMIN_ROLE.getCode())) {
@@ -59,7 +61,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
             roleName = RoleEnum.STUDENT_ROLE.getRole();
         }
 
-        return new UserPermissionDto(userId, roleId, roleName, requestUrlList, permsList);
+        return new UserPermissionDto(userId, username, avatarImage, roleId, roleName, requestUrlList, permsList);
     }
 
     @Override

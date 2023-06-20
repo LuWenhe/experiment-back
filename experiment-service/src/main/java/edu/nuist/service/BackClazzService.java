@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface BackClazzService {
 
+    List<Clazz> getAllClazzList();
+
     List<Clazz> getClazzListByTeacherId(Integer teacherId);
 
     List<Student> getStudentsByClazzId(Integer clazzId);

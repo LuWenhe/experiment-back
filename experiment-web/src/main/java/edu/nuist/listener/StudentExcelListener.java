@@ -16,7 +16,7 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
     @Resource
     private BackUserService backUserService;
 
-    private static final int BATCH_COUNT = 10;
+    private static final int BATCH_COUNT = 2;
     private final Integer clazzId;
     private final List<Student> studentList = new ArrayList<>();
 

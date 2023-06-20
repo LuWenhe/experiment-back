@@ -39,6 +39,7 @@ public class LoginController {
 
         if (usersService.findUserByNameAndPassword(username, enpPassword) > 0) {
             UserAndRoleVo userAndRoleVo = usersService.getUserAndRole(username, enpPassword);
+            log.info("user: {}", userAndRoleVo);
             Map<String, String> payload = new HashMap<>();
 
             Integer userId = userAndRoleVo.getUserId();

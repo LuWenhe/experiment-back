@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class UserPermission {
 
     private Integer userId;
+    private String username;
+    private String avatarImage;
     private Integer roleId;
     private String roleName;
     private Integer type;

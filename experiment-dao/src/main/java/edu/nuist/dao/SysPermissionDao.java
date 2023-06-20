@@ -37,9 +37,12 @@ public interface SysPermissionDao {
     })
     List<Permission> getPermissionsByUserId(Integer userId);
 
-    @Select("SELECT ur.user_id, ur.role_id, p.request_url, p.perms, p.type FROM user_role ur, role_permission rp, permission p " +
-            "WHERE ur.role_id = rp.role_id AND rp.permission_id = p.id AND ur.user_id = #{userId}")
+    @Select("SELECT u.username, u.avatar_image, ur.user_id, ur.role_id, p.request_url, p.perms, p.type " +
+            "FROM users u, user_role ur, role_permission rp, permission p " +
+            "WHERE u.user_id = ur.user_id AND ur.role_id = rp.role_id " +
+            "AND rp.permission_id = p.id AND ur.user_id = #{userId}")
     @Results({
+            @Result(column = "avatar_image", property = "avatarImage"),
             @Result(column = "request_url", property = "requestUrl"),
             @Result(column = "user_id", property = "userId"),
             @Result(column = "role_id", property = "roleId")

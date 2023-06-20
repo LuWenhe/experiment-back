@@ -12,6 +12,8 @@ import java.util.Set;
 public class UserPermissionDto {
 
     private Integer userId;
+    private String username;
+    private String avatarImage;
     private Integer roleId;
     private String roleName;
     private Set<String> requestUrlList;     // 请求接口的权限

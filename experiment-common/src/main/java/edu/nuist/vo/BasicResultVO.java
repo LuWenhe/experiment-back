@@ -51,20 +51,16 @@ public class BasicResultVO <T> {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200);
     }
 
+    public static <T> BasicResultVO<T> success(String msg) {
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, null);
+    }
+
     public static <T> BasicResultVO<T> success(String msg, String token) {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, token);
     }
 
     public static <T> BasicResultVO<T> success(String msg, T data, String token) {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, data, token);
-    }
-
-    /**
-     * 自定义信息的成功响应
-     * <p>通常用作插入成功等并显示具体操作通知如: return BasicResultVO.success("发送信息成功")</p>
-     */
-    public static <T> BasicResultVO<T> success(String msg) {
-        return new BasicResultVO<>(StatusEnum.SUCCESS_200, msg, null);
     }
 
     /**

@@ -1,41 +1,14 @@
-package edu.nuist.controller;
+package edu.nuist.ide;
 
-import edu.nuist.vo.BasicResultVO;
-import lombok.extern.slf4j.Slf4j;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
-
-@Slf4j
-@RestController
-@RequestMapping("/IDE")
-public class IDEController {
-
-    @Value("${file.fileDirectory}")
-    private String fileDirectory;
-
-    @GetMapping("/OnlineIDESub")
-    public BasicResultVO<Object> onlineIDE(String codeInput) {
-        MyCallable myCallable = new MyCallable(codeInput, fileDirectory);
-
-        try {
-            Object call = myCallable.call();
-            return BasicResultVO.success(call);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BasicResultVO.fail("运行失败");
-        }
-    }
-
-}
 
 class MyCallable implements Callable<Object> {
 
@@ -49,7 +22,7 @@ class MyCallable implements Callable<Object> {
     }
 
     @Override
-    public Object call() throws Exception {
+    public String call() throws Exception {
         Process proc;
 
         String filePath = fileDirectory + "python/test.py";
@@ -66,8 +39,6 @@ class MyCallable implements Callable<Object> {
                 resultString.append(line).append("\n");
             }
 
-            System.out.println(resultString);
-
             in.close();
             proc.waitFor();
             return resultString.toString();
@@ -75,6 +46,29 @@ class MyCallable implements Callable<Object> {
             e.printStackTrace();
             return "error";
         }
+    }
+
+}
+
+public class IDETest {
+
+    @Test
+    void ideTest() throws Exception {
+        String code = "for i in [2,3]:\n" +
+                "    print(i)";
+        System.out.println(code);
+        MyCallable myCallable = new MyCallable(code, "D:/Projects/ActualProjects/experiment-ai/file/");
+        String call = myCallable.call();
+        System.out.println(call);
+    }
+
+    @Test
+    void t() {
+        String str = "hello world";
+        System.out.println(str);
+        String jsonString = JSON.toJSONString(str);
+        System.out.println(jsonString);
+        System.out.println(jsonString.replace("\"", ""));
     }
 
 }

@@ -9,6 +9,13 @@ import java.util.List;
 
 public interface BackClazzDao {
 
+    @Select("SELECT id, name, size, teacher_id teacherId, create_time, update_time FROM clazz")
+    @Results({
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
+    })
+    List<Clazz> getAllClazzList();
+
     @Select("SELECT id, name, size, teacher_id teacherId, create_time, update_time " +
             "FROM clazz WHERE teacher_id = #{teacherId}")
     @Results({

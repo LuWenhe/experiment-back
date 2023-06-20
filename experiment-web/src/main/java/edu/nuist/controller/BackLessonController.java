@@ -6,7 +6,11 @@ import com.alibaba.excel.read.metadata.ReadSheet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
-import edu.nuist.entity.*;
+import edu.nuist.entity.Chapter;
+import edu.nuist.entity.Lesson;
+import edu.nuist.entity.SonChapter;
+import edu.nuist.entity.UserExcel;
+import edu.nuist.enums.RoleEnum;
 import edu.nuist.enums.StatusEnum;
 import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackLessonService;
@@ -15,6 +19,7 @@ import edu.nuist.util.FileUtils;
 import edu.nuist.vo.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -40,11 +45,20 @@ public class BackLessonController {
     @Value("${avatar.image}")
     private String image;
 
-    @Value("${file.address}")
-    private String address;
+    @Value("${file.fileRequestUrl}")
+    private String fileRequestUrl;
+
+    @Value("${jupyter.expUrl}")
+    private String expUrl;
 
     @Value("${file.fileDirectory}")
     private String fileDirectory;
+
+    private static final List<String> TOOL_TYPE = Arrays.asList(".exe", ".zip");
+
+    private static final List<String> IMAGE_TYPE = Arrays.asList(".jpeg", ".png");
+
+    private static final List<String> VIDEO_TYPE = Arrays.asList(".mp4", ".mkv");
 
     @ApiOperation("根据id返回老师或学生的所有课程")
     @PostMapping("/getLessonsByUserId")
@@ -52,15 +66,17 @@ public class BackLessonController {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
         Integer userId = pageRequest.getUserId();
         Integer roleId = pageRequest.getRoleId();
+        List<Lesson> lessons;
 
-        try {
-            List<Lesson> lessons = backLessonService.getLessonsByUserId(userId, roleId);
-            PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
-            return BasicResultVO.success(pageInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BasicResultVO.fail();
+        // 如果是管理员
+        if (RoleEnum.ADMIN_ROLE.getCode().equals(roleId)) {
+            lessons = backLessonService.getAllLessons();
+        } else {
+            lessons = backLessonService.getLessonsByUserId(userId, roleId);
         }
+
+        PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
+        return BasicResultVO.success(pageInfo);
     }
 
     // Todo
@@ -71,19 +87,6 @@ public class BackLessonController {
         List<Lesson> lessons = backLessonService.getAllLessonsByTag(pageRequest.getTagName());
         PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
         return BasicResultVO.success(pageInfo);
-    }
-
-    @ApiOperation("管理页面添加课程图片")
-    @PostMapping("/addLessonPic")
-    public BasicResultVO<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return BasicResultVO.fail("文件为空!");
-        }
-
-        String filePath = fileDirectory + "images/";
-        String imgUrl = FileUtils.uploadFile(file, filePath);
-
-        return new BasicResultVO<>(StatusEnum.SUCCESS_200, address + imgUrl);
     }
 
     @ApiOperation("管理页面添加课程")
@@ -139,7 +142,7 @@ public class BackLessonController {
         FileUtils.uploadFile(file, filePath);
 
         SonChapterAndUrl sonChapterAndUrl = new SonChapterAndUrl();
-        sonChapterAndUrl.setExp_url(address + ":8888/notebooks/" + fileName);
+        sonChapterAndUrl.setExp_url(expUrl + fileName);
         sonChapterAndUrl.setSon_id(son_id);
 
         backLessonService.addSonChapterJupyterURL(sonChapterAndUrl);
@@ -214,29 +217,41 @@ public class BackLessonController {
         }
     }
 
-    // Todo
-    @PostMapping("/uploadAttachmentMp4")
-    public BasicResultVO<String> uploadAttachmentMp4(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/uploadFile")
+    public BasicResultVO<String> uploadFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return BasicResultVO.fail("文件为空");
+            return BasicResultVO.fail("文件为空!");
         }
 
-        String suffix = file.getOriginalFilename().split("\\.")[1];
-        String name = UUID.randomUUID().toString();
-        String filePath = fileDirectory + "video/" + name + "." + suffix;
-        FileUtils.uploadFile(file, filePath);
-        return BasicResultVO.success(address + ":8081/" + name + "." + suffix);
-    }
+        String originalFilename = file.getOriginalFilename();
+        String fileType = "";
 
-    @PostMapping("/uploadAttachmentPPT")
-    public BasicResultVO<String> uploadAttachmentPPT(@RequestParam("file") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return BasicResultVO.fail();
+        // 获取文件后缀
+        if (!StringUtils.isBlank(originalFilename)) {
+            fileType = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
 
-        String filePath = fileDirectory + "ppt/";
-        String savePath = FileUtils.uploadFile(file, filePath);
-        return BasicResultVO.success(savePath);
+        String subPath;
+
+        if (TOOL_TYPE.contains(fileType)) {
+            subPath = "tools/";
+        } else if (IMAGE_TYPE.contains(fileType)) {
+            subPath = "images/";
+        } else if (VIDEO_TYPE.contains(fileType)) {
+            subPath = "video/";
+        } else {
+            subPath = "ppt/";
+        }
+
+        String fileName;
+
+        try {
+            fileName = FileUtils.uploadFile(file, fileDirectory + subPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new BasicResultVO<>(StatusEnum.SUCCESS_200, fileRequestUrl + subPath + fileName);
     }
 
     @PostMapping("/uploadExcelImport")
@@ -251,7 +266,7 @@ public class BackLessonController {
             excelReader.read(readSheet);
             return BasicResultVO.success("上传成功");
         } catch (IOException ex) {
-            log.error("import excel to db fail", ex);
+            ex.printStackTrace();
             return BasicResultVO.fail("上传失败");
         } finally {
             in.close();
@@ -274,7 +289,7 @@ public class BackLessonController {
             excelReader.read(readSheet);
             return BasicResultVO.success("上传成功");
         } catch (IOException ex) {
-            log.error("import excel to db fail", ex);
+            ex.printStackTrace();
             return BasicResultVO.fail("上传失败");
         } finally {
             in.close();

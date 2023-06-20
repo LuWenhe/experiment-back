@@ -22,7 +22,7 @@ public class SysPermissionServiceTest {
 
     @Test
     void testGetUserPermissions() {
-        UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(3);
+        UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(2);
         System.out.println(userPermissionDto);
     }
 

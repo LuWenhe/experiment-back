@@ -34,7 +34,7 @@ public class FileUtils {
             throw new IOException("文件不能为空");
         }
 
-        return "images/" + fileName;
+        return fileName;
     }
 
 }

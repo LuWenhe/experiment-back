@@ -12,8 +12,8 @@ public interface ToolDao {
     @Select("select * from tools where tool_name like concat('%',#{param1},'%')")
     List<Tool> getAllToolsByName(String tool_name);
 
-    @Insert("insert into tools (tool_name,tool_env,upload_time,download_url) " +
-            "values (#{tool_name},#{tool_env},#{upload_time},#{download_url})")
+    @Insert("insert into tools (tool_name,tool_env,download_url) " +
+            "values (#{tool_name},#{tool_env},#{download_url})")
     void addTool(Tool tools);
 
     @Select("select * from tools")

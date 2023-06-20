@@ -13,7 +13,8 @@ import java.util.List;
 
 public interface BackLessonDao {
 
-    @Select("SELECT * from lesson")
+    @Select("SELECT lessonId, lesson_name, pic_url, difficulty, learn_time, learn_credit, " +
+            "suitablePerson, canLearn, description, teacher_name, teacher_id from lesson")
     List<Lesson> getAllLessons();
 
     /**

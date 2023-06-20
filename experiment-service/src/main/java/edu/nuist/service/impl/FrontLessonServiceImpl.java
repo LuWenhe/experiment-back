@@ -1,15 +1,20 @@
 package edu.nuist.service.impl;
 
-import edu.nuist.dao.BackLessonDao;
 import edu.nuist.dao.BackTagDao;
 import edu.nuist.dao.FrontLessonDao;
-import edu.nuist.entity.*;
+import edu.nuist.entity.Lesson;
+import edu.nuist.entity.SonChapter;
+import edu.nuist.entity.TagLesson;
+import edu.nuist.entity.Tool;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.vo.SonUserExp;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +26,10 @@ public class FrontLessonServiceImpl implements FrontLessonService {
     private FrontLessonDao frontLessonsDao;
 
     @Resource
-    private BackLessonDao backLessonDao;
-
-    @Resource
     private BackTagDao backTagsDao;
 
-    @Value("${file.address}")
-    private String address;
+    @Value("${file.fileDirectory}")
+    private String fileDirectory;
 
     @Value("${jupyter.expUrl}")
     private String expUrl;
@@ -87,29 +89,29 @@ public class FrontLessonServiceImpl implements FrontLessonService {
         return frontLessonsDao.getSonChapterBySonId(sonId);
     }
 
+    // Todo
     @Override
     public SonUserExp getDynamicSonExpUrl(SonUserExp sonUserExp) throws IOException {
-        // 查询是否有jupyter文件
         SonUserExp sonUserExp1 = frontLessonsDao.isHasSonUserExpUrl(sonUserExp);
 
-        if (sonUserExp1 != null) {
+        // 如果jupyter的地址不为空
+        if (!StringUtils.isBlank(sonUserExp1.getExp_url())) {
             return sonUserExp1;
         } else {
             int sonId = sonUserExp.getSon_id();
             int userId = sonUserExp.getUser_id();
-            String cmdString;   // 执行复制的指令
-            String expUrlDes;      // 生成Jupyter的地址
+            String expUrlDes;   // 生成Jupyter的地址
 
-            cmdString = "cmd /c COPY C:/Users/luwen/template.ipynb C:/Users/luwen/"
-                    + sonId + userId + ".ipynb";
+            String sourcePath = fileDirectory + "jupyter/template.ipynb";
+            String destinationPath = fileDirectory + "jupyter/" + sonId + userId + ".ipynb";
+            FileUtils.copyFile(new File(sourcePath), new File(destinationPath));
+
             expUrlDes = expUrl + sonId + userId + ".ipynb";
 
 //            cmdString = "cp /home/pl/jupyter_files/template.ipynb /home/pl/jupyter_files/"
 //                    + sonId + userId + ".ipynb";
 //            expUrl = linuxExpUrl + sonId + userId + "./ipynb";
 
-            // 执行指令
-            Runtime.getRuntime().exec(cmdString);
             sonUserExp.setExp_url(expUrlDes);
             frontLessonsDao.addSonUserExpUrl(sonUserExp);
             sonUserExp.setId(frontLessonsDao.isHasSonUserExpUrl(sonUserExp).getId());
