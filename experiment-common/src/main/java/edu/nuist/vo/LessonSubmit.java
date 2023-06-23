@@ -18,7 +18,8 @@ public class LessonSubmit {
     private String[] tags;
     private String suitablePerson;
     private String canLearn;
-    private String description;
+    private String mdDescription;
+    private String htmlDescription;
     private String dagang;
     private String cankao;
     private String goal;

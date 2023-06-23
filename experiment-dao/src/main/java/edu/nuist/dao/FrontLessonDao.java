@@ -5,6 +5,8 @@ import edu.nuist.entity.SonChapter;
 import edu.nuist.entity.Tool;
 import edu.nuist.vo.SonUserExp;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -12,12 +14,24 @@ import java.util.List;
 public interface FrontLessonDao {
 
     @Select("SELECT * from lesson ")
+    @Results({
+            @Result(column = "md_description", property = "mdDescription"),
+            @Result(column = "html_description", property = "htmlDescription")
+    })
     List<Lesson> getAllLessons();
 
     @Select("select * from lesson where lessonId = #{param1}")
+    @Results({
+            @Result(column = "md_description", property = "mdDescription"),
+            @Result(column = "html_description", property = "htmlDescription")
+    })
     Lesson getLessonInfoByLessonId(int lessonId);
 
     @Select("select * from lesson where lesson_name like CONCAT('%',#{searchName},'%')")
+    @Results({
+            @Result(column = "md_description", property = "mdDescription"),
+            @Result(column = "html_description", property = "htmlDescription")
+    })
     List<Lesson> getLessonByName(String lessonName);
 
     @Select("select * from son_chapter where son_id = #{param1}")
@@ -36,7 +50,7 @@ public interface FrontLessonDao {
     @Select("select distinct lessonId from son_user_exp where user_id = #{param1}")
     List<Integer> getLessonByUserId(int userId);
 
-    @Select("select lessonId,lesson_name,pic_url,teacher_name from lesson where lessonId = #{param1} ")
+    @Select("select lessonId, lesson_name, pic_url, teacher_name from lesson where lessonId = #{param1} ")
     Lesson getLessonById(int lessonId);
 
 }

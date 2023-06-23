@@ -19,7 +19,8 @@ public class Lesson {
     private double learn_credit;
     private String suitablePerson;
     private String canLearn;
-    private String description;
+    private String mdDescription;
+    private String htmlDescription;
     private Integer teacherId;
     private User user;
     private List<Chapter> chapters;
