@@ -2,6 +2,7 @@ package edu.nuist.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.fastjson.JSON;
 import edu.nuist.entity.Student;
 import edu.nuist.service.BackUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,7 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
 
     @Resource
     private BackUserService backUserService;
-
-    private static final int BATCH_COUNT = 2;
+    private static final int BATCH_COUNT = 5;
     private final Integer clazzId;
     private final List<Student> studentList = new ArrayList<>();
 
@@ -26,17 +26,17 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
     }
 
     /**
-     * 此方法每一条数据解析都会来调用
+     * 每一条数据解析都会调用该方法
      */
     @Override
     public void invoke(Student student, AnalysisContext analysisContext) {
         student.setClazzId(clazzId);
-        log.info("student: " + student);
+        log.info("解析到一条数据:{}", JSON.toJSONString(student));
         studentList.add(student);
 
         // 达到BATCH_COUNT，保存一次数据库，防止内存中数据过大
         if (studentList.size() >= BATCH_COUNT) {
-            addStudents(studentList);
+            savaData();
             studentList.clear();
         }
     }
@@ -46,14 +46,18 @@ public class StudentExcelListener extends AnalysisEventListener<Student> {
      */
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+        // 最后遗留的数据也需要存储到数据库中
+        savaData();
         log.info("所有数据解析完成！");
     }
 
     /**
      * 保存到数据库
      */
-    private void addStudents(List<Student> studentList) {
+    private void savaData() {
+        log.info("{}条数据，开始存储数据库！", studentList.size());
         backUserService.addStudents(studentList);
+        log.info("存储数据库成功！");
     }
 
 }
