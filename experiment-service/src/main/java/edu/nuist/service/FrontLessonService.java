@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface FrontLessonService {
 
-    List<Lesson> getAllLesson(String activeName);
-
     List<Lesson> getLessonByName(String lessonName);
+
+    List<Lesson> getLessonsByUserIdAndTagId(Integer userId, Integer tagId);
 
     Lesson loadLessonInfo(int lessonId);
 

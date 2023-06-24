@@ -79,12 +79,12 @@ public class BackLessonController {
         return BasicResultVO.success(pageInfo);
     }
 
-    // Todo
+    // Todo 需要根据用户id
     @ApiOperation("根据标签名称获取课程")
     @PostMapping("/getLessonsByTagName")
     public BasicResultVO<PageInfo<Lesson>> getLessonsByTagName(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Lesson> lessons = backLessonService.getAllLessonsByTag(pageRequest.getTagName());
+        List<Lesson> lessons = backLessonService.getLessonsByTag(pageRequest.getTagName());
         PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
         return BasicResultVO.success(pageInfo);
     }
@@ -169,8 +169,24 @@ public class BackLessonController {
 
     @PostMapping("/addChapterInEdit")
     public BasicResultVO<List<Chapter>> addChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit) {
-        List<Chapter> chapters = backLessonService.AddChapterInEditPart(addChapterInEdit);
-        return BasicResultVO.success(chapters);
+        try {
+            List<Chapter> chapters = backLessonService.addChapterInEditPart(addChapterInEdit);
+            return BasicResultVO.success(chapters);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
+    }
+
+    @PostMapping("/updateChapter")
+    public BasicResultVO<Void> updateChapter(@RequestBody Chapter chapter) {
+        try {
+            backLessonService.updateChapter(chapter);
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
     }
 
     @GetMapping("/delChapterInEdit")

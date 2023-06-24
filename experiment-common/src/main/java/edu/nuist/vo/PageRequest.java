@@ -15,6 +15,7 @@ public class PageRequest {
     private int currentPage;
     private int pageSize;
     private String lessonName;
+    private Integer tagId;
     private String tagName;
     private String tool_name;
 

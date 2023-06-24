@@ -1,6 +1,7 @@
 package edu.nuist.service;
 
 import com.alibaba.excel.EasyExcel;
+import edu.nuist.entity.Lesson;
 import edu.nuist.entity.UserExcel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,14 @@ public class FrontLessonServiceTest {
 //        ExcelReader excelReader = EasyExcel.read(fileName, UserExcel.class, new ExcelListener("null")).build();
 //        ReadSheet readSheet = EasyExcel.readSheet().build();
 //        excelReader.read(readSheet);
+    }
+
+    @Test
+    void testGetLessons() {
+        List<Lesson> lessons = frontLessonService.getLessonsByUserIdAndTagId(3, 0);
+        for (Lesson lesson : lessons) {
+            System.out.println(lesson);
+        }
     }
 
 }

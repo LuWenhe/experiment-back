@@ -4,7 +4,6 @@ import edu.nuist.dao.BackTagDao;
 import edu.nuist.dao.FrontLessonDao;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.SonChapter;
-import edu.nuist.entity.TagLesson;
 import edu.nuist.entity.Tool;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.vo.SonUserExp;
@@ -35,48 +34,22 @@ public class FrontLessonServiceImpl implements FrontLessonService {
     private String expUrl;
 
     @Override
-    public List<Lesson> getAllLesson(String activeName) {
-        List<Lesson> lessonList = new ArrayList<>();
-        List<TagLesson> tagLessonList;
-
-        if (activeName.equals("all")) {
-            return frontLessonsDao.getAllLessons();
-        } else if (activeName.equals("ai")) {
-            int tag_id = backTagsDao.getTagIDByTagName(activeName);
-            tagLessonList = backTagsDao.getTagLessons(tag_id);
-
-            for (TagLesson tagLesson : tagLessonList) {
-                lessonList.add(tagLesson.getLesson());
-            }
-        } else if (activeName.equals("meteo")) {
-            int tag_id = backTagsDao.getTagIDByTagName(activeName);
-            tagLessonList = backTagsDao.getTagLessons(tag_id);
-
-            for (TagLesson tagLesson : tagLessonList) {
-                lessonList.add(tagLesson.getLesson());
-            }
-        } else if (activeName.equals("soft")) {
-            int tag_id = backTagsDao.getTagIDByTagName(activeName);
-            tagLessonList = backTagsDao.getTagLessons(tag_id);
-
-            for (TagLesson tagLesson : tagLessonList) {
-                lessonList.add(tagLesson.getLesson());
-            }
-        } else {
-            int tag_id = backTagsDao.getTagIDByTagName(activeName);
-            tagLessonList = backTagsDao.getTagLessons(tag_id);
-
-            for (TagLesson tagLesson : tagLessonList) {
-                lessonList.add(tagLesson.getLesson());
-            }
-        }
-
-        return lessonList;
+    public List<Lesson> getLessonByName(String lessonName) {
+        return frontLessonsDao.getLessonByName(lessonName);
     }
 
     @Override
-    public List<Lesson> getLessonByName(String lessonName) {
-        return frontLessonsDao.getLessonByName(lessonName);
+    public List<Lesson> getLessonsByUserIdAndTagId(Integer userId, Integer tagId) {
+        List<Lesson> lessons;
+
+        // 如果获取该用户所有课程
+        if (tagId == 0) {
+            lessons = frontLessonsDao.getLessonsByUserId(userId);
+        } else {
+            lessons = frontLessonsDao.getLessonsByUserIdAndTagId(userId, tagId);
+        }
+
+        return lessons;
     }
 
     @Override
@@ -89,7 +62,6 @@ public class FrontLessonServiceImpl implements FrontLessonService {
         return frontLessonsDao.getSonChapterBySonId(sonId);
     }
 
-    // Todo
     @Override
     public SonUserExp getDynamicSonExpUrl(SonUserExp sonUserExp) throws IOException {
         SonUserExp sonUserExp1 = frontLessonsDao.isHasSonUserExpUrl(sonUserExp);
@@ -107,10 +79,6 @@ public class FrontLessonServiceImpl implements FrontLessonService {
             FileUtils.copyFile(new File(sourcePath), new File(destinationPath));
 
             expUrlDes = expUrl + sonId + userId + ".ipynb";
-
-//            cmdString = "cp /home/pl/jupyter_files/template.ipynb /home/pl/jupyter_files/"
-//                    + sonId + userId + ".ipynb";
-//            expUrl = linuxExpUrl + sonId + userId + "./ipynb";
 
             sonUserExp.setExp_url(expUrlDes);
             frontLessonsDao.addSonUserExpUrl(sonUserExp);

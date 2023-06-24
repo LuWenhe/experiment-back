@@ -27,7 +27,6 @@ public class BackBannerController {
         return BasicResultVO.success(allBanners);
     }
 
-    // Todo 返回值全要修改
     @GetMapping(value = "/getAllBanner")
     public BasicResultVO<PageInfo<Banner>> getAllBannerPage(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,

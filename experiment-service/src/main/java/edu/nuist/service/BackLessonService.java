@@ -28,7 +28,9 @@ public interface BackLessonService {
 
     void updateLessonInfo(LessonSubmit lessonSubmit);
 
-    List<Chapter> AddChapterInEditPart(AddChapterInEdit addChapterInEdit);
+    List<Chapter> addChapterInEditPart(AddChapterInEdit addChapterInEdit);
+
+    void updateChapter(Chapter chapter);
 
     void delChapterInEdit(Integer chapter_id);
 
@@ -38,7 +40,7 @@ public interface BackLessonService {
 
     void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
-    List<Lesson> getAllLessonsByTag(String tagName);
+    List<Lesson> getLessonsByTag(String tagName);
 
     void addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 

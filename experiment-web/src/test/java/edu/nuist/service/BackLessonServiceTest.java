@@ -29,4 +29,13 @@ class BackLessonServiceTest {
         }
     }
 
+    @Test
+    void testGetLessonsByTagName() {
+        List<Lesson> lessons = backLessonService.getLessonsByTag("meteo");
+
+        for (Lesson lesson : lessons) {
+            System.out.println(lesson);
+        }
+    }
+
 }

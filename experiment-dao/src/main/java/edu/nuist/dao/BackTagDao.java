@@ -47,7 +47,11 @@ public interface BackTagDao {
     })
     List<TagLesson> getTagLessons(int tag_id);
 
-    @Select("select *  from lesson where lessonId = #{param1}")
+    @Select("select * from lesson where lessonId = #{param1}")
+    @Results({
+            @Result(column = "md_description", property = "mdDescription"),
+            @Result(column = "html_description", property = "htmlDescription")
+    })
     Lesson getLessonByLessonId(int lessonId);
 
     @Select("select tag_id, tagName from tag")

@@ -84,7 +84,8 @@ public interface BackLessonDao {
     @Update("update son_chapter set exp_url = #{exp_url} where son_id = #{son_id}")
     void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
 
-    @Select("select lessonId,lesson_name,pic_url from lesson where teacher_id = #{teacherId} lesson_name = #{lessonName} ")
+    @Select("select lessonId,lesson_name, pic_url from lesson where teacher_id = #{teacherId} " +
+            "and lesson_name like CONCAT('%', #{lessonName},'%')")
     List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
     @Update("update lesson set lesson_name = #{lesson_name}, pic_url = #{pic_url}, difficulty = #{difficulty}," +
@@ -96,6 +97,10 @@ public interface BackLessonDao {
     @Insert("insert into chapter(chapter_no,chapter_name,description,lessonId) " +
             "values (#{chapter_no},#{chapter_name},#{description},#{lessonId}) ")
     void addChapterInEditPart(AddChapterInEdit addChapterInEdit);
+
+    @Update("update chapter set chapter_no = #{chapter_no}, chapter_name = #{chapter_name}, " +
+            "description = #{description} where chapter_id = #{chapter_id}")
+    void updateChapter(Chapter chapter);
 
     @Delete("delete from chapter where chapter_id = #{param1}")
     void delChapterInEdit(Integer chapter_id);

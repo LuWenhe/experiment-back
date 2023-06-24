@@ -1,9 +1,12 @@
 package edu.nuist.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import edu.nuist.entity.*;
 import edu.nuist.service.BackLessonService;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.vo.BasicResultVO;
+import edu.nuist.vo.PageRequest;
 import edu.nuist.vo.SonUserExp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,24 +27,21 @@ public class FrontLessonController {
 
     @GetMapping(value = "/getLessonsByName")
     public BasicResultVO<List<Lesson>> getLessonByName(String lessonName) {
-        try {
-            List<Lesson> lesson = frontLessonService.getLessonByName(lessonName);
-            return BasicResultVO.success(lesson);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BasicResultVO.fail();
-        }
+        List<Lesson> lesson = frontLessonService.getLessonByName(lessonName);
+        return BasicResultVO.success(lesson);
     }
 
-    @GetMapping("/getAllLessons")
-    public BasicResultVO<List<Lesson>> getAllLessons(String activeName) {
-        try {
-            List<Lesson> allLesson = frontLessonService.getAllLesson(activeName);
-            return BasicResultVO.success(allLesson);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BasicResultVO.fail();
-        }
+    @PostMapping("/getLessons")
+    public BasicResultVO<PageInfo<Lesson>> getLessonsByUserIdAndTagId(@RequestBody PageRequest pageRequest) {
+        int currentPage = pageRequest.getCurrentPage();
+        int pageSize = pageRequest.getPageSize();
+        Integer userId = pageRequest.getUserId();
+        Integer tagId = pageRequest.getTagId();
+
+        PageHelper.startPage(currentPage, pageSize);
+        List<Lesson> lessons = frontLessonService.getLessonsByUserIdAndTagId(userId, tagId);
+        PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageSize);
+        return BasicResultVO.success(pageInfo);
     }
 
     @GetMapping("/getLessonInfo")

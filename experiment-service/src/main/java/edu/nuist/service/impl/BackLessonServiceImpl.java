@@ -106,9 +106,14 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public List<Chapter> AddChapterInEditPart(AddChapterInEdit addChapterInEdit) {
+    public List<Chapter> addChapterInEditPart(AddChapterInEdit addChapterInEdit) {
         backLessonDao.addChapterInEditPart(addChapterInEdit);
         return backLessonDao.getChaptersByLessonId(addChapterInEdit.getLessonId());
+    }
+
+    @Override
+    public void updateChapter(Chapter chapter) {
+        backLessonDao.updateChapter(chapter);
     }
 
     @Override
@@ -134,7 +139,7 @@ public class BackLessonServiceImpl implements BackLessonService {
 
 
     @Override
-    public List<Lesson> getAllLessonsByTag(String tagName) {
+    public List<Lesson> getLessonsByTag(String tagName) {
         int tag_id = backTagDao.getTagIDByTagName(tagName);
         List<TagLesson> tagLessonList = backTagDao.getTagLessons(tag_id);
         List<Lesson> lessonList = new ArrayList<>();
