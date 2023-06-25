@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.nuist.vo.UserAndRoleVo;
 
 import java.util.Date;
 import java.util.Map;
@@ -39,21 +38,6 @@ public class JWTUtils {
     public static  Map<String, Claim> parseToken(String token) {
         DecodedJWT decodedJWT = verify(token);
         return decodedJWT.getClaims();
-    }
-
-    /**
-     * 解析Token获取用户对象
-     */
-    public static UserAndRoleVo getUserAndRoleFromToken(String token) {
-        DecodedJWT jwt = verify(token);
-        Map<String, Claim> claimMap = jwt.getClaims();
-
-        Integer userId = Integer.valueOf(claimMap.get("userId").asString());
-        String username = claimMap.get("username").asString();
-        Integer roleId = Integer.valueOf(claimMap.get("roleId").asString());
-        String roleName = claimMap.get("roleName").asString();
-
-        return new UserAndRoleVo(userId, username, roleId, roleName);
     }
 
     /**

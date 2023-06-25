@@ -18,12 +18,9 @@ public class UserExcelListener extends AnalysisEventListener<UserExcel> {
     @Resource
     private UserService userService;
 
-    private final String image;
-
     private static final int BATCH_COUNT = 5;
 
-    public UserExcelListener(String image, UserService userService) {
-        this.image = image;
+    public UserExcelListener(UserService userService) {
         this.userService = userService;
     }
 
@@ -52,7 +49,6 @@ public class UserExcelListener extends AnalysisEventListener<UserExcel> {
         for (UserExcel userExcel : userExcelList) {
             userExcel.setPassword(new EncryptUtil().getEnpPassword(userExcel.getPhone()));
             userExcel.setCreated_time(new GetCurrentDate().getCurrentDate());
-            userExcel.setAvatar_image(image);
             userService.insertUserFromExcel(userExcel);
         }
 

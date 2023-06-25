@@ -42,9 +42,6 @@ public class BackLessonController {
     @Resource
     private BackLessonService backLessonService;
 
-    @Value("${avatar.image}")
-    private String image;
-
     @Value("${file.fileRequestUrl}")
     private String fileRequestUrl;
 
@@ -250,9 +247,9 @@ public class BackLessonController {
         String subPath;
 
         if (TOOL_TYPE.contains(fileType)) {
-            subPath = "tools/";
+            subPath = "tool/";
         } else if (IMAGE_TYPE.contains(fileType)) {
-            subPath = "images/";
+            subPath = "image/";
         } else if (VIDEO_TYPE.contains(fileType)) {
             subPath = "video/";
         } else {
@@ -277,7 +274,7 @@ public class BackLessonController {
 
         try {
             in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
+            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             return BasicResultVO.success("上传成功");
@@ -300,7 +297,7 @@ public class BackLessonController {
 
         try {
             in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(image, userService)).build();
+            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(userService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             return BasicResultVO.success("上传成功");

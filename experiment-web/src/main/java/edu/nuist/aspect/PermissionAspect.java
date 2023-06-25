@@ -2,12 +2,9 @@ package edu.nuist.aspect;
 
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.enums.StatusEnum;
-import edu.nuist.service.SysPermissionService;
-import edu.nuist.util.JWTUtils;
+import edu.nuist.util.RedisUtil;
 import edu.nuist.vo.BasicResultVO;
-import edu.nuist.vo.UserAndRoleVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -27,7 +24,7 @@ public class PermissionAspect {
     private HttpServletRequest request;
 
     @Resource
-    private SysPermissionService sysPermissionService;
+    private RedisUtil redisUtil;
 
     // 定义切点
     @Pointcut("@annotation(edu.nuist.annotation.PermissionAnnotation) " +
@@ -37,19 +34,9 @@ public class PermissionAspect {
     // 环绕通知
     @Around("declarePointCut()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        String token = request.getHeader("token");
-
-        // 如果token为空
-        if (StringUtils.isBlank(token)) {
-            return BasicResultVO.fail("token为空");
-        }
-
-        UserAndRoleVo userAndRoleVo = JWTUtils.getUserAndRoleFromToken(token);
-        Integer userId = userAndRoleVo.getUserId();
-        String username = userAndRoleVo.getUsername();
-
-        UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
-        Set<String> urlList = userPermissionDto.getRequestUrlList();
+        UserPermissionDto userPermission = (UserPermissionDto) redisUtil.get("userPermission");
+        String username = userPermission.getUsername();
+        Set<String> urlList = userPermission.getRequestUrlList();
 
         // 获取请求的Url
         String requestURI = request.getRequestURI();
