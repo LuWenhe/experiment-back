@@ -13,8 +13,9 @@ import java.util.List;
 
 public interface BackLessonDao {
 
-    @Select("SELECT lessonId, lesson_name, pic_url, difficulty, learn_time, learn_credit, " +
-            "suitablePerson, canLearn, md_description, html_description, teacher_name, teacher_id from lesson")
+    @Select("SELECT lessonId, lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, canLearn, " +
+            "dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id from lesson " +
+            "order by update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")
@@ -25,8 +26,9 @@ public interface BackLessonDao {
      * 根据教师id获取教师所教的所有课程
      */
     @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
-            "le.suitablePerson, le.canLearn, le.md_description, le.html_description, le.teacher_name, le.teacher_id " +
-            "FROM users s INNER JOIN lesson le ON s.user_id = le.teacher_id WHERE s.user_id = #{teacherId}")
+            "le.suitablePerson, le.canLearn, le.dagang, le.cankao, le.goal, le.md_description, le.html_description, " +
+            "le.teacher_name, le.teacher_id FROM users s INNER JOIN lesson le ON s.user_id = le.teacher_id " +
+            "WHERE s.user_id = #{teacherId} order by le.update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")
@@ -37,9 +39,9 @@ public interface BackLessonDao {
      * 根据学生id获取学生所学的所有课程
      */
     @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
-            "le.suitablePerson, le.canLearn, le.md_description, le.html_description, le.teacher_name, le.teacher_id " +
-            "FROM users s INNER JOIN clazz c ON s.clazz_id = c.id " +
-            "INNER JOIN lesson le ON c.teacher_id = le.teacher_id WHERE s.user_id = #{userId}")
+            "le.suitablePerson, le.canLearn, le.dagang, le.cankao, le.goal, le.md_description, le.html_description, " +
+            "le.teacher_name, le.teacher_id FROM users s INNER JOIN clazz c ON s.clazz_id = c.id " +
+            "INNER JOIN lesson le ON c.teacher_id = le.teacher_id WHERE s.user_id = #{userId} order by le.update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")
@@ -47,19 +49,23 @@ public interface BackLessonDao {
     List<Lesson> getLessonsByUserId(Integer userId);
 
     @Options(useGeneratedKeys = true, keyProperty = "lessonId", keyColumn = "lessonId")
-    @Insert("insert into lesson(lesson_name, pic_url, difficulty, learn_time, learn_credit," +
-            "canLearn, md_description, html_description, teacher_name, suitablePerson, teacher_id) " +
-            "values(#{lesson_name}, #{pic_url}, #{difficulty}, #{learn_time}, #{learn_credit}, #{canLearn}, " +
-            "#{mdDescription}, #{htmlDescription}, #{teacher_name}, #{suitablePerson}, #{teacherId})")
+    @Insert("insert into lesson(lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, " +
+            "canLearn, dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id) " +
+            "values(#{lesson_name}, #{pic_url}, #{difficulty}, #{learn_time}, #{learn_credit}, #{suitablePerson}, " +
+            "#{canLearn}, #{dagang}, #{cankao}, #{goal}, #{mdDescription}, #{htmlDescription}, #{teacher_name}, " +
+            "#{teacherId})")
     @Results({
             @Result(column = "teacher_id", property = "teacherId")
     })
     void addLesson(LessonSubmit lessonSubmit);
 
-    @Select("SELECT * from lesson where lessonId = #{param1}")
+    @Select("SELECT lessonId, lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, canLearn, " +
+            "dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id from lesson " +
+            "where lessonId = #{param1}")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
-            @Result(column = "html_description", property = "htmlDescription")
+            @Result(column = "html_description", property = "htmlDescription"),
+            @Result(column = "teacher_id", property = "teacherId")
     })
     LessonSubmit getLessonDetailByLessonId(int lessonId);
 
@@ -89,9 +95,10 @@ public interface BackLessonDao {
     List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
     @Update("update lesson set lesson_name = #{lesson_name}, pic_url = #{pic_url}, difficulty = #{difficulty}," +
-            "learn_time = #{learn_time}, learn_credit = #{learn_credit}, canLearn = #{canLearn}, " +
-            "md_description = #{mdDescription}, html_description = #{htmlDescription}, " +
-            "teacher_name = #{teacher_name}, suitablePerson = #{suitablePerson} where lessonId = #{lessonId}")
+            "learn_time = #{learn_time}, learn_credit = #{learn_credit}, suitablePerson = #{suitablePerson}, " +
+            "canLearn = #{canLearn}, dagang = #{dagang}, cankao = #{cankao}, goal = #{goal}, " +
+            "md_description = #{mdDescription}, html_description = #{htmlDescription}, teacher_name = #{teacher_name} " +
+            "where lessonId = #{lessonId}")
     void updateLessonInfo(LessonSubmit lessonSubmit);
 
     @Insert("insert into chapter(chapter_no,chapter_name,description,lessonId) " +
@@ -115,8 +122,8 @@ public interface BackLessonDao {
             "values (#{son_no}, #{son_name},#{description},'Jupyter',#{chapter_id},#{mp4},#{ppt},#{lessonId}) ")
     void addSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
-    @Update("update son_chapter set son_name = #{son_name},description " +
-            "= #{description},ppt = #{ppt},mp4= #{mp4} where son_id = #{son_id} ")
+    @Update("update son_chapter set son_no = #{son_no}, son_name = #{son_name},description " +
+            "= #{description}, ppt = #{ppt}, mp4= #{mp4} where son_id = #{son_id} ")
     void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
 
     @Select("select count(*) from lesson")

@@ -67,13 +67,14 @@ public class FrontLessonServiceImpl implements FrontLessonService {
         SonUserExp sonUserExp1 = frontLessonsDao.isHasSonUserExpUrl(sonUserExp);
 
         // 如果jupyter的地址不为空
-        if (!StringUtils.isBlank(sonUserExp1.getExp_url())) {
+        if (sonUserExp1 != null && !StringUtils.isBlank(sonUserExp1.getExp_url())) {
             return sonUserExp1;
         } else {
             int sonId = sonUserExp.getSon_id();
             int userId = sonUserExp.getUser_id();
             String expUrlDes;   // 生成Jupyter的地址
 
+            // 复制Jupyter模板文件
             String sourcePath = fileDirectory + "jupyter/template.ipynb";
             String destinationPath = fileDirectory + "jupyter/" + sonId + userId + ".ipynb";
             FileUtils.copyFile(new File(sourcePath), new File(destinationPath));

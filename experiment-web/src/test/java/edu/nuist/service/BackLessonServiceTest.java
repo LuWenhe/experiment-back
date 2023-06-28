@@ -16,7 +16,7 @@ class BackLessonServiceTest {
 
     @Test
     void getLessonDetail() {
-        LessonSubmit lessonSubmit = backLessonService.getLessonDetail(8);
+        LessonSubmit lessonSubmit = backLessonService.getLessonDetail(1);
         System.out.println(lessonSubmit);
     }
 

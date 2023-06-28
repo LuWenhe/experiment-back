@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface FrontLessonDao {
 
-    @Select("select * from lesson where lessonId = #{param1}")
+    @Select("select * from lesson where lessonId = #{param1} order by update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")
@@ -27,22 +27,22 @@ public interface FrontLessonDao {
     })
     List<Lesson> getLessonByName(String lessonName);
 
-    @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
+    @Select("SELECT DISTINCT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
             "le.suitablePerson, le.canLearn, le.md_description, le.html_description, le.teacher_name, le.teacher_id " +
             "FROM users s, clazz c, lesson le, lesson_tag lt, tag t " +
             "WHERE s.clazz_id = c.id AND c.teacher_id = le.teacher_id AND lt.lessonId = le.lessonId " +
-            "AND lt.tag_id = t.tag_id AND s.user_id = #{userId}")
+            "AND lt.tag_id = t.tag_id AND s.user_id = #{userId} order by le.update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")
     })
     List<Lesson> getLessonsByUserId(Integer userId);
 
-    @Select("SELECT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
+    @Select("SELECT DISTINCT le.lessonId, le.lesson_name, le.pic_url, le.difficulty, le.learn_time, le.learn_credit, " +
             "le.suitablePerson, le.canLearn, le.md_description, le.html_description, le.teacher_name, le.teacher_id " +
             "FROM users s, clazz c, lesson le, lesson_tag lt, tag t " +
             "WHERE s.clazz_id = c.id AND c.teacher_id = le.teacher_id AND lt.lessonId = le.lessonId " +
-            "AND lt.tag_id = t.tag_id AND s.user_id = #{userId} AND lt.tag_id = #{tagId}")
+            "AND lt.tag_id = t.tag_id AND s.user_id = #{userId} AND lt.tag_id = #{tagId} order by le.update_time desc")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription")

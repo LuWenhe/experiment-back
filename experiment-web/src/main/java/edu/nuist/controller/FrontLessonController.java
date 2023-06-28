@@ -56,46 +56,6 @@ public class FrontLessonController {
         return BasicResultVO.success(sonChapter);
     }
 
-//    @GetMapping("/getDaymicExpUrl")
-//    public String getDaymicExpUrl(){
-//
-//        String uri = "http://localhost:9000/createContainer";
-//        CloseableHttpClient httpClient = HttpClients.createDefault();
-//        HttpGet httpGet = new HttpGet(uri);
-//        CloseableHttpResponse response = null;
-//        try {
-//            response = httpClient.execute(httpGet);
-//            HttpEntity entity = null;
-//            String resultString =null;
-//            if (response != null) {
-//                entity = response.getEntity();
-//                System.out.println();
-//                String context = EntityUtils.toString(entity, "utf-8");
-//                System.out.println(context);
-//                resultString = context;
-//            }
-//            return resultString;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        } finally {
-//            if (response != null) {
-//                try {
-//                    response.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (httpClient != null) {
-//                try {
-//                    httpClient.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-
     @PostMapping("/getDynamicExpUrl")
     public BasicResultVO<SonUserExp> getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) {
         try {

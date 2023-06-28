@@ -1,11 +1,11 @@
 package edu.nuist.jwt;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 
 import java.util.Map;
 
@@ -30,6 +30,12 @@ public class JWTTest {
         System.out.println(username);
         System.out.println(roleId);
         System.out.println(roleName);
+    }
+
+    @Test
+    void testString() {
+        boolean blank = StringUtils.isBlank(null);
+        System.out.println(blank);
     }
 
 }
