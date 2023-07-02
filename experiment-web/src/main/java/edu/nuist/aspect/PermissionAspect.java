@@ -2,9 +2,11 @@ package edu.nuist.aspect;
 
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.enums.StatusEnum;
+import edu.nuist.util.JWTUtils;
 import edu.nuist.util.RedisUtil;
 import edu.nuist.vo.BasicResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,7 +36,16 @@ public class PermissionAspect {
     // 环绕通知
     @Around("declarePointCut()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        UserPermissionDto userPermission = (UserPermissionDto) redisUtil.get("userPermission");
+        String token = request.getHeader("token");
+
+        // 如果token为空
+        if (StringUtils.isBlank(token)) {
+            return BasicResultVO.fail("token为空");
+        }
+
+        Integer userId = JWTUtils.getUserId(token);
+        // 根据userId获取权限值
+        UserPermissionDto userPermission = (UserPermissionDto) redisUtil.get("userId:" + userId);
         String username = userPermission.getUsername();
         Set<String> urlList = userPermission.getRequestUrlList();
 

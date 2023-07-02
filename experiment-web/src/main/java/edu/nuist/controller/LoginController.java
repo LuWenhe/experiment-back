@@ -33,6 +33,8 @@ public class LoginController {
     @Resource
     private RedisUtil redisUtil;
 
+    private static final long time = 24 * 60 * 60;
+
     @PostMapping("/backLogin")
     public BasicResultVO<UserPermissionDto> login(@RequestBody User user) {
         String username = user.getUsername();
@@ -49,7 +51,7 @@ public class LoginController {
             String token = JWTUtils.getToken(payload);
 
             UserPermissionDto userPermissionDto = sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
-            redisUtil.set("userPermission",userPermissionDto,24*60*60);
+            redisUtil.set("userId:" + userId, userPermissionDto, time);
             return BasicResultVO.success("登录成功", userPermissionDto, token);
         } else {
             return BasicResultVO.fail("登录失败");
@@ -79,10 +81,11 @@ public class LoginController {
 
     @PostMapping("/backLogout")
     public BasicResultVO<Void> backLoginOut(@RequestBody Integer userId) {
-        UserPermissionDto userPermissionDto = (UserPermissionDto) redisUtil.get("userPermission");
+        String redisKey = "userId:" + userId;
+        UserPermissionDto userPermissionDto = (UserPermissionDto) redisUtil.get(redisKey);
 
-        if (userPermissionDto.getUserId().equals(userId)) {
-            redisUtil.del("userPermission");
+        if (userPermissionDto != null && userPermissionDto.getUserId().equals(userId)) {
+            redisUtil.del(redisKey);
         }
 
         return BasicResultVO.success();

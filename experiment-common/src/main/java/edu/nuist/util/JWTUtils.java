@@ -47,4 +47,10 @@ public class JWTUtils {
         return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
     }
 
+    public static Integer getUserId(String token) {
+        DecodedJWT jwt = verify(token);
+        Map<String, Claim> claimMap = jwt.getClaims();
+        return Integer.valueOf(claimMap.get("userId").asString());
+    }
+
 }

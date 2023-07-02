@@ -3,6 +3,7 @@ package edu.nuist.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
@@ -10,6 +11,8 @@ import edu.nuist.entity.Chapter;
 import edu.nuist.entity.Lesson;
 import edu.nuist.entity.SonChapter;
 import edu.nuist.entity.UserExcel;
+import edu.nuist.entity.jupyter.Cells;
+import edu.nuist.entity.jupyter.JsonRootBean;
 import edu.nuist.enums.RoleEnum;
 import edu.nuist.enums.StatusEnum;
 import edu.nuist.listener.UserExcelListener;
@@ -25,8 +28,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -228,6 +233,76 @@ public class BackLessonController {
             e.printStackTrace();
             return BasicResultVO.fail();
         }
+    }
+
+    @PostMapping("/parseJupyter")
+    public BasicResultVO<String> parseJupyter(@RequestParam("file") MultipartFile file) throws IOException {
+        InputStream inputStream = file.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+
+        String tmpStr;
+        boolean isFirstRow = true;
+        StringBuilder jupyterContent = new StringBuilder();
+
+        while ((tmpStr = reader.readLine()) != null) {
+            jupyterContent.append(tmpStr);
+
+            if (isFirstRow) {
+                isFirstRow = false;
+                continue;
+            }
+
+            jupyterContent.append("\n");
+        }
+
+//        if (jupyterContent.length() > 0 && jupyterContent.charAt(jupyterContent.length() - 1) == '\n') {
+//            jupyterContent.setLength(jupyterContent.length() - 1);
+//        }
+
+        reader.close();
+
+        JsonRootBean jsonRootBean = JSON.parseObject(jupyterContent.toString(), JsonRootBean.class);
+        List<Cells> cells = jsonRootBean.getCells();
+        StringBuilder parseContent = new StringBuilder();
+
+        for (Cells cell : cells) {
+            String cellType = cell.getCellType();
+            List<String> cellSource = cell.getSource();
+
+            if (cellType.equals("markdown")){
+                if (cellSource.size() == 0){
+                    continue;
+                }
+
+                // 如果之前有内容, 在添加换行符
+                if (parseContent.length() > 0) {
+                    parseContent.append("\n");
+                }
+
+                for (String s : cellSource) {
+                    parseContent.append(s);
+                }
+            } else if (cellType.equals("code")){
+                if (cellSource.size() == 0){
+                    continue;
+                }
+
+                if (parseContent.length() > 0) {
+                    parseContent.append("\n");
+                }
+
+                parseContent.append("```python\n");
+
+                for (String s : cellSource) {
+                    parseContent.append(s);
+                }
+
+                parseContent.append("\n```");
+            }
+        }
+
+        return BasicResultVO.success(null, parseContent.toString(), null);
     }
 
     @PostMapping("/uploadFile")
