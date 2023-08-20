@@ -1,25 +1,25 @@
 package edu.nuist.controller;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.annotation.PermissionAnnotation;
+import edu.nuist.dto.ChapterDto;
+import edu.nuist.dto.JupyterFileDto;
+import edu.nuist.dto.SonChapterDto;
 import edu.nuist.entity.Chapter;
+import edu.nuist.entity.JupyterFile;
 import edu.nuist.entity.Lesson;
-import edu.nuist.entity.SonChapter;
-import edu.nuist.entity.UserExcel;
 import edu.nuist.entity.jupyter.Cells;
 import edu.nuist.entity.jupyter.JsonRootBean;
 import edu.nuist.enums.RoleEnum;
 import edu.nuist.enums.StatusEnum;
-import edu.nuist.listener.UserExcelListener;
 import edu.nuist.service.BackLessonService;
-import edu.nuist.service.UserService;
 import edu.nuist.util.FileUtils;
-import edu.nuist.vo.*;
+import edu.nuist.vo.BasicResultVO;
+import edu.nuist.vo.LessonSubmit;
+import edu.nuist.vo.PageRequest;
+import edu.nuist.vo.SonChapterAndUrl;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,9 +41,6 @@ import java.util.List;
 @RequestMapping("/backLesson")
 @PermissionAnnotation
 public class BackLessonController {
-
-    @Resource
-    private UserService userService;
 
     @Resource
     private BackLessonService backLessonService;
@@ -56,9 +54,12 @@ public class BackLessonController {
     @Value("${file.fileDirectory}")
     private String fileDirectory;
 
+    @Value("${file.jupyterDirectory}")
+    private String jupyterDirectory;
+
     private static final List<String> TOOL_TYPE = Arrays.asList(".exe", ".zip");
 
-    private static final List<String> IMAGE_TYPE = Arrays.asList(".jpeg", ".png");
+    private static final List<String> IMAGE_TYPE = Arrays.asList(".jpeg", ".png", ".jpg");
 
     private static final List<String> VIDEO_TYPE = Arrays.asList(".mp4", ".mkv");
 
@@ -94,25 +95,68 @@ public class BackLessonController {
     @ApiOperation("管理页面添加课程")
     @PostMapping("/addLesson")
     @PermissionAnnotation("lesson:add")
-    public BasicResultVO<Integer> addLesson(@RequestBody LessonSubmit lessonSubmit) {
+    public BasicResultVO<Void> addLesson(@RequestBody LessonSubmit lessonSubmit) {
         try {
+            String lessonName = lessonSubmit.getLesson_name();
+            String path = jupyterDirectory + lessonName;
             backLessonService.addLesson(lessonSubmit);
-            return BasicResultVO.success(lessonSubmit.getLessonId());
+
+            if (lessonSubmit.getLessonId() == null) {
+                return BasicResultVO.fail();
+            }
+
+            FileUtils.createFile(path);
+            return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
     @ApiOperation("管理界面修改课程信息")
-    @PostMapping("/updateLessonInfo")
+    @PostMapping("/updateLesson")
     @PermissionAnnotation("lesson:update")
     public BasicResultVO<Void> updateLessonInfo(@RequestBody LessonSubmit lessonSubmit) {
         try {
-            backLessonService.updateLessonInfo(lessonSubmit);
+            Integer lessonId = lessonSubmit.getLessonId();
+            LessonSubmit oldLesson = backLessonService.getLessonDetail(lessonId);
+
+            backLessonService.updateLesson(lessonSubmit);
+            List<JupyterFile> jupyterFiles = backLessonService.getJupyterIdsByLessonId(lessonId);
+
+            String oldLessonName = oldLesson.getLesson_name();
+            String newLessonName = lessonSubmit.getLesson_name();
+
+            if (!jupyterFiles.isEmpty()) {
+                for (JupyterFile jupyterFile : jupyterFiles) {
+                    String url = jupyterFile.getUrl();
+                    String newUrl = url.replace(oldLessonName, newLessonName);
+                    jupyterFile.setUrl(newUrl);
+                }
+
+                backLessonService.updateJupyterFile(jupyterFiles);
+            }
+
+            String srcPath = jupyterDirectory + oldLessonName;
+            String destPath = jupyterDirectory + newLessonName;
+
+            FileUtils.renameFile(srcPath, destPath);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            return BasicResultVO.fail();
+        }
+    }
+
+    @GetMapping("/deleteLesson")
+    public BasicResultVO<Void> deleteLesson(Integer lessonId, String lessonName) {
+        try {
+            backLessonService.deleteJupyterFilesByLessonId(lessonId);
+            backLessonService.deleteSonChaptersByLessonId(lessonId);
+            backLessonService.deleteChaptersByLessonId(lessonId);
+            backLessonService.deleteLessonById(lessonId);
+
+            FileUtils.deleteDirectoriesAndFiles(jupyterDirectory + lessonName);
+            return BasicResultVO.success();
+        } catch (Exception e) {
             return BasicResultVO.fail();
         }
     }
@@ -127,7 +171,7 @@ public class BackLessonController {
     @ApiOperation("获取课程章节")
     @GetMapping("/getChapterInfoByLessonId")
     public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
-        List<Chapter> chapters = backLessonService.getChapterByLessonId(lessonId);
+        List<Chapter> chapters = backLessonService.getChaptersByLessonId(lessonId);
         return BasicResultVO.success(chapters);
     }
 
@@ -164,73 +208,152 @@ public class BackLessonController {
             PageInfo<Lesson> pageInfo = new PageInfo<>(lessonList, pageRequest.getPageSize());
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping("/addChapterInEdit")
-    public BasicResultVO<List<Chapter>> addChapterInEdit(@RequestBody AddChapterInEdit addChapterInEdit) {
+    @PostMapping("/addChapter")
+    public BasicResultVO<List<Chapter>> addChapter(@RequestBody ChapterDto chapterDto) {
         try {
-            List<Chapter> chapters = backLessonService.addChapterInEditPart(addChapterInEdit);
+            String chapterPath = chapterDto.getLessonName() + "/" + chapterDto.getName();
+            String filePath = jupyterDirectory + chapterPath;
+            backLessonService.addChapter(chapterDto);
+
+            FileUtils.createFile(filePath);
+
+            List<Chapter> chapters = backLessonService.getChaptersByLessonId(chapterDto.getLessonId());
             return BasicResultVO.success(chapters);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
     @PostMapping("/updateChapter")
-    public BasicResultVO<Void> updateChapter(@RequestBody Chapter chapter) {
+    public BasicResultVO<Void> updateChapter(@RequestBody ChapterDto chapterDto) {
         try {
-            backLessonService.updateChapter(chapter);
+            Integer chapterDtoId = chapterDto.getId();
+            Chapter oldChapter = backLessonService.getChapterByChapterId(chapterDtoId);
+
+            // 更新章节表
+            backLessonService.updateChapter(chapterDto);
+            List<JupyterFile> jupyterFiles = backLessonService.getJupyterIdsByChapterId(chapterDtoId);
+
+            String oldChapterName = oldChapter.getName();
+            String newChapterName = chapterDto.getName();
+            String lessonName = chapterDto.getLessonName();
+
+            if (!jupyterFiles.isEmpty()) {
+                for (JupyterFile jupyterFile : jupyterFiles) {
+                    String url = jupyterFile.getUrl();
+                    String newUrl = url.replace(oldChapterName, newChapterName);
+                    jupyterFile.setUrl(newUrl);
+                }
+
+                backLessonService.updateJupyterFile(jupyterFiles);
+            }
+
+
+            String srcPath = jupyterDirectory + lessonName + "/" + oldChapterName;
+            String destPath = jupyterDirectory + lessonName + "/" + newChapterName;
+
+            FileUtils.renameFile(srcPath, destPath);
+
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @GetMapping("/delChapterInEdit")
-    public BasicResultVO<Void> delChapterInEdit(@RequestParam("chapterId") Integer chapterId) {
+    @GetMapping("/deleteChapter")
+    public BasicResultVO<Void> deleteChapter(@RequestParam("lessonName") String lessonName,
+                                             @RequestParam("chapterId") Integer chapterId,
+                                             @RequestParam("chapterName") String chapterName) {
         try {
-            backLessonService.delChapterInEdit(chapterId);
+            List<JupyterFile> jupyterFiles = backLessonService.getJupyterIdsByChapterId(chapterId);
+            List<Integer> jupyterIds = new ArrayList<>();
+
+            for (JupyterFile jupyterFile : jupyterFiles) {
+                jupyterIds.add(jupyterFile.getId());
+            }
+
+            backLessonService.deleteJupyterFilesByIds(jupyterIds);
+            backLessonService.deleteSonChaptersByChapterId(chapterId);
+            backLessonService.deleteChapters(chapterId);
+
+            String filePath = jupyterDirectory + lessonName + chapterName;
+            FileUtils.deleteDirectoriesAndFiles(filePath);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @GetMapping("/delSonChapterInEdit")
-    public BasicResultVO<Void> delSonChapterInEdit(@RequestParam("sonId") Integer sonId) {
+    @PostMapping("/addSonChapter")
+    public BasicResultVO<Void> addSonChapter(@RequestBody SonChapterDto sonChapterDto) {
         try {
-            backLessonService.delSonChapterInEdit(sonId);
+            String sonChapterPath = sonChapterDto.getLessonName() + "/" + sonChapterDto.getChapterName()
+                    + "/" + sonChapterDto.getName();
+            backLessonService.addSonChapter(sonChapterDto);
+
+            String filePath = jupyterDirectory + sonChapterPath;
+            FileUtils.createFile(filePath);
+
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping("/addSonChapterInEdit")
-    public BasicResultVO<Void> addSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
+    @PostMapping("/updateSonChapter")
+    public BasicResultVO<Void> updateSonChapter(@RequestBody SonChapterDto sonChapterDto) {
         try {
-            backLessonService.addSonChapterInEdit(addSonChapterInEdit);
+            int sonChapterId = sonChapterDto.getId();
+            SonChapterDto oldSonChapter = backLessonService.getSonChapter(sonChapterId);
+
+            backLessonService.updateSonChapter(sonChapterDto);
+            List<JupyterFile> jupyterFiles = backLessonService.getJupyterFiles(sonChapterId);
+
+            String oldSonChapterName = oldSonChapter.getName();
+            String newSonChapterName = sonChapterDto.getName();
+
+            if (!jupyterFiles.isEmpty()) {
+                for (JupyterFile jupyterFile : jupyterFiles) {
+                    String url = jupyterFile.getUrl();
+                    String newUrl = url.replace(oldSonChapterName, newSonChapterName);
+                    jupyterFile.setUrl(newUrl);
+                }
+
+                backLessonService.updateJupyterFile(jupyterFiles);
+            }
+
+            String srcPath = jupyterDirectory + oldSonChapter.getLessonName() + "/" + oldSonChapter.getChapterName()
+                    + "/" + oldSonChapterName;
+            String destPath = jupyterDirectory + sonChapterDto.getLessonName() + "/" + sonChapterDto.getChapterName()
+                    + "/" + newSonChapterName;
+
+            FileUtils.renameFile(srcPath, destPath);
+
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping("/editSonChapterInEdit")
-    public BasicResultVO<Void> editSonChapterInEdit(@RequestBody AddSonChapterInEdit addSonChapterInEdit) {
+    @GetMapping("/delSonChapter")
+    public BasicResultVO<Void> delSonChapter(@RequestParam("lessonName") String lessonName,
+                                             @RequestParam("chapterName") String chapterName,
+                                             @RequestParam("sonId") Integer sonId,
+                                             @RequestParam("sonName") String sonName) {
         try {
-            backLessonService.editSonChapterInEdit(addSonChapterInEdit);
+            backLessonService.deleteSonChapterById(sonId);
+            backLessonService.deleteJupyterFilesBySonId(sonId);
+
+            String filePath = jupyterDirectory + lessonName + "/" + chapterName + "/" + sonName;
+            // 删除子小节下面的所以文件
+            FileUtils.deleteDirectoriesAndFiles(filePath);
+
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -256,10 +379,6 @@ public class BackLessonController {
             jupyterContent.append("\n");
         }
 
-//        if (jupyterContent.length() > 0 && jupyterContent.charAt(jupyterContent.length() - 1) == '\n') {
-//            jupyterContent.setLength(jupyterContent.length() - 1);
-//        }
-
         reader.close();
 
         JsonRootBean jsonRootBean = JSON.parseObject(jupyterContent.toString(), JsonRootBean.class);
@@ -270,8 +389,8 @@ public class BackLessonController {
             String cellType = cell.getCellType();
             List<String> cellSource = cell.getSource();
 
-            if (cellType.equals("markdown")){
-                if (cellSource.size() == 0){
+            if (cellType.equals("markdown")) {
+                if (cellSource.isEmpty()) {
                     continue;
                 }
 
@@ -283,8 +402,8 @@ public class BackLessonController {
                 for (String s : cellSource) {
                     parseContent.append(s);
                 }
-            } else if (cellType.equals("code")){
-                if (cellSource.size() == 0){
+            } else if (cellType.equals("code")) {
+                if (cellSource.isEmpty()) {
                     continue;
                 }
 
@@ -342,49 +461,56 @@ public class BackLessonController {
         return new BasicResultVO<>(StatusEnum.SUCCESS_200, fileRequestUrl + subPath + fileName);
     }
 
-    @PostMapping("/uploadExcelImport")
-    public BasicResultVO<Void> uploadExcelImport(@RequestParam("file") MultipartFile file) throws IOException {
-        ExcelReader excelReader = null;
-        InputStream in = null;
+    @PostMapping("/uploadLessonFile")
+    public BasicResultVO<Void> uploadLessonFile(@RequestParam("files") MultipartFile[] files,
+                                                String path,
+                                                Integer lessonId,
+                                                Integer sonId) {
+        path = path.trim();
 
-        try {
-            in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(userService)).build();
-            ReadSheet readSheet = EasyExcel.readSheet(0).build();
-            excelReader.read(readSheet);
-            return BasicResultVO.success("上传成功");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return BasicResultVO.fail("上传失败");
-        } finally {
-            in.close();
-            // 这里一定别忘记关闭，读的时候会创建临时文件，到时磁盘会崩
-            if (excelReader != null) {
-                excelReader.finish();
+        if (files == null) {
+            return BasicResultVO.success();
+        }
+
+        List<JupyterFile> jupyterFiles = new ArrayList<>();
+        boolean isExists = false;
+
+
+        for (MultipartFile file : files) {
+            JupyterFile jupyterFile = new JupyterFile();
+            jupyterFile.setPath(path);
+            jupyterFile.setLessonId(lessonId);
+            jupyterFile.setSonId(sonId);
+
+            String fileName = file.getOriginalFilename();
+            String filePath = jupyterDirectory + path + "/";
+
+            // 如果文件已经存在
+            if (FileUtils.ifExists(file, filePath)) {
+                isExists = true;
+                continue;
+            }
+
+            jupyterFile.setName(fileName);
+            jupyterFile.setUrl(expUrl + path + "/" + fileName);
+            jupyterFiles.add(jupyterFile);
+
+            try {
+                FileUtils.uploadFile(file, filePath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
-    }
 
-    @PostMapping("/uploadExcelImportStu")
-    public BasicResultVO<Void> uploadExcelImportStu(@RequestParam("file") MultipartFile file) throws IOException {
-        ExcelReader excelReader = null;
-        InputStream in = null;
+        if (jupyterFiles.isEmpty() && isExists) {
+            return BasicResultVO.fail("文件已经存在!");
+        }
 
         try {
-            in = file.getInputStream();
-            excelReader = EasyExcel.read(in, UserExcel.class, new UserExcelListener(userService)).build();
-            ReadSheet readSheet = EasyExcel.readSheet(0).build();
-            excelReader.read(readSheet);
-            return BasicResultVO.success("上传成功");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return BasicResultVO.fail("上传失败");
-        } finally {
-            in.close();
-            // 这里一定别忘记关闭，读的时候会创建临时文件，到时磁盘会崩
-            if (excelReader != null) {
-                excelReader.finish();
-            }
+            backLessonService.addJupyterFiles(jupyterFiles);
+            return BasicResultVO.success("文件上传成功!");
+        } catch (Exception e) {
+            return BasicResultVO.fail("文件上传失败!");
         }
     }
 
@@ -394,26 +520,42 @@ public class BackLessonController {
             backLessonService.addSonChapterBook(sonChapterAndUrl);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
-            return BasicResultVO.fail();
-        }
-    }
-
-    @GetMapping("/deleteLessonById")
-    public BasicResultVO<Void> deleteLessonById(@RequestParam("lessonId") int lessonId) {
-        try {
-            backLessonService.deleteLessonById(lessonId);
-            return BasicResultVO.success();
-        } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
     @GetMapping("/getEditSonChapterInfo")
-    public BasicResultVO<SonChapter> getEditSonChapterInfo(Integer sonId) {
-        SonChapter sonChapter = backLessonService.getEditSonChapterInfo(sonId);
+    public BasicResultVO<SonChapterDto> getEditSonChapterInfo(Integer sonId) {
+        SonChapterDto sonChapter = backLessonService.getSonChapter(sonId);
         return BasicResultVO.success(sonChapter);
+    }
+
+    @GetMapping("/getJupyterFiles")
+    public BasicResultVO<List<JupyterFile>> getJupyterFiles(Integer sonId) {
+        try {
+            List<JupyterFile> jupyterFiles = backLessonService.getJupyterFiles(sonId);
+            return BasicResultVO.success(jupyterFiles);
+        } catch (Exception e) {
+            return BasicResultVO.fail();
+        }
+    }
+
+    @PostMapping("/deleteJupyterFiles")
+    public BasicResultVO<Void> deleteJupyterFiles(@RequestBody JupyterFileDto jupyterFileDto) {
+        try {
+            List<Integer> jupyterIds = jupyterFileDto.getJupyterIds();
+            List<String> jupyterPaths = jupyterFileDto.getJupyterPaths();
+
+            backLessonService.deleteJupyterFilesByIds(jupyterIds);
+
+            for (String jupyterPath : jupyterPaths) {
+                FileUtils.deleteFile(jupyterDirectory + jupyterPath);
+            }
+
+            return BasicResultVO.success();
+        } catch (Exception e) {
+            return BasicResultVO.fail();
+        }
     }
 
 }

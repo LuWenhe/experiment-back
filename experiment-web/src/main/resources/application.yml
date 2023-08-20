@@ -7,13 +7,17 @@ spring:
 #    active: prod
 file:
   fileDirectory: D:/Projects/ActualProjects/experiment-ai/file/
+  jupyterDirectory: D:/Projects/ActualProjects/experiment-ai/lesson/
   fileRequestUrl: http://localhost:4040/
 #file:
 #  fileDirectory: /home/project/experiment-ai/file/
+#  fileDirectory: /home/projects/experiment-ai/file/
 #  fileRequestUrl: http://124.221.34.158:4040/
+#  fileRequestUrl: http://10.0.3.67:4040/
 jupyter:
-#  expUrl: http://localhost:8888/
-  expUrl: http://124.221.34.158:8888/
+  expUrl: http://localhost:8888/notebooks/
+#  expUrl: http://124.221.34.158:8888/
+#  expUrl: http://10.0.3.67:8888/notebooks/
 logging:
   level:
     root: info

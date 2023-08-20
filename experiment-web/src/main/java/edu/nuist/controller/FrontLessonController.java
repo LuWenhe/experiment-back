@@ -62,7 +62,6 @@ public class FrontLessonController {
             SonUserExp sonExpUrl = frontLessonService.getDynamicSonExpUrl(sonUserExp);
             return BasicResultVO.success(sonExpUrl);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -81,7 +80,7 @@ public class FrontLessonController {
 
     @GetMapping("/getChapterInfoByLessonId")
     public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
-        List<Chapter> chapters = backLessonService.getChapterByLessonId(lessonId);
+        List<Chapter> chapters = backLessonService.getChaptersByLessonId(lessonId);
         return BasicResultVO.success(chapters);
     }
 

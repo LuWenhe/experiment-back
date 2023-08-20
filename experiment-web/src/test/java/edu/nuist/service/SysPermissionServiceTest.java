@@ -1,6 +1,6 @@
 package edu.nuist.service;
 
-import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.SideMenuDto;
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
 import edu.nuist.util.TreeUtils;
@@ -64,9 +64,9 @@ public class SysPermissionServiceTest {
 
     @Test
     void testPermissionsMenu() {
-        List<MenuDto> menuDtoList = sysPermissionService.getMenuByUserId(3);
-        MenuDto menuDto = TreeUtils.getMenuTrees(menuDtoList);
-        System.out.println(menuDto);
+        List<SideMenuDto> sideMenuDtoList = sysPermissionService.getMenuByUserId(3);
+        SideMenuDto sideMenuDto = TreeUtils.getMenuTrees(sideMenuDtoList);
+        System.out.println(sideMenuDto);
     }
 
 }

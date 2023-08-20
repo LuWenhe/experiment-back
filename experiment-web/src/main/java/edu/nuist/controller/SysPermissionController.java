@@ -1,6 +1,6 @@
 package edu.nuist.controller;
 
-import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.SideMenuDto;
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
 import edu.nuist.service.SysPermissionService;
@@ -50,10 +50,10 @@ public class SysPermissionController {
 
 
     @GetMapping("/getMenu")
-    public BasicResultVO<MenuDto> getMenuTree(Integer userId) {
+    public BasicResultVO<SideMenuDto> getMenuTree(Integer userId) {
         try {
-            List<MenuDto> menuDtoList = sysPermissionService.getMenuByUserId(userId);
-            MenuDto menuTrees = TreeUtils.getMenuTrees(menuDtoList);
+            List<SideMenuDto> sideMenuDtoList = sysPermissionService.getMenuByUserId(userId);
+            SideMenuDto menuTrees = TreeUtils.getMenuTrees(sideMenuDtoList);
             return BasicResultVO.success(menuTrees);
         } catch (Exception e) {
             e.printStackTrace();

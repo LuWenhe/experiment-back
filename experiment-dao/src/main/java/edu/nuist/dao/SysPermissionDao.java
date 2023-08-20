@@ -1,6 +1,6 @@
 package edu.nuist.dao;
 
-import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.SideMenuDto;
 import edu.nuist.entity.Permission;
 import edu.nuist.entity.UserPermission;
 import org.apache.ibatis.annotations.Result;
@@ -61,6 +61,6 @@ public interface SysPermissionDao {
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime")
     })
-    List<MenuDto> getMenuByUserId(Integer userId);
+    List<SideMenuDto> getMenuByUserId(Integer userId);
 
 }

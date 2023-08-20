@@ -27,5 +27,6 @@ public class LessonSubmit {
     private double learnCredit;
     private Integer lessonId;
     private Integer teacherId;
+    private String path;
 
 }

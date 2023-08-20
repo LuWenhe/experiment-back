@@ -1,7 +1,7 @@
 package edu.nuist.service.impl;
 
 import edu.nuist.dao.SysPermissionDao;
-import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.SideMenuDto;
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
 import edu.nuist.entity.UserPermission;
@@ -65,7 +65,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     }
 
     @Override
-    public List<MenuDto> getMenuByUserId(Integer userId) {
+    public List<SideMenuDto> getMenuByUserId(Integer userId) {
         return sysPermissionDao.getMenuByUserId(userId);
     }
 

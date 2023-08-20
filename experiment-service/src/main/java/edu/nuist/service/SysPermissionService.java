@@ -1,6 +1,6 @@
 package edu.nuist.service;
 
-import edu.nuist.dto.MenuDto;
+import edu.nuist.dto.SideMenuDto;
 import edu.nuist.dto.UserPermissionDto;
 import edu.nuist.entity.Permission;
 
@@ -14,6 +14,6 @@ public interface SysPermissionService {
 
     UserPermissionDto getMenuOrButtonPermissionByUserId(Integer userId);
 
-    List<MenuDto> getMenuByUserId(Integer userId);
+    List<SideMenuDto> getMenuByUserId(Integer userId);
 
 }

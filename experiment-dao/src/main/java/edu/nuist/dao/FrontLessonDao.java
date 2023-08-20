@@ -49,7 +49,7 @@ public interface FrontLessonDao {
     })
     List<Lesson> getLessonsByUserIdAndTagId(Integer userId, Integer tagId);
 
-    @Select("select * from son_chapter where son_id = #{param1}")
+    @Select("select * from son_chapter where id = #{param1}")
     SonChapter getSonChapterBySonId(int son_id);
 
     @Select("select * from son_user_exp where user_id = #{user_id} and son_id = #{son_id}")

@@ -2,9 +2,7 @@ package edu.nuist.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public enum RoleEnum {
@@ -13,8 +11,8 @@ public enum RoleEnum {
     TEACHER_ROLE(2,"老师"),
     STUDENT_ROLE(3, "学生");
 
-    private Integer code;
+    private final Integer code;
 
-    private String role;
+    private final String role;
 
 }

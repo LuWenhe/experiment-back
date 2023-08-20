@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -26,5 +27,8 @@ public class Lesson {
     private List<Chapter> chapters;
     private List<Tag> tags;
     private String teacher_name;
+    private String path;
+    private Date createTime;
+    private Date updateTime;
 
 }

@@ -1,12 +1,13 @@
 package edu.nuist.service;
 
+import edu.nuist.dto.LessonTreeDto;
 import edu.nuist.entity.Chapter;
+import edu.nuist.entity.JupyterFile;
 import edu.nuist.entity.Lesson;
-import edu.nuist.entity.SonChapter;
-import edu.nuist.vo.AddChapterInEdit;
-import edu.nuist.vo.AddSonChapterInEdit;
+import edu.nuist.dto.ChapterDto;
 import edu.nuist.vo.LessonSubmit;
 import edu.nuist.vo.SonChapterAndUrl;
+import edu.nuist.dto.SonChapterDto;
 
 import java.util.List;
 
@@ -20,25 +21,33 @@ public interface BackLessonService {
 
     LessonSubmit getLessonDetail(int lessonId);
 
-    List<Chapter> getChaptersInfoByLessonId(int lesson_id);
+    LessonSubmit getLessonById(Integer lessonId);
 
     void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
 
     List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
-    void updateLessonInfo(LessonSubmit lessonSubmit);
+    void updateLesson(LessonSubmit lessonSubmit);
 
-    List<Chapter> addChapterInEditPart(AddChapterInEdit addChapterInEdit);
+    Integer addChapter(ChapterDto chapterDto);
 
-    void updateChapter(Chapter chapter);
+    Chapter getChapterByChapterId(Integer chapterId);
 
-    void delChapterInEdit(Integer chapter_id);
+    void updateChapter(ChapterDto chapterDto);
 
-    void delSonChapterInEdit(Integer son_id);
+    void deleteChapters(Integer chapterId);
 
-    void addSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
+    void deleteChaptersByLessonId(int lessonId);
 
-    void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit);
+    void deleteSonChapterById(Integer son_id);
+
+    void deleteSonChaptersByChapterId(Integer chapterId);
+
+    void deleteSonChaptersByLessonId(Integer lessonId);
+
+    void addSonChapter(SonChapterDto sonChapterDto);
+
+    void updateSonChapter(SonChapterDto sonChapterDto);
 
     List<Lesson> getLessonsByTag(String tagName);
 
@@ -46,8 +55,26 @@ public interface BackLessonService {
 
     void deleteLessonById(Integer lessonId);
 
-    SonChapter getEditSonChapterInfo(Integer sonId);
+    SonChapterDto getSonChapter(Integer sonId);
 
-    List<Chapter> getChapterByLessonId(Integer lessonId);
+    List<Chapter> getChaptersByLessonId(Integer lessonId);
+
+    List<LessonTreeDto> getLessonTree(Integer lessonId);
+
+    List<JupyterFile> getJupyterFiles(Integer sonId);
+
+    List<JupyterFile> getJupyterIdsByLessonId(Integer lessonId);
+
+    List<JupyterFile> getJupyterIdsByChapterId(Integer chapterId);
+
+    void addJupyterFiles(List<JupyterFile> jupyterFiles);
+
+    void updateJupyterFile(List<JupyterFile> jupyterFiles);
+
+    void deleteJupyterFilesByIds(List<Integer> jupyterIds);
+
+    void deleteJupyterFilesBySonId(Integer sonId);
+
+    void deleteJupyterFilesByLessonId(Integer lessonId);
 
 }

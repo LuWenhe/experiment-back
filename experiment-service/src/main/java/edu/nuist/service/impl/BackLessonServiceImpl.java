@@ -2,15 +2,15 @@ package edu.nuist.service.impl;
 
 import edu.nuist.dao.BackLessonDao;
 import edu.nuist.dao.BackTagDao;
+import edu.nuist.dto.LessonTreeDto;
 import edu.nuist.entity.*;
 import edu.nuist.enums.RoleEnum;
 import edu.nuist.service.BackLessonService;
-import edu.nuist.vo.AddChapterInEdit;
-import edu.nuist.vo.AddSonChapterInEdit;
+import edu.nuist.dto.ChapterDto;
 import edu.nuist.vo.LessonSubmit;
 import edu.nuist.vo.SonChapterAndUrl;
+import edu.nuist.dto.SonChapterDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -51,13 +51,20 @@ public class BackLessonServiceImpl implements BackLessonService {
         backLessonDao.addLesson(lessonSubmit);
         String[] tags = lessonSubmit.getTags();
 
-        for (String tag : tags) {
-            int tagId = backTagDao.getTagId(tag);
-            TagAndLesson tagAndLesson = new TagAndLesson();
-            tagAndLesson.setLessonId(lessonSubmit.getLessonId());
-            tagAndLesson.setTag_id(tagId);
-            backTagDao.addTagAndLesson(tagAndLesson);
+        if (tags != null) {
+            for (String tag : tags) {
+                int tagId = backTagDao.getTagId(tag);
+                TagAndLesson tagAndLesson = new TagAndLesson();
+                tagAndLesson.setLessonId(lessonSubmit.getLessonId());
+                tagAndLesson.setTag_id(tagId);
+                backTagDao.addTagAndLesson(tagAndLesson);
+            }
         }
+    }
+
+    @Override
+    public LessonSubmit getLessonById(Integer lessonId) {
+        return backLessonDao.getLessonDetailByLessonId(lessonId);
     }
 
     @Override
@@ -75,11 +82,6 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public List<Chapter> getChaptersInfoByLessonId(int lesson_id) {
-        return backLessonDao.getChaptersByLessonId(lesson_id);
-    }
-
-    @Override
     public void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl) {
         backLessonDao.addSonChapterJupyterURL(sonChapterAndUrl);
     }
@@ -90,7 +92,7 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public void updateLessonInfo(LessonSubmit lessonSubmit) {
+    public void updateLesson(LessonSubmit lessonSubmit) {
         backTagDao.delLessonAndTag(lessonSubmit.getLessonId());
         String[] tags = lessonSubmit.getTags();
 
@@ -106,37 +108,55 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public List<Chapter> addChapterInEditPart(AddChapterInEdit addChapterInEdit) {
-        backLessonDao.addChapterInEditPart(addChapterInEdit);
-        return backLessonDao.getChaptersByLessonId(addChapterInEdit.getLessonId());
+    public Integer addChapter(ChapterDto chapterDto) {
+        backLessonDao.addChapter(chapterDto);
+        return chapterDto.getId();
     }
 
     @Override
-    public void updateChapter(Chapter chapter) {
-        backLessonDao.updateChapter(chapter);
+    public Chapter getChapterByChapterId(Integer chapterId) {
+        return backLessonDao.getChapterByChapterId(chapterId);
     }
 
     @Override
-    public void delChapterInEdit(Integer chapter_id) {
-        backLessonDao.delChapterInEdit(chapter_id);
-        backLessonDao.deleteSonChapterInEdit(chapter_id);
+    public void updateChapter(ChapterDto chapterDto) {
+        backLessonDao.updateChapter(chapterDto);
     }
 
     @Override
-    public void delSonChapterInEdit(Integer son_id) {
-        backLessonDao.deleteSonChapterInEditSingle(son_id);
+    public void deleteChapters(Integer chapterId) {
+        backLessonDao.deleteChapters(chapterId);
     }
 
     @Override
-    public void addSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
-        backLessonDao.addSonChapterInEdit(addSonChapterInEdit);
+    public void deleteChaptersByLessonId(int lessonId) {
+        backLessonDao.deleteChaptersByLessonId(lessonId);
     }
 
     @Override
-    public void editSonChapterInEdit(AddSonChapterInEdit addSonChapterInEdit) {
-        backLessonDao.editSonChapterInEdit(addSonChapterInEdit);
+    public void deleteSonChapterById(Integer son_id) {
+        backLessonDao.deleteSonChapterById(son_id);
     }
 
+    @Override
+    public void deleteSonChaptersByChapterId(Integer chapterId) {
+        backLessonDao.deleteSonChapterByChapterId(chapterId);
+    }
+
+    @Override
+    public void deleteSonChaptersByLessonId(Integer lessonId) {
+        backLessonDao.deleteSonChaptersByLessonId(lessonId);
+    }
+
+    @Override
+    public void addSonChapter(SonChapterDto sonChapterDto) {
+        backLessonDao.addSonChapter(sonChapterDto);
+    }
+
+    @Override
+    public void updateSonChapter(SonChapterDto sonChapterDto) {
+        backLessonDao.updateSonChapter(sonChapterDto);
+    }
 
     @Override
     public List<Lesson> getLessonsByTag(String tagName) {
@@ -157,22 +177,69 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    @Transactional
     public void deleteLessonById(Integer lessonId) {
-        backLessonDao.deleteSonChapterByLessonId(lessonId);
-        backLessonDao.deleteChapterByLessonId(lessonId);
         backLessonDao.deleteLessonByLessonId(lessonId);
-        backLessonDao.deleteTagAndLesson(lessonId);
     }
 
     @Override
-    public SonChapter getEditSonChapterInfo(Integer sonId) {
-        return backLessonDao.getSonChapterInfoBySonId(sonId);
+    public SonChapterDto getSonChapter(Integer sonId) {
+        return backLessonDao.getSonChapterBySonId(sonId);
     }
 
     @Override
-    public List<Chapter> getChapterByLessonId(Integer lessonId) {
+    public List<Chapter> getChaptersByLessonId(Integer lessonId) {
         return backLessonDao.getChaptersByLessonId(lessonId);
+    }
+
+    @Override
+    public List<LessonTreeDto> getLessonTree(Integer lessonId) {
+        List<LessonTreeDto> lessonFileMenu = backLessonDao.getLessonTree(lessonId);
+
+        LessonTreeDto root = new LessonTreeDto(1, "root", null, 0, 0, 1,
+                0, 0, 0, null, null, null);
+        lessonFileMenu.add(root);
+
+        return lessonFileMenu;
+    }
+
+    @Override
+    public List<JupyterFile> getJupyterFiles(Integer sonId) {
+        return backLessonDao.getJupyterFiles(sonId);
+    }
+
+    @Override
+    public void addJupyterFiles(List<JupyterFile> jupyterFiles) {
+        backLessonDao.addJupyterFiles(jupyterFiles);
+    }
+
+    @Override
+    public List<JupyterFile> getJupyterIdsByLessonId(Integer lessonId) {
+        return backLessonDao.getJupyterIdsByLessonId(lessonId);
+    }
+
+    @Override
+    public List<JupyterFile> getJupyterIdsByChapterId(Integer chapterId) {
+        return backLessonDao.getJupyterIdsByChapterId(chapterId);
+    }
+
+    @Override
+    public void updateJupyterFile(List<JupyterFile> jupyterFiles) {
+        backLessonDao.updateJupyterFileUrl(jupyterFiles);
+    }
+
+    @Override
+    public void deleteJupyterFilesByIds(List<Integer> jupyterIds) {
+        backLessonDao.deleteJupyterFilesByIds(jupyterIds);
+    }
+
+    @Override
+    public void deleteJupyterFilesBySonId(Integer sonId) {
+        backLessonDao.deleteJupyterFilesBySonId(sonId);
+    }
+
+    @Override
+    public void deleteJupyterFilesByLessonId(Integer lessonId) {
+        backLessonDao.deleteJupyterFilesByLessonId(lessonId);
     }
 
 }

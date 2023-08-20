@@ -24,6 +24,7 @@ public class LessonDetail {
     private String goal;
     private double learnTime;
     private double learnCredit;
+    private String path;
     private Integer lessonId;
 
 }
