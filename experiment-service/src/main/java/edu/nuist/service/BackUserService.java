@@ -9,6 +9,8 @@ public interface BackUserService {
 
     List<User> getAllTeachers();
 
+    List<User> getTeachersByRole(Integer roleId, Integer userId);
+
     List<User> getTeachersByRealName(String realName);
 
     void addTeacher(User User);

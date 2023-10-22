@@ -1,11 +1,10 @@
 package edu.nuist.service;
 
 import edu.nuist.dto.LessonTreeDto;
-import edu.nuist.entity.JupyterFile;
+import edu.nuist.dto.SonChapterDto;
 import edu.nuist.entity.Lesson;
 import edu.nuist.util.TreeUtils;
 import edu.nuist.vo.LessonSubmit;
-import edu.nuist.dto.SonChapterDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,12 +65,6 @@ class BackLessonServiceTest {
         backLessonService.addLesson(lessonSubmit);
 
         System.out.println(lessonSubmit);
-    }
-
-    @Test
-    void getJupyterIds() {
-        List<JupyterFile> jupyterFiles = backLessonService.getJupyterIdsByLessonId(29);
-        System.out.println(jupyterFiles);
     }
 
 }

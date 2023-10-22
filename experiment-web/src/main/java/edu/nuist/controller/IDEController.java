@@ -30,7 +30,6 @@ public class IDEController {
             Object call = myCallable.call();
             return BasicResultVO.success(call);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail("运行失败");
         }
     }
@@ -72,7 +71,6 @@ class MyCallable implements Callable<Object> {
             proc.waitFor();
             return resultString.toString();
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             return "error";
         }
     }

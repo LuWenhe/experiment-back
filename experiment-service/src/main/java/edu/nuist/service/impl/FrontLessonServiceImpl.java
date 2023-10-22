@@ -1,14 +1,13 @@
 package edu.nuist.service.impl;
 
-import edu.nuist.dao.BackTagDao;
+import edu.nuist.dao.BackLessonDao;
 import edu.nuist.dao.FrontLessonDao;
-import edu.nuist.entity.Lesson;
-import edu.nuist.entity.SonChapter;
-import edu.nuist.entity.Tool;
+import edu.nuist.dto.SonChapterDto;
+import edu.nuist.entity.*;
 import edu.nuist.service.FrontLessonService;
-import edu.nuist.vo.SonUserExp;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import edu.nuist.util.FileUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +21,23 @@ import java.util.List;
 public class FrontLessonServiceImpl implements FrontLessonService {
 
     @Resource
-    private FrontLessonDao frontLessonsDao;
+    private FrontLessonDao frontLessonDao;
 
     @Resource
-    private BackTagDao backTagsDao;
+    private BackLessonDao backLessonDao;
 
     @Value("${file.fileDirectory}")
     private String fileDirectory;
+
+    @Value("${file.userExperimentDirectory}")
+    private String userExperimentDirectory;
 
     @Value("${jupyter.expUrl}")
     private String expUrl;
 
     @Override
     public List<Lesson> getLessonByName(String lessonName) {
-        return frontLessonsDao.getLessonByName(lessonName);
+        return frontLessonDao.getLessonByName(lessonName);
     }
 
     @Override
@@ -44,9 +46,9 @@ public class FrontLessonServiceImpl implements FrontLessonService {
 
         // 如果获取该用户所有课程
         if (tagId == 0) {
-            lessons = frontLessonsDao.getLessonsByUserId(userId);
+            lessons = frontLessonDao.getLessonsByUserId(userId);
         } else {
-            lessons = frontLessonsDao.getLessonsByUserIdAndTagId(userId, tagId);
+            lessons = frontLessonDao.getLessonsByUserIdAndTagId(userId, tagId);
         }
 
         return lessons;
@@ -54,55 +56,75 @@ public class FrontLessonServiceImpl implements FrontLessonService {
 
     @Override
     public Lesson loadLessonInfo(int lessonId) {
-        return frontLessonsDao.getLessonInfoByLessonId(lessonId);
+        return frontLessonDao.getLessonInfoByLessonId(lessonId);
     }
 
     @Override
     public SonChapter getGuideBook(int sonId) {
-        return frontLessonsDao.getSonChapterBySonId(sonId);
-    }
-
-    @Override
-    public SonUserExp getDynamicSonExpUrl(SonUserExp sonUserExp) throws IOException {
-        SonUserExp sonUserExp1 = frontLessonsDao.isHasSonUserExpUrl(sonUserExp);
-
-        // 如果jupyter的地址不为空
-        if (sonUserExp1 != null && !StringUtils.isBlank(sonUserExp1.getExp_url())) {
-            return sonUserExp1;
-        } else {
-            int sonId = sonUserExp.getSon_id();
-            int userId = sonUserExp.getUser_id();
-            String expUrlDes;   // 生成Jupyter的地址
-
-            // 复制Jupyter模板文件
-            String sourcePath = fileDirectory + "jupyter/template.ipynb";
-            String destinationPath = fileDirectory + "jupyter/" + sonId + userId + ".ipynb";
-            FileUtils.copyFile(new File(sourcePath), new File(destinationPath));
-
-            expUrlDes = expUrl + sonId + userId + ".ipynb";
-
-            sonUserExp.setExp_url(expUrlDes);
-            frontLessonsDao.addSonUserExpUrl(sonUserExp);
-            sonUserExp.setId(frontLessonsDao.isHasSonUserExpUrl(sonUserExp).getId());
-            return sonUserExp;
-        }
+        return frontLessonDao.getSonChapterBySonId(sonId);
     }
 
     @Override
     public List<Tool> getAllTools() {
-        return frontLessonsDao.getAllTools();
+        return frontLessonDao.getAllTools();
     }
 
     @Override
     public List<Lesson> getLessonByUserId(Integer userId) {
-        List<Integer> lessonIds = frontLessonsDao.getLessonByUserId(userId);
+        List<Integer> lessonIds = frontLessonDao.getLessonByUserId(userId);
         List<Lesson> lessonList = new ArrayList<>();
 
         for (Integer lessonId : lessonIds) {
-            lessonList.add(frontLessonsDao.getLessonById(lessonId));
+            lessonList.add(frontLessonDao.getLessonById(lessonId));
         }
 
         return lessonList;
+    }
+
+    @Override
+    public UserJupyterFile getUserJupyter(SonChapterDto sonChapterDto) throws IOException {
+        int userId = sonChapterDto.getUserId();
+        int sonId = sonChapterDto.getId();
+        String username = sonChapterDto.getUsername();
+        String path = sonChapterDto.getJupyterFile().getPath();
+
+        UserJupyterFile userJupyterFile = frontLessonDao.getUserJupyterFile(userId, sonId);
+
+        if (userJupyterFile != null) {
+            return userJupyterFile;
+        }
+
+        // 用户需要运行的Jupyter文件
+        userJupyterFile = new UserJupyterFile();
+
+        String sourcePath = fileDirectory + path;
+        String desPath = userExperimentDirectory + username + "/" + path;
+
+        // 将课程的文件复制到用户的目录
+        FileUtils.copyDirectoriesAndFile(new File(sourcePath), new File(desPath));
+        List<JupyterFile> jupyterFiles = backLessonDao.getJupyterFiles(sonId);
+        List<UserJupyterFile> userJupyterFiles = new ArrayList<>();
+
+        for (JupyterFile jupyterFile : jupyterFiles) {
+            if (jupyterFile.getType() == 1) {
+                BeanUtils.copyProperties(jupyterFile, userJupyterFile, "url");
+            }
+
+            // 需要保存到数据库中的对象数据
+            UserJupyterFile desJupyterFile = new UserJupyterFile();
+            BeanUtils.copyProperties(jupyterFile, desJupyterFile, "url");
+
+            String url = expUrl + username + "/" + path + "/" + jupyterFile.getName();
+
+            userJupyterFile.setUrl(url);
+            desJupyterFile.setUserId(userId);
+            desJupyterFile.setUrl(url);
+            userJupyterFiles.add(desJupyterFile);
+        }
+
+        // 更新用户实验数据库
+        frontLessonDao.addUserJupyterFiles(userJupyterFiles);
+        return userJupyterFile;
     }
 
 }

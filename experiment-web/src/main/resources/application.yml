@@ -6,8 +6,8 @@ spring:
     active: dev
 #    active: prod
 file:
-  fileDirectory: D:/Projects/ActualProjects/experiment-ai/file/
-  jupyterDirectory: D:/Projects/ActualProjects/experiment-ai/lesson/
+  fileDirectory: D:/Projects/ActualProjects/experiment-ai/lesson/
+  userExperimentDirectory: D:/Projects/ActualProjects/experiment-ai/user/
   fileRequestUrl: http://localhost:4040/
 #file:
 #  fileDirectory: /home/project/experiment-ai/file/

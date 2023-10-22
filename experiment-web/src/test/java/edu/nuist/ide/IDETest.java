@@ -43,7 +43,6 @@ class MyCallable implements Callable<Object> {
             proc.waitFor();
             return resultString.toString();
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             return "error";
         }
     }

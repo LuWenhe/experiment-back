@@ -43,7 +43,6 @@ public class BackBannerController {
             backBannerService.updateBanners(banner);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

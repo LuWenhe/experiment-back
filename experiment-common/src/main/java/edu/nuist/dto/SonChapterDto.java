@@ -12,6 +12,8 @@ public class SonChapterDto {
 
     private int id;
     private double son_no;
+    private int userId;
+    private String username;
     private String name;            // 小节名称
     private String mp4;
     private String ppt;

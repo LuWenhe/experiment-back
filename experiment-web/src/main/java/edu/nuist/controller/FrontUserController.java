@@ -35,7 +35,6 @@ public class FrontUserController {
             frontUserService.updatePersonInfo(user);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -58,7 +57,6 @@ public class FrontUserController {
             List<Lesson> historyLesson = frontLessonService.getLessonByUserId(user_id);
             return BasicResultVO.success(historyLesson);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

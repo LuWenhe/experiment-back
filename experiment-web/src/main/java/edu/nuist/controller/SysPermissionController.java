@@ -43,7 +43,6 @@ public class SysPermissionController {
                     sysPermissionService.getMenuOrButtonPermissionByUserId(userId);
             return BasicResultVO.success(userPermissionDto);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -56,7 +55,6 @@ public class SysPermissionController {
             SideMenuDto menuTrees = TreeUtils.getMenuTrees(sideMenuDtoList);
             return BasicResultVO.success(menuTrees);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

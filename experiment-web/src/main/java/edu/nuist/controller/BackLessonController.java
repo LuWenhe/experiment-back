@@ -54,9 +54,6 @@ public class BackLessonController {
     @Value("${file.fileDirectory}")
     private String fileDirectory;
 
-    @Value("${file.jupyterDirectory}")
-    private String jupyterDirectory;
-
     private static final List<String> TOOL_TYPE = Arrays.asList(".exe", ".zip");
 
     private static final List<String> IMAGE_TYPE = Arrays.asList(".jpeg", ".png", ".jpg");
@@ -82,13 +79,33 @@ public class BackLessonController {
         return BasicResultVO.success(pageInfo);
     }
 
-    // Todo 需要根据用户id
     @ApiOperation("根据标签名称获取课程")
-    @PostMapping("/getLessonsByTagName")
+    @PostMapping("/getLessonsByTagId")
     public BasicResultVO<PageInfo<Lesson>> getLessonsByTagName(@RequestBody PageRequest pageRequest) {
+        Integer userId = pageRequest.getUserId();
+        Integer roleId = pageRequest.getRoleId();
+        Integer tagId = pageRequest.getTagId();
+        List<Lesson> lessons;
+
+        if (RoleEnum.ADMIN_ROLE.getCode().equals(roleId)) {
+            lessons = backLessonService.getAllLessons();
+        } else {
+            lessons = backLessonService.getLessonsByUserId(userId, roleId);
+        }
+
+        List<Integer> lessonIds = backLessonService.getLessonIdsByTagId(tagId);
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
-        List<Lesson> lessons = backLessonService.getLessonsByTag(pageRequest.getTagName());
-        PageInfo<Lesson> pageInfo = new PageInfo<>(lessons, pageRequest.getPageSize());
+        List<Lesson> filterLessons = new ArrayList<>();
+
+        for (Lesson lesson : lessons) {
+            if (!lessonIds.contains(lesson.getLessonId())) {
+                continue;
+            }
+
+            filterLessons.add(lesson);
+        }
+
+        PageInfo<Lesson> pageInfo = new PageInfo<>(filterLessons, pageRequest.getPageSize());
         return BasicResultVO.success(pageInfo);
     }
 
@@ -98,7 +115,7 @@ public class BackLessonController {
     public BasicResultVO<Void> addLesson(@RequestBody LessonSubmit lessonSubmit) {
         try {
             String lessonName = lessonSubmit.getLesson_name();
-            String path = jupyterDirectory + lessonName;
+            String path = fileDirectory + lessonName;
             backLessonService.addLesson(lessonSubmit);
 
             if (lessonSubmit.getLessonId() == null) {
@@ -136,8 +153,10 @@ public class BackLessonController {
                 backLessonService.updateJupyterFile(jupyterFiles);
             }
 
-            String srcPath = jupyterDirectory + oldLessonName;
-            String destPath = jupyterDirectory + newLessonName;
+            String srcPath = fileDirectory + oldLessonName;
+            String destPath = fileDirectory + newLessonName;
+
+            backLessonService.updateLesson(lessonSubmit);
 
             FileUtils.renameFile(srcPath, destPath);
             return BasicResultVO.success();
@@ -154,7 +173,7 @@ public class BackLessonController {
             backLessonService.deleteChaptersByLessonId(lessonId);
             backLessonService.deleteLessonById(lessonId);
 
-            FileUtils.deleteDirectoriesAndFiles(jupyterDirectory + lessonName);
+            FileUtils.deleteDirectoriesAndFiles(fileDirectory + lessonName);
             return BasicResultVO.success();
         } catch (Exception e) {
             return BasicResultVO.fail();
@@ -173,26 +192,6 @@ public class BackLessonController {
     public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
         List<Chapter> chapters = backLessonService.getChaptersByLessonId(lessonId);
         return BasicResultVO.success(chapters);
-    }
-
-    @ApiOperation("添加小节的实验链接")
-    @PostMapping("/addChapteraddress")
-    public BasicResultVO<SonChapterAndUrl> singleFileUpload(@RequestParam("file") MultipartFile file,
-                                                            @RequestParam("son_id") int son_id) throws IOException {
-        if (file.isEmpty()) {
-            return BasicResultVO.fail("文件为空!");
-        }
-
-        String fileName = file.getOriginalFilename();
-        String filePath = fileDirectory + "jupyter/" + fileName;
-        FileUtils.uploadFile(file, filePath);
-
-        SonChapterAndUrl sonChapterAndUrl = new SonChapterAndUrl();
-        sonChapterAndUrl.setExp_url(expUrl + fileName);
-        sonChapterAndUrl.setSon_id(son_id);
-
-        backLessonService.addSonChapterJupyterURL(sonChapterAndUrl);
-        return BasicResultVO.success(sonChapterAndUrl);
     }
 
     @ApiOperation("按名称检索课程")
@@ -216,7 +215,7 @@ public class BackLessonController {
     public BasicResultVO<List<Chapter>> addChapter(@RequestBody ChapterDto chapterDto) {
         try {
             String chapterPath = chapterDto.getLessonName() + "/" + chapterDto.getName();
-            String filePath = jupyterDirectory + chapterPath;
+            String filePath = fileDirectory + chapterPath;
             backLessonService.addChapter(chapterDto);
 
             FileUtils.createFile(filePath);
@@ -253,8 +252,8 @@ public class BackLessonController {
             }
 
 
-            String srcPath = jupyterDirectory + lessonName + "/" + oldChapterName;
-            String destPath = jupyterDirectory + lessonName + "/" + newChapterName;
+            String srcPath = fileDirectory + lessonName + "/" + oldChapterName;
+            String destPath = fileDirectory + lessonName + "/" + newChapterName;
 
             FileUtils.renameFile(srcPath, destPath);
 
@@ -280,7 +279,7 @@ public class BackLessonController {
             backLessonService.deleteSonChaptersByChapterId(chapterId);
             backLessonService.deleteChapters(chapterId);
 
-            String filePath = jupyterDirectory + lessonName + chapterName;
+            String filePath = fileDirectory + lessonName + chapterName;
             FileUtils.deleteDirectoriesAndFiles(filePath);
             return BasicResultVO.success();
         } catch (Exception e) {
@@ -295,7 +294,7 @@ public class BackLessonController {
                     + "/" + sonChapterDto.getName();
             backLessonService.addSonChapter(sonChapterDto);
 
-            String filePath = jupyterDirectory + sonChapterPath;
+            String filePath = fileDirectory + sonChapterPath;
             FileUtils.createFile(filePath);
 
             return BasicResultVO.success();
@@ -326,9 +325,9 @@ public class BackLessonController {
                 backLessonService.updateJupyterFile(jupyterFiles);
             }
 
-            String srcPath = jupyterDirectory + oldSonChapter.getLessonName() + "/" + oldSonChapter.getChapterName()
+            String srcPath = fileDirectory + oldSonChapter.getLessonName() + "/" + oldSonChapter.getChapterName()
                     + "/" + oldSonChapterName;
-            String destPath = jupyterDirectory + sonChapterDto.getLessonName() + "/" + sonChapterDto.getChapterName()
+            String destPath = fileDirectory + sonChapterDto.getLessonName() + "/" + sonChapterDto.getChapterName()
                     + "/" + newSonChapterName;
 
             FileUtils.renameFile(srcPath, destPath);
@@ -348,7 +347,7 @@ public class BackLessonController {
             backLessonService.deleteSonChapterById(sonId);
             backLessonService.deleteJupyterFilesBySonId(sonId);
 
-            String filePath = jupyterDirectory + lessonName + "/" + chapterName + "/" + sonName;
+            String filePath = fileDirectory + lessonName + "/" + chapterName + "/" + sonName;
             // 删除子小节下面的所以文件
             FileUtils.deleteDirectoriesAndFiles(filePath);
 
@@ -483,12 +482,19 @@ public class BackLessonController {
             jupyterFile.setSonId(sonId);
 
             String fileName = file.getOriginalFilename();
-            String filePath = jupyterDirectory + path + "/";
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            String filePath = fileDirectory + path + "/";
 
             // 如果文件已经存在
             if (FileUtils.ifExists(file, filePath)) {
                 isExists = true;
                 continue;
+            }
+
+            if (suffix.equals(".ipynb")) {
+                jupyterFile.setType(1);
+            } else if (suffix.equals(".py")) {
+                jupyterFile.setType(2);
             }
 
             jupyterFile.setName(fileName);
@@ -549,7 +555,7 @@ public class BackLessonController {
             backLessonService.deleteJupyterFilesByIds(jupyterIds);
 
             for (String jupyterPath : jupyterPaths) {
-                FileUtils.deleteFile(jupyterDirectory + jupyterPath);
+                FileUtils.deleteFile(fileDirectory + jupyterPath);
             }
 
             return BasicResultVO.success();

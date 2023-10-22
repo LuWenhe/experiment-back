@@ -4,11 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 
 @Slf4j
 public class FileUtils {
+
+    private static final byte[] buffer = new byte[1024];
 
     public static String uploadFile(MultipartFile multipartFile,
                                     String filePath) throws IOException {
@@ -35,6 +37,73 @@ public class FileUtils {
         }
 
         return fileName;
+    }
+
+    public static void copyDirectoriesAndFile(File srcFile, File destFile) throws IOException {
+        requireExistsChecked(srcFile);
+        createParentDirectoriesChecked(destFile);
+
+        File[] files = srcFile.listFiles();
+
+        if (files == null || files.length == 0) {
+            log.error("目录{}下不存在文件", srcFile.getPath());
+            throw new IOException("目录下不存在文件");
+        }
+
+        // 遍历源目录
+        for (File file : files) {
+            String fileName = file.getName();
+
+            if (fileName.equals(".ipynb_checkpoints")) {
+                continue;
+            }
+
+            if (file.isDirectory()) {
+                File target = new File(destFile, fileName);
+                copyDirectoriesAndFile(file, target);
+            } else {
+                String newFilePath = destFile.getPath() + File.separator + fileName;
+                File newFile = new File(newFilePath);
+                copyBySteam(file, newFile);
+            }
+        }
+    }
+
+    private static void copyBySteam(File srcFile, File destFile) throws IOException {
+        requireExistsChecked(srcFile);
+
+        InputStream in = Files.newInputStream(srcFile.toPath());
+        BufferedInputStream bf = new BufferedInputStream(in);
+
+        OutputStream out = Files.newOutputStream(destFile.toPath());
+        BufferedOutputStream of = new BufferedOutputStream(out);
+
+        int len;
+
+        while ((len = bf.read(buffer)) != -1) {
+            of.write(buffer, 0, len);
+        }
+
+        of.close();
+        out.close();
+        bf.close();
+        in.close();
+    }
+
+    private static void requireExistsChecked(File file) {
+        if (!file.exists()) {
+            log.error("文件{}不存在", file.getName());
+        }
+    }
+
+    private static void createParentDirectoriesChecked(File file) {
+        if (file.exists()) {
+            return;
+        }
+
+        if (!file.mkdirs()) {
+            log.error("创建目录{}失败", file.getPath());
+        }
     }
 
     public static void createFile(String filePath) {

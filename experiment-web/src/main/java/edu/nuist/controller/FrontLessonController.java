@@ -2,16 +2,17 @@ package edu.nuist.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import edu.nuist.dto.SonChapterDto;
 import edu.nuist.entity.*;
 import edu.nuist.service.BackLessonService;
 import edu.nuist.service.FrontLessonService;
 import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.PageRequest;
-import edu.nuist.vo.SonUserExp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -56,16 +57,6 @@ public class FrontLessonController {
         return BasicResultVO.success(sonChapter);
     }
 
-    @PostMapping("/getDynamicExpUrl")
-    public BasicResultVO<SonUserExp> getDynamicExpUrl(@RequestBody SonUserExp sonUserExp) {
-        try {
-            SonUserExp sonExpUrl = frontLessonService.getDynamicSonExpUrl(sonUserExp);
-            return BasicResultVO.success(sonExpUrl);
-        } catch (Exception e) {
-            return BasicResultVO.fail();
-        }
-    }
-
     @GetMapping("/loadToolList")
     public BasicResultVO<List<Tool>> loadToolList() {
         List<Tool> allTools = frontLessonService.getAllTools();
@@ -82,6 +73,19 @@ public class FrontLessonController {
     public BasicResultVO<List<Chapter>> getChapterInfoByLessonId(Integer lessonId) {
         List<Chapter> chapters = backLessonService.getChaptersByLessonId(lessonId);
         return BasicResultVO.success(chapters);
+    }
+
+    @PostMapping("/getUserJupyter")
+    public BasicResultVO<UserJupyterFile> getUserJupyter(@RequestBody SonChapterDto sonChapterDto) {
+        UserJupyterFile userJupyterFile;
+
+        try {
+            userJupyterFile = frontLessonService.getUserJupyter(sonChapterDto);
+        } catch (IOException e) {
+            return BasicResultVO.fail("该课程没有实验文件!");
+        }
+
+        return BasicResultVO.success(userJupyterFile);
     }
 
 }

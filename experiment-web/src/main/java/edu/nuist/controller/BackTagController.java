@@ -30,7 +30,6 @@ public class BackTagController {
             PageInfo<Tag> pageInfo = new PageInfo<>(tagList, pageSize);
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -41,7 +40,6 @@ public class BackTagController {
             List<Tag> tags = backTagService.getTags();
             return BasicResultVO.success(tags);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -52,7 +50,6 @@ public class BackTagController {
             backTagService.addTag(tag);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -63,7 +60,6 @@ public class BackTagController {
             backTagService.editTag(tag);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -74,7 +70,6 @@ public class BackTagController {
             backTagService.delTagByTagId(tagId);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

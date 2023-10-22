@@ -1,7 +1,10 @@
 package edu.nuist.service;
 
-import edu.nuist.entity.*;
-import edu.nuist.vo.SonUserExp;
+import edu.nuist.dto.SonChapterDto;
+import edu.nuist.entity.Lesson;
+import edu.nuist.entity.SonChapter;
+import edu.nuist.entity.Tool;
+import edu.nuist.entity.UserJupyterFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,10 +19,10 @@ public interface FrontLessonService {
 
     SonChapter getGuideBook(int sonId);
 
-    SonUserExp getDynamicSonExpUrl(SonUserExp sonUserExp) throws IOException;
-
     List<Tool> getAllTools();
 
     List<Lesson> getLessonByUserId(Integer userId);
-    
+
+    UserJupyterFile getUserJupyter(SonChapterDto sonChapterDto) throws IOException;
+
 }

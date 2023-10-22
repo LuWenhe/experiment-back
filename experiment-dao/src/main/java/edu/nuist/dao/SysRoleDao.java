@@ -1,9 +1,10 @@
 package edu.nuist.dao;
 
 import edu.nuist.entity.Role;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import edu.nuist.entity.UserRole;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 public interface SysRoleDao {
 
@@ -18,5 +19,31 @@ public interface SysRoleDao {
             @Result(column = "update_time", property = "updateTime")
     })
     Role getRoleByUserId(Integer userId);
+
+    @Insert("INSERT INTO user_role (user_id, role_id) VALUES(#{userId}, #{roleId})")
+    void addUserAndRole(UserRole userRole);
+
+    @Insert({
+            "<script>",
+            "INSERT INTO user_role (user_id, role_id) VALUES ",
+            "<foreach collection='userRoles' item='item' index='index' separator=','>",
+            "(#{item.userId}, #{item.roleId})",
+            "</foreach>",
+            "</script>"
+    })
+    void addUserAndRoles(List<UserRole> userRoles);
+
+    @Delete("DELETE FROM user_role WHERE id = #{id}")
+    void deleteUserAndRole(Integer id);
+
+    @Delete({"<script>",
+            "DELETE FROM user_role WHERE user_id in (",
+            "<foreach collection='userIds' item='userId' index='index' separator=','>",
+            "#{userId}",
+            "</foreach>",
+            ")",
+            "</script>"
+    })
+    void deleteUserAndRoles(List<Integer> userIds);
 
 }

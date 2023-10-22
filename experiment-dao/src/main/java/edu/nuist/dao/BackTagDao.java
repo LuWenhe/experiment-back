@@ -1,6 +1,5 @@
 package edu.nuist.dao;
 
-import edu.nuist.entity.Lesson;
 import edu.nuist.entity.Tag;
 import edu.nuist.entity.TagAndLesson;
 import edu.nuist.entity.TagLesson;
@@ -36,6 +35,9 @@ public interface BackTagDao {
     @Select("select tag_id from tag where tagName = #{param1}")
     int getTagIDByTagName(String tagName);
 
+    @Select("SELECT lessonId FROM lesson_tag WHERE tag_id = #{tagId}")
+    List<Integer> getLessonIdsByTagId(Integer tagId);
+
     @Select("select * from lesson_tag where tag_id = #{param1}")
     @Results({
             @Result(id = true, column = "id", property = "id"),
@@ -46,13 +48,6 @@ public interface BackTagDao {
 
     })
     List<TagLesson> getTagLessons(int tag_id);
-
-    @Select("select * from lesson where lessonId = #{param1}")
-    @Results({
-            @Result(column = "md_description", property = "mdDescription"),
-            @Result(column = "html_description", property = "htmlDescription")
-    })
-    Lesson getLessonByLessonId(int lessonId);
 
     @Select("select tag_id, tagName from tag")
     List<Tag> getTags();

@@ -1,13 +1,13 @@
 package edu.nuist.service;
 
+import edu.nuist.dto.ChapterDto;
 import edu.nuist.dto.LessonTreeDto;
+import edu.nuist.dto.SonChapterDto;
 import edu.nuist.entity.Chapter;
 import edu.nuist.entity.JupyterFile;
 import edu.nuist.entity.Lesson;
-import edu.nuist.dto.ChapterDto;
 import edu.nuist.vo.LessonSubmit;
 import edu.nuist.vo.SonChapterAndUrl;
-import edu.nuist.dto.SonChapterDto;
 
 import java.util.List;
 
@@ -21,15 +21,11 @@ public interface BackLessonService {
 
     LessonSubmit getLessonDetail(int lessonId);
 
-    LessonSubmit getLessonById(Integer lessonId);
-
-    void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
-
     List<Lesson> findLessonsByName(Integer teacherId, String lessonName);
 
     void updateLesson(LessonSubmit lessonSubmit);
 
-    Integer addChapter(ChapterDto chapterDto);
+    void addChapter(ChapterDto chapterDto);
 
     Chapter getChapterByChapterId(Integer chapterId);
 
@@ -50,6 +46,8 @@ public interface BackLessonService {
     void updateSonChapter(SonChapterDto sonChapterDto);
 
     List<Lesson> getLessonsByTag(String tagName);
+
+    List<Integer> getLessonIdsByTagId(Integer tagId);
 
     void addSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 

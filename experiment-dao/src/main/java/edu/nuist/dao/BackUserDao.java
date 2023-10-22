@@ -8,11 +8,16 @@ import java.util.List;
 
 public interface BackUserDao {
 
-    @Select("select user_id,username,password,name,phone,email,created_time from users where role = 1")
+    @Select("SELECT user_id, username, password, name, phone, email, created_time FROM users WHERE role = 2")
     List<User> getAllTeachers();
 
-    @Insert("insert into users (username,name,password,phone,email,created_time,role) " +
-            "values (#{username},#{name},#{password},#{phone},#{email},#{created_time},1)")
+    @Select("SELECT user_id, username, password, name, sex, birthday, work_place, job, major, qualification, " +
+            "phone, email, created_time FROM users WHERE user_id = #{userId}")
+    User getTeacherById(Integer userId);
+
+    @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
+    @Insert("insert into users (username, name, password, phone, email, role) " +
+            "values (#{username}, #{name}, #{password}, #{phone}, #{email}, #{role})")
     void addTeacher(User user);
 
     @Update("update users set username = #{username}, name = #{name}, " +
@@ -23,7 +28,7 @@ public interface BackUserDao {
     List<User> findTeachersByRName(String name);
 
     @Select("select user_id,username,password,name,sex,birthday,work_place,job,major,qualification,phone,email," +
-            "created_time from users where role = 2")
+            "created_time from users where role = 3")
     @Results({
             @Result(column = "work_place", property = "workPlace")
     })
@@ -32,19 +37,19 @@ public interface BackUserDao {
     @Select("SELECT user_id FROM users WHERE clazz_id = #{clazzId}")
     List<Integer> getStudentIdsByClazzId(Integer clazzId);
 
-    @Insert("insert into users (username, password, name, sex, birthday, work_place, job, " +
-            "major, qualification, phone, created_time, role, clazz_id) " +
-            "values (#{username}, #{password}, #{name}, #{sex}, #{birthday}, #{workPlace}, #{job}, #{major}, " +
-            "#{qualification}, #{phone}, CURDATE(), 2, #{clazzId})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "user_id")
+    @Insert("insert into users (username, password, name, sex, birthday, work_place, job, major, qualification, " +
+            "phone, created_time, role, clazz_id) values (#{username}, #{password}, #{name}, #{sex}, #{birthday}, " +
+            "#{workPlace}, #{job}, #{major}, #{qualification}, #{phone}, CURDATE(), #{role}, #{clazzId})")
     void addStudent(Student student);
 
-    @Insert({
-            "<script>",
-            "INSERT INTO users (username, password, name, sex, birthday, work_place, job, " +
-                    "major, qualification, phone, created_time, role, clazz_id) VALUES ",
+    @Insert({"<script>",
+            "INSERT INTO users (user_id, username, password, name, sex, birthday, work_place, job, major, " +
+                    "qualification, phone, created_time, role, clazz_id) VALUES ",
             "<foreach collection='students' item='item' index='index' separator=','>",
-            "(#{item.username}, #{item.password}, #{item.name}, #{item.sex}, #{item.birthday}, #{item.workPlace}, " +
-                    "#{item.job}, #{item.major}, #{item.qualification}, #{item.phone}, CURDATE(), 2, #{item.clazzId})",
+            "(#{item.id}, #{item.username}, #{item.password}, #{item.name}, #{item.sex}, #{item.birthday}, " +
+                    "#{item.workPlace}, #{item.job}, #{item.major}, #{item.qualification}, #{item.phone}, CURDATE(), " +
+                    "#{item.role}, #{item.clazzId})",
             "</foreach>",
             "</script>"
     })

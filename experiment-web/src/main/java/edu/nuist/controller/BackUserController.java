@@ -7,9 +7,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
+import edu.nuist.entity.UserRole;
 import edu.nuist.listener.StudentExcelListener;
 import edu.nuist.service.BackClazzService;
 import edu.nuist.service.BackUserService;
+import edu.nuist.service.SysRoleService;
 import edu.nuist.util.EncryptUtil;
 import edu.nuist.vo.BasicResultVO;
 import edu.nuist.vo.PageRequest;
@@ -35,7 +37,10 @@ public class BackUserController {
     @Resource
     private BackClazzService backClazzService;
 
-    @GetMapping(value = "/getAllTeachers")
+    @Resource
+    private SysRoleService sysRoleService;
+
+    @GetMapping("/getAllTeachers")
     public BasicResultVO<PageInfo<User>> getAllTeachers(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
@@ -46,46 +51,56 @@ public class BackUserController {
             PageInfo<User> pageInfo = new PageInfo<>(usersList, pageSize);
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @GetMapping(value = "/loadAllTeachers")
+    @GetMapping("/loadAllTeachers")
     public BasicResultVO<List<User>> loadAllTeachers() {
         try {
             List<User> allTeachers = backUserService.getAllTeachers();
             return BasicResultVO.success(allTeachers);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping(value = "/addTeacher")
-    public BasicResultVO<Void> addTeacher(@RequestBody User addTeacher) {
+    @GetMapping("/getTeachersByRole")
+    public BasicResultVO<List<User>> getTeachersByRole(Integer roleId, Integer userId) {
         try {
-            addTeacher.setPassword(new EncryptUtil().getEnpPassword(addTeacher.getPhone()));
-            backUserService.addTeacher(addTeacher);
+            List<User> users = backUserService.getTeachersByRole(roleId, userId);
+            return BasicResultVO.success(users);
+        } catch (Exception e) {
+            return BasicResultVO.fail();
+        }
+    }
+
+    @PostMapping("/addTeacher")
+    public BasicResultVO<Void> addTeacher(@RequestBody User user) {
+        try {
+            user.setPassword(new EncryptUtil().getEnpPassword(user.getPhone()));
+            user.setRole(2);
+            backUserService.addTeacher(user);
+
+            UserRole userRole = new UserRole(null, user.getUser_id(), user.getRole());
+            sysRoleService.addUserAndRole(userRole);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping(value = "/editTeacher")
+    @PostMapping("/editTeacher")
     public BasicResultVO<Void> editTeacher(@RequestBody User user) {
         try {
             backUserService.editTeacher(user);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
-    @PostMapping(value = "/getAllStudents")
+    @PostMapping("/getAllStudents")
     public BasicResultVO<PageInfo<User>> getAllStudent(@RequestBody PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrentPage(), pageRequest.getPageSize());
 
@@ -102,10 +117,13 @@ public class BackUserController {
     public BasicResultVO<Void> addStudent(@RequestBody Student student) {
         try {
             student.setPassword(new EncryptUtil().getEnpPassword(student.getPhone()));
+            student.setRole(3);
             backUserService.addStudent(student);
+
+            UserRole userRole = new UserRole(null, student.getId(), student.getRole());
+            sysRoleService.addUserAndRole(userRole);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -116,7 +134,6 @@ public class BackUserController {
             backUserService.addStudents(students);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -127,18 +144,17 @@ public class BackUserController {
             backUserService.editStudent(student);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
 
     @PostMapping("/deleteUsersByIds")
-    public BasicResultVO<Void> deleteUsers(@RequestBody List<Integer> studentIds) {
+    public BasicResultVO<Void> deleteUsers(@RequestBody List<Integer> userIds) {
         try {
-            backUserService.deleteUsersByIds(studentIds);
+            backUserService.deleteUsersByIds(userIds);
+            sysRoleService.deleteUserAndRoles(userIds);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -150,7 +166,6 @@ public class BackUserController {
             backClazzService.deleteClazz(clazzId);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -158,25 +173,19 @@ public class BackUserController {
     @PostMapping("/uploadFromExcel")
     public BasicResultVO<Void> addStudentFromExcel(
                                       @RequestParam("clazzId") Integer clazzId,
-                                      @RequestParam("file") MultipartFile file) throws IOException {
+                                      @RequestParam("file") MultipartFile file) {
         ExcelReader excelReader = null;
-        InputStream inputStream = null;
 
-        try {
-            inputStream = file.getInputStream();
+        try (InputStream inputStream = file.getInputStream()) {
             // 根据clazzId将学生信息写入对应的班级
             excelReader = EasyExcel.read(inputStream, Student.class,
-                    new StudentExcelListener(clazzId, backUserService)).build();
+                    new StudentExcelListener(clazzId, backUserService, sysRoleService)).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
             return BasicResultVO.success("文件上传成功");
         } catch (IOException e) {
-            e.printStackTrace();
             return BasicResultVO.fail("文件上传失败");
         } finally {
-            inputStream.close();
-
-            // 这里一定别忘记关闭，读的时候会创建临时文件，到时磁盘会崩
             if (excelReader != null) {
                 excelReader.finish();
             }
@@ -195,7 +204,6 @@ public class BackUserController {
             PageInfo<User> pageInfo = new PageInfo<>(teachers, pageSize);
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

@@ -16,6 +16,8 @@ public class Student {
     @ExcelProperty("编号")
     private Integer id;
 
+    private Integer role;
+
     @ExcelProperty("用户名")
     private String username;
 

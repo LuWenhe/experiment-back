@@ -50,19 +50,16 @@ public interface BackLessonDao {
     List<Lesson> getLessonsByUserId(Integer userId);
 
     @Options(useGeneratedKeys = true, keyProperty = "lessonId", keyColumn = "lessonId")
-    @Insert("insert into lesson(lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, " +
-            "canLearn, dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id, path) " +
+    @Insert("INSERT INTO lesson(lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, canLearn, " +
+            "dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id, path, create_time) " +
             "values(#{lesson_name}, #{pic_url}, #{difficulty}, #{learn_time}, #{learn_credit}, #{suitablePerson}, " +
             "#{canLearn}, #{dagang}, #{cankao}, #{goal}, #{mdDescription}, #{htmlDescription}, #{teacher_name}, " +
-            "#{teacherId}, #{path})")
-    @Results({
-            @Result(column = "teacher_id", property = "teacherId"),
-    })
+            "#{teacherId}, #{path}, CURDATE())")
     void addLesson(LessonSubmit lessonSubmit);
 
     @Select("SELECT lessonId, lesson_name, pic_url, difficulty, learn_time, learn_credit, suitablePerson, canLearn, " +
             "dagang, cankao, goal, md_description, html_description, teacher_name, teacher_id, path from lesson " +
-            "where lessonId = #{param1}")
+            "where lessonId = #{lessonId}")
     @Results({
             @Result(column = "md_description", property = "mdDescription"),
             @Result(column = "html_description", property = "htmlDescription"),
@@ -70,20 +67,34 @@ public interface BackLessonDao {
     })
     LessonSubmit getLessonDetailByLessonId(int lessonId);
 
-    @Select("select * from chapter where lessonId = #{param1}")
+    @Select("select id, chapter_no, name, description, mp4, ppt, exp_type, guide_book, lessonId, lesson_name, path, " +
+            "create_time, update_time from chapter where lessonId = #{lesson_id}")
     @Results({
             @Result(id = true, column = "id", property = "id"),
             @Result(property = "sonChapterList", column = "id",
                     one = @One(select = "edu.nuist.dao.BackLessonDao.getSonChapterByChapterId")),
-            @Result(column = "chapter_no", property = "chapter_no"),
-            @Result(column = "name", property = "name"),
-            @Result(column = "description", property = "description"),
-            @Result(column = "mp4", property = "mp4"),
-            @Result(column = "ppt", property = "ppt"),
-            @Result(column = "exp_type", property = "exp_type"),
-            @Result(column = "guide_book", property = "guide_book")
+            @Result(column = "lesson_name", property = "lessonName"),
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
     })
     List<Chapter> getChaptersByLessonId(int lesson_id);
+
+    @Select("select * from son_chapter where chapter_id = #{chapterId}")
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(property = "jupyterFile", column = "id",
+                    one = @One(select = "edu.nuist.dao.BackLessonDao.getJupyterFileBySonId"))
+    })
+    List<SonChapterDto> getSonChapterByChapterId(int chapterId);
+
+    @Select("SELECT id, name, url, path, son_id, create_time, update_time FROM jupyter " +
+            "WHERE son_id = #{sonId} AND type = 1")
+    @Results({
+            @Result(column = "son_id", property = "sonId"),
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
+    })
+    JupyterFile getJupyterFileBySonId(Integer sonId);
 
     @Select("SELECT c.id, c.chapter_no, c.name, c.description, l.lesson_name FROM chapter c, lesson l " +
             "WHERE c.lessonId = l.lessonId AND c.id = #{chapterId}")
@@ -91,14 +102,6 @@ public interface BackLessonDao {
             @Result(column = "lesson_name", property = "lessonName")
     })
     Chapter getChapterByChapterId(Integer chapterId);
-
-    @Select("select * from son_chapter where chapter_id = #{param1}")
-    @Results({
-            @Result(id = true, column = "id", property = "id"),
-            @Result(property = "jupyterFile", column = "id",
-                    one = @One(select = "edu.nuist.dao.BackLessonDao.getJupyterFileBySonId"))
-    })
-    List<SonChapterDto> getSonChapterByChapterId(int chapter_id);
 
     @Update("update son_chapter set exp_url = #{exp_url} where id = #{son_id}")
     void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl);
@@ -111,7 +114,7 @@ public interface BackLessonDao {
             "learn_time = #{learn_time}, learn_credit = #{learn_credit}, suitablePerson = #{suitablePerson}, " +
             "canLearn = #{canLearn}, dagang = #{dagang}, cankao = #{cankao}, goal = #{goal}, " +
             "md_description = #{mdDescription}, html_description = #{htmlDescription}, teacher_name = #{teacher_name}, " +
-            "path = #{path} where lessonId = #{lessonId}")
+            "teacher_id = #{teacherId}, path = #{path} where lessonId = #{lessonId}")
     void updateLessonInfo(LessonSubmit lessonSubmit);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
@@ -146,23 +149,18 @@ public interface BackLessonDao {
             "= #{description}, ppt = #{ppt}, mp4= #{mp4}, path = #{path} where id = #{id} ")
     void updateSonChapter(SonChapterDto sonChapterDto);
 
-    @Select("select count(*) from lesson")
-    int getLessonCount();
+    @Select("SELECT COUNT(1) FROM users s INNER JOIN lesson le ON s.user_id = le.teacher_id " +
+            "WHERE s.user_id = #{userId}")
+    Integer getLessonSumByUserId(Integer userId);
+
+    @Select("SELECT COUNT(1) FROM lesson")
+    Integer getLessonSum();
 
     @Update("update son_chapter set guide_book = #{guide_book} where id = #{son_id}")
     void updateSonChapterBook(SonChapterAndUrl sonChapterAndUrl);
 
     @Delete("delete from lesson where lessonId = #{lessonId}")
     void deleteLessonByLessonId(Integer lessonId);
-
-    @Delete("delete from chapter where lessonId = #{lessonId}")
-    void deleteChapterByLessonId(Integer lessonId);
-
-    @Delete("delete from son_chapter where lessonId = #{lessonId}")
-    void deleteSonChapterByLessonId(Integer lessonId);
-
-    @Delete("delete from lesson_tag where lessonId = #{lessonId}")
-    void deleteTagAndLesson(Integer lessonId);
 
     @Select("SELECT s.id, s.son_no, s.name name, s.description, s.mp4, s.ppt, l.lesson_name lessonName, " +
             "c.name chapterName FROM son_chapter s, chapter c, lesson l " +
@@ -181,18 +179,10 @@ public interface BackLessonDao {
     })
     List<LessonTreeDto> getLessonTree(Integer lessonId);
 
-    @Select("SELECT id, name, url, path, son_id, create_time, update_time FROM jupyter " +
-            "WHERE son_id = #{sonId} AND type = 1")
+    @Select("SELECT id, name, type, url, path, son_id, lesson_id, create_time, update_time FROM jupyter WHERE son_id = #{sonId}")
     @Results({
             @Result(column = "son_id", property = "sonId"),
-            @Result(column = "create_time", property = "createTime"),
-            @Result(column = "update_time", property = "updateTime")
-    })
-    JupyterFile getJupyterFileBySonId(Integer sonId);
-
-    @Select("SELECT id, name, url, path, son_id, create_time, update_time FROM jupyter WHERE son_id = #{sonId}")
-    @Results({
-            @Result(column = "son_id", property = "sonId"),
+            @Result(column = "lesson_id", property = "lessonId"),
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime")
     })
@@ -200,9 +190,9 @@ public interface BackLessonDao {
 
     @Insert({
             "<script>",
-            "INSERT INTO jupyter (name, url, path, son_id, lesson_id) VALUES ",
+            "INSERT INTO jupyter (name, type, url, path, son_id, lesson_id) VALUES ",
             "<foreach collection='jupyterFiles' item='item' index='index' separator=','>",
-            "(#{item.name}, #{item.url}, #{item.path}, #{item.sonId}, #{item.lessonId})",
+            "(#{item.name}, #{item.type}, #{item.url}, #{item.path}, #{item.sonId}, #{item.lessonId})",
             "</foreach>",
             "</script>"
     })

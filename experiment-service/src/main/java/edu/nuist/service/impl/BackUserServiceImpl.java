@@ -3,10 +3,12 @@ package edu.nuist.service.impl;
 import edu.nuist.dao.BackUserDao;
 import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
+import edu.nuist.enums.RoleEnum;
 import edu.nuist.service.BackUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,20 @@ public class BackUserServiceImpl implements BackUserService {
     @Override
     public List<User> getAllTeachers() {
         return backUsersDao.getAllTeachers();
+    }
+
+    @Override
+    public List<User> getTeachersByRole(Integer roleId, Integer userId) {
+        List<User> users = new ArrayList<>();
+
+        if (roleId.equals(RoleEnum.ADMIN_ROLE.getCode())) {
+            users = backUsersDao.getAllTeachers();
+        } else if (roleId.equals(RoleEnum.TEACHER_ROLE.getCode())) {
+            User user = backUsersDao.getTeacherById(userId);
+            users.add(user);
+        }
+
+        return users;
     }
 
     @Override

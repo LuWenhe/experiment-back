@@ -4,6 +4,6 @@ import edu.nuist.vo.DashBoardCount;
 
 public interface BackDashBoardService {
 
-    DashBoardCount getDashBoardInfo();
+    DashBoardCount getDashBoardInfo(Integer roleId, Integer userId);
 
 }

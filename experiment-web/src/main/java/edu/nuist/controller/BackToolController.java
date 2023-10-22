@@ -31,7 +31,6 @@ public class BackToolController {
             PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -43,7 +42,6 @@ public class BackToolController {
             toolService.deleteToolsByToolIds(toolIds);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -61,7 +59,6 @@ public class BackToolController {
             PageInfo<Tool> pageInfo = new PageInfo<>(toolsList, pageSize);
             return BasicResultVO.success(pageInfo);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -73,7 +70,6 @@ public class BackToolController {
             toolService.addTool(tool);
             return BasicResultVO.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }
@@ -84,7 +80,6 @@ public class BackToolController {
             List<Tool> tools = toolService.getToolsByName(toolName);
             return BasicResultVO.success(tools);
         } catch (Exception e) {
-            e.printStackTrace();
             return BasicResultVO.fail();
         }
     }

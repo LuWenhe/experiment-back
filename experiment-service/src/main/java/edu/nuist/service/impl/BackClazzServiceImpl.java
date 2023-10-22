@@ -1,7 +1,7 @@
 package edu.nuist.service.impl;
 
 import edu.nuist.dao.BackClazzDao;
-import edu.nuist.entity.Clazz;
+import edu.nuist.dto.ClazzDto;
 import edu.nuist.entity.Student;
 import edu.nuist.service.BackClazzService;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ public class BackClazzServiceImpl implements BackClazzService {
     private BackClazzDao backClazzDao;
 
     @Override
-    public List<Clazz> getAllClazzList() {
+    public List<ClazzDto> getAllClazzList() {
         return backClazzDao.getAllClazzList();
     }
 
     @Override
-    public List<Clazz> getClazzListByTeacherId(Integer teacherId) {
+    public List<ClazzDto> getClazzListByTeacherId(Integer teacherId) {
         return backClazzDao.getClazzByTeacherId(teacherId);
     }
 
@@ -31,18 +31,18 @@ public class BackClazzServiceImpl implements BackClazzService {
     }
 
     @Override
-    public boolean addClazz(Clazz clazz) {
-        return backClazzDao.addClazz(clazz);
+    public void addClazz(ClazzDto clazzDto) {
+        backClazzDao.addClazz(clazzDto);
     }
 
     @Override
-    public boolean updateClazz(Clazz clazz) {
-        return backClazzDao.updateClazz(clazz);
+    public void updateClazz(ClazzDto clazzDto) {
+        backClazzDao.updateClazz(clazzDto);
     }
 
     @Override
-    public boolean deleteClazz(Integer clazzId) {
-        return backClazzDao.deleteClazz(clazzId);
+    public void deleteClazz(Integer clazzId) {
+        backClazzDao.deleteClazz(clazzId);
     }
 
 }

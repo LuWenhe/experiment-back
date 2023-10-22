@@ -21,9 +21,13 @@ public class BackDashBoardController {
 
     @ApiOperation("返回dashboard的信息")
     @GetMapping("/getDashBoardInfo")
-    public BasicResultVO<DashBoardCount> getDashBoardInfo() {
-        DashBoardCount dashBoardInfo = backDashBoardService.getDashBoardInfo();
-        return BasicResultVO.success(dashBoardInfo);
+    public BasicResultVO<DashBoardCount> getDashBoardInfo(Integer roleId, Integer userId) {
+        try {
+            DashBoardCount dashBoardInfo = backDashBoardService.getDashBoardInfo(roleId, userId);
+            return BasicResultVO.success(dashBoardInfo);
+        } catch (Exception e) {
+            return BasicResultVO.fail();
+        }
     }
 
 }

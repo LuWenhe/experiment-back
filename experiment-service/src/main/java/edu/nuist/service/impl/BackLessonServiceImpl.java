@@ -34,7 +34,9 @@ public class BackLessonServiceImpl implements BackLessonService {
     public List<Lesson> getLessonsByUserId(Integer userId, Integer roleId) {
         List<Lesson> lessons = null;
 
-        if (roleId.equals(RoleEnum.STUDENT_ROLE.getCode())) {
+        if (roleId.equals(RoleEnum.ADMIN_ROLE.getCode())) {
+            lessons = backLessonDao.getAllLessons();
+        } else if (roleId.equals(RoleEnum.STUDENT_ROLE.getCode())) {
             lessons = backLessonDao.getLessonsByUserId(userId);
         } else if (roleId.equals(RoleEnum.TEACHER_ROLE.getCode())) {
             lessons = backLessonDao.getLessonsByTeacherId(userId);
@@ -63,11 +65,6 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public LessonSubmit getLessonById(Integer lessonId) {
-        return backLessonDao.getLessonDetailByLessonId(lessonId);
-    }
-
-    @Override
     public LessonSubmit getLessonDetail(int lessonId) {
         LessonSubmit lessonSubmit = backLessonDao.getLessonDetailByLessonId(lessonId);
         List<TagAndLesson> lessonsTagByLessonId = backTagDao.getLessonsTagByLessonId(lessonId);
@@ -79,11 +76,6 @@ public class BackLessonServiceImpl implements BackLessonService {
 
         lessonSubmit.setTags(tags);
         return lessonSubmit;
-    }
-
-    @Override
-    public void addSonChapterJupyterURL(SonChapterAndUrl sonChapterAndUrl) {
-        backLessonDao.addSonChapterJupyterURL(sonChapterAndUrl);
     }
 
     @Override
@@ -108,9 +100,8 @@ public class BackLessonServiceImpl implements BackLessonService {
     }
 
     @Override
-    public Integer addChapter(ChapterDto chapterDto) {
+    public void addChapter(ChapterDto chapterDto) {
         backLessonDao.addChapter(chapterDto);
-        return chapterDto.getId();
     }
 
     @Override
@@ -169,6 +160,11 @@ public class BackLessonServiceImpl implements BackLessonService {
         }
 
         return lessonList;
+    }
+
+    @Override
+    public List<Integer> getLessonIdsByTagId(Integer tagId) {
+        return backTagDao.getLessonIdsByTagId(tagId);
     }
 
     @Override

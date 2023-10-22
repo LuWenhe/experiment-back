@@ -1,11 +1,8 @@
 package edu.nuist.service;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.read.metadata.ReadSheet;
 import edu.nuist.entity.Student;
 import edu.nuist.entity.User;
-import edu.nuist.listener.StudentExcelListener;
 import edu.nuist.util.EncryptUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +12,6 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,16 +71,6 @@ public class BackUserServiceTest {
         String fileName = "D:/student.xlsx";
         EasyExcel.write(fileName, Student.class).sheet("test").doWrite(getStudentList());
         System.out.println("添加完成");
-    }
-
-    @Test
-    public void readExcel() {
-        String fileName = "D:/student.xlsx";
-        Integer clazzId = 1;
-        ExcelReader excelReader = EasyExcel.read(fileName, Student.class,
-                new StudentExcelListener(null, backUserService)).build();
-        ReadSheet readSheet = EasyExcel.readSheet().build();
-        excelReader.read(readSheet);
     }
 
     @Test

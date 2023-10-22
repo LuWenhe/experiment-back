@@ -24,7 +24,7 @@ public class User {
     private String phone;
     private String email;
     private String created_time;
-    private String role;
+    private Integer role;
     private String avatar_image;
     private String old_password;
     private String new_password;
@@ -32,10 +32,5 @@ public class User {
     private int uid;
     private SideMenu sideMenu;
     private SysToken sysToken;
-
-    public User(String username, String role) {
-        this.username = username;
-        this.role = role;
-    }
 
 }
